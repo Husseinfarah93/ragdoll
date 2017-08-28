@@ -1,0 +1,35 @@
+{
+  "gameModes": {
+    "FFA": {
+      "gameHeight": 700,
+      "gameWidth": 1000,
+      "maxPlayers": 30
+    },
+    "INFECTED": {
+      "gameHeight": 700,
+      "gameWidth": 1000,
+      "maxPlayers": 30
+    },
+    "SURVIVAL": {
+      "gameHeight": 700,
+      "gameWidth": 1000,
+      "maxPlayers": 30
+    },
+    "TDM": {
+      "gameHeight": 700,
+      "gameWidth": 1000,
+      "maxPlayers": 12
+    },
+    "1V1": {
+      "gameHeight": 700,
+      "gameWidth": 1000,
+      "maxPlayers": 2
+    }
+  },
+  "playerTypes": {
+    "basic": {
+      "initialHealth": 200,
+      "damageDealt": 30
+    }
+  }
+}
