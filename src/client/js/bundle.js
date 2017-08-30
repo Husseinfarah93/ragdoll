@@ -27163,6 +27163,10 @@ var _io = __webpack_require__(103);
 
 var _io2 = _interopRequireDefault(_io);
 
+var _Camera = __webpack_require__(255);
+
+var _Camera2 = _interopRequireDefault(_Camera);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27206,10 +27210,14 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       console.log('socket id: ', _io2.default.id);
       // Emit playerList, healthList, wallList
       var self = this;
-      _io2.default.on('draw', function (Players, HealthPacks, Walls) {
-        _this2.drawPlayers(Players);
+      _io2.default.on('setUpCamera', function (worldWidth, worldHeight) {
+        _this2.setUpCamera(worldWidth, worldHeight, _this2.state.canvas);
+      });
+      _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis) {
+        _this2.camera.update(Pelvis);
+        _this2.drawPlayers(Players, _this2.camera);
         _this2.drawHealthPacks(HealthPacks);
-        _this2.drawWalls(Walls);
+        _this2.drawWalls(Walls, _this2.camera);
         setTimeout(function () {
           return _io2.default.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down);
         }, 15);
@@ -27217,33 +27225,37 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     }
   }, {
     key: 'drawPlayers',
-    value: function drawPlayers(players) {
+    value: function drawPlayers(players, camera) {
       var canvas = this.state.canvas;
       var context = this.state.canvas.getContext('2d');
-      context.fillStyle = '#fff';
+      context.fillStyle = 'yellow';
       context.fillRect(0, 0, canvas.width, canvas.height);
+      var xPos = camera.xPos;
+      var yPos = camera.yPos;
       context.beginPath();
       for (var k = 0; k < players.length; k++) {
         var bodies = players[k].vertices;
         var lowestY = 0;
-        var pelvisX = players[k].pelvisX;
+        var pelvisX = players[k].pelvis.x;
         for (var i = 0; i < bodies.length; i += 1) {
           var vertices = bodies[i];
 
-          context.moveTo(vertices[0].x, vertices[0].y);
+          context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
 
           for (var j = 1; j < vertices.length; j += 1) {
-            if (vertices[j].y > lowestY) lowestY = vertices[j].y;
-            context.lineTo(vertices[j].x, vertices[j].y);
+            // if(vertices[j].y > lowestY) lowestY = vertices[j].y
+            context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
           }
 
-          context.lineTo(vertices[0].x, vertices[0].y);
+          context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
         }
 
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
-        this.drawHealthBar(context, pelvisX, lowestY, players[k].health);
+        context.fillStyle = 'black';
+        context.fill();
+        // this.drawHealthBar(context, pelvisX, lowestY, players[k].health)
       }
     }
   }, {
@@ -27269,19 +27281,20 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     }
   }, {
     key: 'drawWalls',
-    value: function drawWalls(bodies) {
+    value: function drawWalls(bodies, camera) {
       var canvas = this.state.canvas;
       var context = this.state.canvas.getContext('2d');
+      var xPos = camera.xPos;
+      var yPos = camera.yPos;
       context.fillStyle = '#fff';
-
       context.beginPath();
       for (var i = 0; i < bodies.length; i++) {
         var vertices = bodies[i];
-        context.moveTo(vertices[0].x, vertices[0].y);
+        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
         for (var j = 1; j < vertices.length; j++) {
-          context.lineTo(vertices[j].x, vertices[j].y);
+          context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
         }
-        context.lineTo(vertices[0].x, vertices[0].y);
+        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
 
         context.lineWidth = 1;
         context.strokeStyle = '#999';
@@ -27292,6 +27305,22 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'drawBackground',
     value: function drawBackground() {
       //
+    }
+  }, {
+    key: 'setUpCamera',
+    value: function setUpCamera(worldWidth, worldHeight, canvas) {
+      var camera = new _Camera2.default(0, 0, canvas.width, canvas.height, worldWidth, worldHeight);
+      camera.follow(canvas.width / 2, canvas.height / 2);
+      this.camera = camera;
+    }
+  }, {
+    key: 'adjustCentre',
+    value: function adjustCentre(canvas, Pelvis) {
+      var centreX = canvas.width / 2;
+      var centreY = canvas.height / 2;
+      var diffX = Pelvis.x - centreX;
+      var diffY = Pelvis.y - centreY;
+      return { diffX: diffX, diffY: diffY };
     }
   }, {
     key: 'addListeners',
@@ -27308,7 +27337,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'render',
     value: function render() {
       console.log("rendering");
-      return _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: '1000', width: '1000' });
+      return _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: window.innerHeight * 0.9, width: window.innerWidth * 0.9 });
     }
   }]);
 
@@ -27316,6 +27345,61 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
 }(_react2.default.Component)) || _class;
 
 exports.default = Canvas;
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function Camera(xPos, yPos, canvasWidth, canvasHeight, worldWidth, worldHeight) {
+  this.xPos = xPos;
+  this.yPos = yPos;
+  this.deadZoneX = 0;
+  this.deadZoneY = 0;
+  this.width = canvasWidth;
+  this.height = canvasHeight;
+  this.worldWidth = worldWidth;
+  this.worldHeight = worldHeight;
+}
+
+Camera.prototype.follow = function (x, y) {
+  this.deadZoneX = x;
+  this.deadZoneY = y;
+};
+
+Camera.prototype.update = function (follow) {
+  this.followed = follow;
+  // WHAT IS THIS?
+  if (this.followed.x - this.xPos + this.deadZoneX > this.width) {
+    this.xPos = this.followed.x - (this.width - this.deadZoneX);
+  } else if (this.followed.x - this.xPos + this.deadZoneX < this.width) {
+    this.xPos = this.followed.x - this.deadZoneX;
+  }
+  // WHAT IS THIS?
+  if (this.followed.y - this.yPos + this.deadZoneY > this.height) {
+    console.log('1');
+    this.yPos = this.followed.y - (this.width - this.deadZoneY);
+  } else if (this.followed.y - this.yPos + this.deadZoneY < this.height) {
+    console.log('2');
+    this.yPos = this.followed.y - this.deadZoneY;
+  }
+  // Left
+  if (this.xPos < 0) this.xPos = 0;
+  // Right 
+  if (this.xPos > this.worldWidth) this.xPos = this.worldWidth;
+  // Up 
+  if (this.yPos < 0) this.yPos = 0;
+  // Down
+  if (this.yPos > this.worldHeight) this.yPos = this.worldHeight;
+  // console.log(this.xPos, this.yPos)
+};
+
+exports.default = Camera;
 
 /***/ })
 /******/ ]);

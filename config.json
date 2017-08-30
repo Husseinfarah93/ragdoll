@@ -1,8 +1,8 @@
 {
   "gameModes": {
     "FFA": {
-      "gameHeight": 700,
-      "gameWidth": 1000,
+      "gameHeight": 10000,
+      "gameWidth": 10000,
       "maxPlayers": 30
     },
     "INFECTED": {

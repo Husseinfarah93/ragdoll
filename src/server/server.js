@@ -15,7 +15,17 @@ http.listen(port, function () {
 
 let rooms = {}
 
+/*
+To do Today
 
+Camera Angle thing
+Player look like ragdoll
+Fill players
+Different players
+
+Tomorrow 
+Homepage
+*/
 
 /* --------------------------------------------- ROOMS AND LOBBY CODE ----------------------------------------------- */
 // If room exists return room. If not return false
@@ -60,7 +70,7 @@ function createWorld(roomName) {
 
     let engine = Engine.create()
     Matter.engine = engine
-    engine.world.gravity.y = 0.1
+    engine.world.gravity.y = 0
     setInterval(function() {
       Engine.update(engine, 1000 / 60);
     }, 1000 / 60);
@@ -138,6 +148,10 @@ io.on('connection', socket => {
       rooms[room].healthPacks = {}
       rooms[room].players = {}
     }
+    // Set up camera front end 
+    let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
+    let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
+    socket.emit('setUpCamera', worldWidth, worldHeight)
     // Create Player
     let player = new Player('player1', socket.id, gameInfo.character, gameInfo.skin)
     player.createMatterPlayer2(Matter, 200, 100)
@@ -157,7 +171,7 @@ io.on('connection', socket => {
     })
     // Update Code
     setInterval(updatePlayerVertices, 16)
-    setInterval(() => updateFrontEndInfo(room, socket), 15)
+    setInterval(() => updateFrontEndInfo(room, socket, player), 15)
   })
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
@@ -166,7 +180,11 @@ io.on('connection', socket => {
 function updateFrontEndInfo(room, socket, player) {
   let frontEndInfo = getFrontEndInfo(room)
   // Emit playerList, healthList, wallList
-  socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls)
+  let Pelvis = {
+    x: player.pelvis.position.x,
+    y: player.pelvis.position.y
+  }
+  socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis)
 }
 
 /* ---------------------------------------------------- SEND CODE -------------------------------------------------------- */
@@ -213,7 +231,10 @@ function getPlayerVertices(room) {
       let pushItem = {}
       pushItem.vertices = players[player].vertices
       pushItem.health = players[player].health 
-      pushItem.pelvisX = players[player].pelvis.position.x
+      pushItem.pelvis = {
+        x: players[player].pelvis.position.x,
+        y: players[player].pelvis.position.y
+      }
       list.push(pushItem)
     }
     return list

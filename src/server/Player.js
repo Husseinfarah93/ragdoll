@@ -537,10 +537,10 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
 Player.prototype.movePlayer = function(left, up, right, down, Matter) {
   let head = this.head
   let Body = Matter.Body 
-  if(left) Body.applyForce(head, head.position, { x: - 0.005, y: 0 })
-  if(up) Body.applyForce(head, head.position, { x: 0, y: - 0.005 })
-  if(right) Body.applyForce(head, head.position, { x: 0.005, y: 0 })
-  if(down) Body.applyForce(head, head.position, { x: 0, y: 0.005 })
+  if(left) Body.applyForce(head, head.position, { x: - 0.001, y: 0 })
+  if(up) Body.applyForce(head, head.position, { x: 0, y: - 0.001 })
+  if(right) Body.applyForce(head, head.position, { x: 0.001, y: 0 })
+  if(down) Body.applyForce(head, head.position, { x: 0, y: 0.001 })
 }
 
 module.exports = Player

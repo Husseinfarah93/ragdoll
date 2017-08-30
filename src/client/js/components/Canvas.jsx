@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
 import socket from '../io.js'
-
+import Camera from './Camera.js'
 
 @Radium
 class Canvas extends React.Component {
@@ -28,41 +28,49 @@ class Canvas extends React.Component {
       console.log('socket id: ', socket.id)
       // Emit playerList, healthList, wallList
       let self = this
-      socket.on('draw', (Players, HealthPacks, Walls) => {
-        this.drawPlayers(Players)
+      socket.on('setUpCamera', (worldWidth, worldHeight) => {
+        this.setUpCamera(worldWidth, worldHeight, this.state.canvas)
+      })
+      socket.on('draw', (Players, HealthPacks, Walls, Pelvis) => {
+        this.camera.update(Pelvis)
+        this.drawPlayers(Players, this.camera)
         this.drawHealthPacks(HealthPacks)
-        this.drawWalls(Walls)
+        this.drawWalls(Walls, this.camera)
         setTimeout(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
       })
     }
 
-    drawPlayers(players) {
+    drawPlayers(players, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      context.fillStyle = '#fff';
+      context.fillStyle = 'yellow';
       context.fillRect(0, 0, canvas.width, canvas.height);
+      let xPos = camera.xPos 
+      let yPos = camera.yPos
       context.beginPath();
       for(let k = 0; k < players.length; k++) {
         let bodies = players[k].vertices
         let lowestY = 0
-        let pelvisX = players[k].pelvisX
+        let pelvisX = players[k].pelvis.x 
         for (var i = 0; i < bodies.length; i += 1) {
             var vertices = bodies[i];
 
-            context.moveTo(vertices[0].x, vertices[0].y);
+            context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
 
             for (var j = 1; j < vertices.length; j += 1) {
-                if(vertices[j].y > lowestY) lowestY = vertices[j].y
-                context.lineTo(vertices[j].x, vertices[j].y);
+                // if(vertices[j].y > lowestY) lowestY = vertices[j].y
+                context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
             }
 
-            context.lineTo(vertices[0].x, vertices[0].y);
+            context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
         }
 
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
-        this.drawHealthBar(context, pelvisX, lowestY, players[k].health)
+        context.fillStyle = 'black'
+        context.fill();
+        // this.drawHealthBar(context, pelvisX, lowestY, players[k].health)
       }
     }
 
@@ -85,19 +93,20 @@ class Canvas extends React.Component {
       //
     } 
 
-    drawWalls(bodies) {
+    drawWalls(bodies, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
+      let xPos = camera.xPos 
+      let yPos = camera.yPos
       context.fillStyle = '#fff';
-
       context.beginPath();
       for(let i = 0; i < bodies.length; i++) {
         let vertices = bodies[i]
-        context.moveTo(vertices[0].x, vertices[0].y);
+        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
         for(let j = 1; j < vertices.length; j++) {
-          context.lineTo(vertices[j].x, vertices[j].y);
+          context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
         }
-        context.lineTo(vertices[0].x, vertices[0].y);
+        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
         
         context.lineWidth = 1;
         context.strokeStyle = '#999';
@@ -107,6 +116,21 @@ class Canvas extends React.Component {
 
     drawBackground() {
       //
+    }
+
+
+    setUpCamera (worldWidth, worldHeight, canvas) {
+      let camera = new Camera(0, 0, canvas.width, canvas.height, worldWidth, worldHeight)
+      camera.follow(canvas.width / 2, canvas.height / 2)
+      this.camera = camera
+    }
+
+    adjustCentre(canvas, Pelvis) {
+      let centreX = canvas.width / 2
+      let centreY = canvas.height / 2
+      let diffX = Pelvis.x - centreX 
+      let diffY = Pelvis.y - centreY
+      return { diffX, diffY }
     }
     
     addListeners() {
@@ -128,7 +152,7 @@ class Canvas extends React.Component {
     render() {
       console.log("rendering")
       return (
-        <canvas ref="canvas" id="mainCanvas" height="1000" width="1000"/>
+        <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.9} width={window.innerWidth * 0.9}/>
       )
     }
 
