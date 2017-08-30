@@ -27215,6 +27215,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       });
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis) {
         _this2.camera.update(Pelvis);
+        _this2.drawBackground();
         _this2.drawPlayers(Players, _this2.camera);
         _this2.drawHealthPacks(HealthPacks);
         _this2.drawWalls(Walls, _this2.camera);
@@ -27228,8 +27229,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     value: function drawPlayers(players, camera) {
       var canvas = this.state.canvas;
       var context = this.state.canvas.getContext('2d');
-      context.fillStyle = 'yellow';
-      context.fillRect(0, 0, canvas.width, canvas.height);
       var xPos = camera.xPos;
       var yPos = camera.yPos;
       context.beginPath();
@@ -27304,7 +27303,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawBackground',
     value: function drawBackground() {
-      //
+      var canvas = this.state.canvas;
+      var context = this.state.canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      var img = new Image(canvas.width, canvas.height);
+      img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIDtbHUjOF-c8emDZAU_OPSYxsDZEW5Hm_wXoUGvQnqNqrYqCW";
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
   }, {
     key: 'setUpCamera',
@@ -27374,20 +27378,8 @@ Camera.prototype.follow = function (x, y) {
 
 Camera.prototype.update = function (follow) {
   this.followed = follow;
-  // WHAT IS THIS?
-  if (this.followed.x - this.xPos + this.deadZoneX > this.width) {
-    this.xPos = this.followed.x - (this.width - this.deadZoneX);
-  } else if (this.followed.x - this.xPos + this.deadZoneX < this.width) {
-    this.xPos = this.followed.x - this.deadZoneX;
-  }
-  // WHAT IS THIS?
-  if (this.followed.y - this.yPos + this.deadZoneY > this.height) {
-    console.log('1');
-    this.yPos = this.followed.y - (this.width - this.deadZoneY);
-  } else if (this.followed.y - this.yPos + this.deadZoneY < this.height) {
-    console.log('2');
-    this.yPos = this.followed.y - this.deadZoneY;
-  }
+  this.xPos = this.followed.x - this.deadZoneX;
+  this.yPos = this.followed.y - this.deadZoneY;
   // Left
   if (this.xPos < 0) this.xPos = 0;
   // Right 
@@ -27396,7 +27388,6 @@ Camera.prototype.update = function (follow) {
   if (this.yPos < 0) this.yPos = 0;
   // Down
   if (this.yPos > this.worldHeight) this.yPos = this.worldHeight;
-  // console.log(this.xPos, this.yPos)
 };
 
 exports.default = Camera;

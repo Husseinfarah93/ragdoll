@@ -33,6 +33,7 @@ class Canvas extends React.Component {
       })
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis) => {
         this.camera.update(Pelvis)
+        this.drawBackground()
         this.drawPlayers(Players, this.camera)
         this.drawHealthPacks(HealthPacks)
         this.drawWalls(Walls, this.camera)
@@ -43,8 +44,6 @@ class Canvas extends React.Component {
     drawPlayers(players, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      context.fillStyle = 'yellow';
-      context.fillRect(0, 0, canvas.width, canvas.height);
       let xPos = camera.xPos 
       let yPos = camera.yPos
       context.beginPath();
@@ -115,7 +114,12 @@ class Canvas extends React.Component {
     }
 
     drawBackground() {
-      //
+      let canvas = this.state.canvas 
+      let context = this.state.canvas.getContext('2d')
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      let img = new Image(canvas.width, canvas.height)
+      img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIDtbHUjOF-c8emDZAU_OPSYxsDZEW5Hm_wXoUGvQnqNqrYqCW"
+      context.drawImage(img, 0, 0, canvas.width, canvas.height)
     }
 
 

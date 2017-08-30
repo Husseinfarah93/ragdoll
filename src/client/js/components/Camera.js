@@ -16,21 +16,8 @@ Camera.prototype.follow = function(x, y) {
 
 Camera.prototype.update = function(follow) {
   this.followed = follow
-  // WHAT IS THIS?
-  if (this.followed.x - this.xPos + this.deadZoneX > this.width) {
-    this.xPos = this.followed.x - (this.width - this.deadZoneX)
-  }
-  else if (this.followed.x - this.xPos + this.deadZoneX < this.width) {
-    this.xPos = this.followed.x - this.deadZoneX
-  }
-  // WHAT IS THIS?
-  if (this.followed.y - this.yPos + this.deadZoneY > this.height) {
-    this.yPos = this.followed.y - (this.width - this.deadZoneY)
-  }
-  else if (this.followed.y - this.yPos + this.deadZoneY < this.height) {
-    console.log('2')
-    this.yPos = this.followed.y - this.deadZoneY
-  }
+  this.xPos = this.followed.x - this.deadZoneX 
+  this.yPos = this.followed.y - this.deadZoneY
   // Left
   if(this.xPos < 0) this.xPos = 0
   // Right 
@@ -39,7 +26,6 @@ Camera.prototype.update = function(follow) {
   if(this.yPos < 0) this.yPos = 0
   // Down
   if(this.yPos > this.worldHeight) this.yPos = this.worldHeight
-  // console.log(this.xPos, this.yPos)
 }
 
 export default Camera
