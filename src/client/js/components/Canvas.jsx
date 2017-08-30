@@ -33,7 +33,7 @@ class Canvas extends React.Component {
       })
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis) => {
         this.camera.update(Pelvis)
-        this.drawBackground()
+        this.drawBackground(this.camera)
         this.drawPlayers(Players, this.camera)
         this.drawHealthPacks(HealthPacks)
         this.drawWalls(Walls, this.camera)
@@ -50,14 +50,14 @@ class Canvas extends React.Component {
       for(let k = 0; k < players.length; k++) {
         let bodies = players[k].vertices
         let lowestY = 0
-        let pelvisX = players[k].pelvis.x 
+        let pelvisX = players[k].pelvis.x - xPos
         for (var i = 0; i < bodies.length; i += 1) {
             var vertices = bodies[i];
 
             context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
 
             for (var j = 1; j < vertices.length; j += 1) {
-                // if(vertices[j].y > lowestY) lowestY = vertices[j].y
+                // if(vertices[j].y > lowestY) lowestY = vertices[j].y - yPos
                 context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
             }
 
@@ -69,7 +69,7 @@ class Canvas extends React.Component {
         context.stroke();
         context.fillStyle = 'black'
         context.fill();
-        // this.drawHealthBar(context, pelvisX, lowestY, players[k].health)
+        // this.drawHealthBar(context, pelvisX - xPos, lowestY - yPos, players[k].health)
       }
     }
 
@@ -97,7 +97,7 @@ class Canvas extends React.Component {
       let context = this.state.canvas.getContext('2d')
       let xPos = camera.xPos 
       let yPos = camera.yPos
-      context.fillStyle = '#fff';
+      context.fillStyle = 'black';
       context.beginPath();
       for(let i = 0; i < bodies.length; i++) {
         let vertices = bodies[i]
@@ -110,16 +110,27 @@ class Canvas extends React.Component {
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
+        context.fill()
       }
     }
 
-    drawBackground() {
+    drawBackground(camera) {
       let canvas = this.state.canvas 
       let context = this.state.canvas.getContext('2d')
+      context.fillStyle = 'white'
       context.clearRect(0, 0, canvas.width, canvas.height)
-      let img = new Image(canvas.width, canvas.height)
-      img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIDtbHUjOF-c8emDZAU_OPSYxsDZEW5Hm_wXoUGvQnqNqrYqCW"
-      context.drawImage(img, 0, 0, canvas.width, canvas.height)
+      context.beginPath()
+      let boxSize = 200
+      for(let i = 0; i <= canvas.width; i += boxSize) {
+        context.moveTo(i, 0)
+        context.lineTo(i, canvas.height)
+        context.stroke()
+      }
+      for(let j = 0; j <= canvas.height; j+= boxSize) {
+        context.moveTo(0, j)
+        context.lineTo(canvas.width, j)
+        context.stroke()
+}
     }
 
 
@@ -156,7 +167,7 @@ class Canvas extends React.Component {
     render() {
       console.log("rendering")
       return (
-        <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.9} width={window.innerWidth * 0.9}/>
+        <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth * 0.98}/>
       )
     }
 

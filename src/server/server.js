@@ -87,7 +87,7 @@ function createWalls(Matter, roomName) {
   Composite = Matter.Composite
   let height = c.gameModes[room.gameType].gameHeight
   let width = c.gameModes[room.gameType].gameWidth
-  let wallThickness = 5
+  let wallThickness = 1000
   let options = { isStatic: true }
   // Create Walls
   // Top
@@ -154,7 +154,7 @@ io.on('connection', socket => {
     socket.emit('setUpCamera', worldWidth, worldHeight)
     // Create Player
     let player = new Player('player1', socket.id, gameInfo.character, gameInfo.skin)
-    player.createMatterPlayer2(Matter, 200, 100)
+    player.createMatterPlayer2(Matter, 5000, 5000)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
     // Collision Code

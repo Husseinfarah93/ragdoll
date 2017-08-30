@@ -27215,7 +27215,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       });
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis) {
         _this2.camera.update(Pelvis);
-        _this2.drawBackground();
+        _this2.drawBackground(_this2.camera);
         _this2.drawPlayers(Players, _this2.camera);
         _this2.drawHealthPacks(HealthPacks);
         _this2.drawWalls(Walls, _this2.camera);
@@ -27235,14 +27235,14 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       for (var k = 0; k < players.length; k++) {
         var bodies = players[k].vertices;
         var lowestY = 0;
-        var pelvisX = players[k].pelvis.x;
+        var pelvisX = players[k].pelvis.x - xPos;
         for (var i = 0; i < bodies.length; i += 1) {
           var vertices = bodies[i];
 
           context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
 
           for (var j = 1; j < vertices.length; j += 1) {
-            // if(vertices[j].y > lowestY) lowestY = vertices[j].y
+            // if(vertices[j].y > lowestY) lowestY = vertices[j].y - yPos
             context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
           }
 
@@ -27254,7 +27254,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         context.stroke();
         context.fillStyle = 'black';
         context.fill();
-        // this.drawHealthBar(context, pelvisX, lowestY, players[k].health)
+        // this.drawHealthBar(context, pelvisX - xPos, lowestY - yPos, players[k].health)
       }
     }
   }, {
@@ -27285,7 +27285,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var context = this.state.canvas.getContext('2d');
       var xPos = camera.xPos;
       var yPos = camera.yPos;
-      context.fillStyle = '#fff';
+      context.fillStyle = 'black';
       context.beginPath();
       for (var i = 0; i < bodies.length; i++) {
         var vertices = bodies[i];
@@ -27298,17 +27298,28 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
+        context.fill();
       }
     }
   }, {
     key: 'drawBackground',
-    value: function drawBackground() {
+    value: function drawBackground(camera) {
       var canvas = this.state.canvas;
       var context = this.state.canvas.getContext('2d');
+      context.fillStyle = 'white';
       context.clearRect(0, 0, canvas.width, canvas.height);
-      var img = new Image(canvas.width, canvas.height);
-      img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIDtbHUjOF-c8emDZAU_OPSYxsDZEW5Hm_wXoUGvQnqNqrYqCW";
-      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      context.beginPath();
+      var boxSize = 200;
+      for (var i = 0; i <= canvas.width; i += boxSize) {
+        context.moveTo(i, 0);
+        context.lineTo(i, canvas.height);
+        context.stroke();
+      }
+      for (var j = 0; j <= canvas.height; j += boxSize) {
+        context.moveTo(0, j);
+        context.lineTo(canvas.width, j);
+        context.stroke();
+      }
     }
   }, {
     key: 'setUpCamera',
@@ -27341,7 +27352,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'render',
     value: function render() {
       console.log("rendering");
-      return _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: window.innerHeight * 0.9, width: window.innerWidth * 0.9 });
+      return _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: window.innerHeight * 0.98, width: window.innerWidth * 0.98 });
     }
   }]);
 
