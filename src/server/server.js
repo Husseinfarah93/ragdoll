@@ -151,7 +151,7 @@ io.on('connection', socket => {
     // Set up camera front end 
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
-    socket.emit('setUpCamera', worldWidth, worldHeight)
+    socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
     let player = new Player('player1', socket.id, gameInfo.character, gameInfo.skin)
     player.createMatterPlayer2(Matter, 5000, 5000)
