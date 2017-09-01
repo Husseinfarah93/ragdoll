@@ -217,7 +217,7 @@ function leaderBoardChange(roomName) {
 
 function sendLeaderBoard(roomName) {
   let room = io.sockets.adapter.rooms[roomName]
-  let sockets = room.sockets
+  let sockets = room ? room.sockets : {}
   let leaderBoard = getLeaderBoard(roomName)
   for(sckt in sockets) {
     let socket = io.sockets.connected[sckt]
