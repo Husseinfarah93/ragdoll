@@ -27249,17 +27249,13 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       context.beginPath();
       for (var k = 0; k < players.length; k++) {
         var bodies = players[k].vertices;
-        var lowestY = 0;
-        var pelvisX = players[k].pelvis.x - xPos;
         for (var i = 0; i < bodies.length; i += 1) {
           var vertices = bodies[i];
 
           context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
           for (var j = 1; j < vertices.length; j += 1) {
-            // if(vertices[j].y > lowestY) lowestY = vertices[j].y - yPos
             context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
           }
-
           context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
         }
 
@@ -27268,16 +27264,17 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         context.stroke();
         context.fillStyle = 'black';
         context.fill();
-        // this.drawHealthBar(context, pelvisX - xPos, lowestY - yPos, players[k].health)
+        this.drawHealthBar(context, canvas.width / 2, canvas.height / 2 + 90, players[k].health);
+        this.drawName(context, canvas.width / 2 - 30, canvas.height / 2 - 90, players[k].name);
       }
     }
   }, {
     key: 'drawHealthBar',
     value: function drawHealthBar(context, x, y, health) {
+      // console.log(x, y, health)
       var healthBarWidth = 100;
       var healthBarHeight = 10;
       var initialHealth = 200;
-      y = y + 10;
       x = x - healthBarWidth / 2;
       var percent = health / initialHealth;
       // Draw Background Health
@@ -27286,6 +27283,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       // Draw Health 
       context.fillStyle = 'red';
       context.fillRect(x, y, healthBarWidth * percent, healthBarHeight);
+    }
+  }, {
+    key: 'drawName',
+    value: function drawName(context, x, y, name) {
+      context.font = '24px serif';
+      context.fillText(name, x, y);
     }
   }, {
     key: 'drawHealthPacks',

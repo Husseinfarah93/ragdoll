@@ -302,6 +302,7 @@ function getPlayerVertices(room) {
       let pushItem = {}
       pushItem.vertices = players[player].vertices
       pushItem.health = players[player].health 
+      pushItem.name = players[player].name
       pushItem.pelvis = {
         x: players[player].pelvis.position.x,
         y: players[player].pelvis.position.y
