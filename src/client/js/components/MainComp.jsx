@@ -14,8 +14,8 @@ class MainComp extends React.Component {
     }
   }
 
-  startGame = (gameType, character, skin) => {
-    socket.emit('startGame', { gameType, character, skin })
+  startGame = (name, gameType, character, skin) => {
+    socket.emit('startGame', { name, gameType, character, skin })
     this.setState({ showStartupMenu: false })
   }
 

@@ -2,13 +2,16 @@ import React from 'react'
 import Radium from 'radium'
 import socket from '../io.js'
 import Camera from './Camera.js'
+import LeaderBoard from './LeaderBoard.jsx'
+
 
 @Radium
 class Canvas extends React.Component {
     constructor() {
       super()
       this.state = {
-        canvas: undefined
+        canvas: undefined,
+        leaderBoard: []
       }
       this.keyDown = {
         up: false,
@@ -40,6 +43,9 @@ class Canvas extends React.Component {
         this.drawHealthPacks(HealthPacks)
         this.drawWalls(Walls, this.camera)
         setTimeout(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
+      })
+      socket.on('updateLeaderBoard', leaderBoard => {
+        this.setState({ leaderBoard: leaderBoard })
       })
     }
 
@@ -219,9 +225,13 @@ class Canvas extends React.Component {
     }
 
     render() {
-      console.log("rendering")
       return (
+        <div>
         <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth * 0.98}/>
+        {
+          this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
+        }
+        </div>
       )
     }
 }

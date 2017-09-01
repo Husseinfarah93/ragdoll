@@ -6,6 +6,7 @@ function Player(name, id, characterType, skinType) {
   this.characterType = characterType 
   this.skinType = skinType
   this.health = c.playerTypes[characterType].initialHealth
+  this.killStreak = 0
 }
 
 Player.prototype.createMatterPlayer1 = function(Matter, x, y) {

@@ -147,16 +147,19 @@ io.on('connection', socket => {
       rooms[room] = {}
       rooms[room].healthPacks = {}
       rooms[room].players = {}
+      rooms[room].leaderBoard = []
     }
     // Set up camera front end 
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
-    let player = new Player('player1', socket.id, gameInfo.character, gameInfo.skin)
+    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
     player.createMatterPlayer2(Matter, 5000, 5000)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
+    // Update leaderboard
+    leaderBoardChange(room)
     // Collision Code
     Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room))
     // Body 
@@ -167,8 +170,11 @@ io.on('connection', socket => {
       if(rooms[room].players[player.id]) {
         Matter.Composite.clear(player.PlayerComposite)
         delete rooms[room].players[player.id]
+        leaderBoardChange(room)
       }
     })
+
+    leaderBoardChange(room)
     // Update Code
     setInterval(updatePlayerVertices, 16)
     setInterval(() => updateFrontEndInfo(room, socket, player), 15)
@@ -185,6 +191,71 @@ function updateFrontEndInfo(room, socket, player) {
     y: player.pelvis.position.y
   }
   socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis)
+}
+
+function updateLeaderboard(roomName) {
+  let room = rooms[roomName]
+  let currentLeaderBoard = room.leaderBoard
+  let players = room.players
+  let playerList = []
+  for(player in players) playerList.push(players[player])
+  let temp = playerList.map(player => {
+    return {
+      killStreak: player.killStreak,
+      id: player.id,
+      name: player.name
+    }
+  })
+  temp = temp.sort((a1, a2) => a1.killStreak - a2.killStreak)
+  room.leaderBoard = temp
+}
+
+function leaderBoardChange(roomName) {
+  updateLeaderboard(roomName)
+  sendLeaderBoard(roomName)
+}
+
+function sendLeaderBoard(roomName) {
+  let room = io.sockets.adapter.rooms[roomName]
+  let sockets = room.sockets
+  let leaderBoard = getLeaderBoard(roomName)
+  for(sckt in sockets) {
+    let socket = io.sockets.connected[sckt]
+    let isInLeaderBoard = isPlayerInLeaderBoard(roomName, sckt)
+    if(isInLeaderBoard) {
+      socket.emit('updateLeaderBoard', leaderBoard)
+    }
+    else {
+      let position = playerPositionLeaderBoard(roomName, sckt)
+      let player = rooms[roomName].leaderBoard[position - 1]
+      let newLeaderBoard = leaderBoard.slice(0)
+      newLeaderBoard.push(player)
+      socket.emit('updateLeaderBoard', newLeaderBoard)
+    }
+  }
+}
+
+/* ---------------------------------------------------- LeaderBoard CODE -------------------------------------------------------- */
+
+function isPlayerInLeaderBoard(roomName, playerId) {
+  let currentLeaderBoard = rooms[roomName].leaderBoard
+  for(let i = 0; i < currentLeaderBoard.length; i++) {
+    let player = currentLeaderBoard[i]
+    if(player.id === playerId) return true
+  }
+  return false
+}
+
+function playerPositionLeaderBoard(roomName, playerId) {
+  let leaderBoard = rooms[roomName].leaderBoard
+  for(let i = 0; i < leaderBoard.length; i++) {
+    let player = leaderBoard[i]
+    if(player.id === playerId) return i + 1
+  }
+}
+
+function getLeaderBoard(roomName) {
+  return rooms[roomName].leaderBoard
 }
 
 /* ---------------------------------------------------- SEND CODE -------------------------------------------------------- */
@@ -266,6 +337,7 @@ function getFrontEndInfo(room) {
       - Vertices
       - Status
     - Walls
+    - Leaderboard
 
     Return {
       Players: [{vertices:..., health:10}, {vertices:..., health: 20}],
@@ -323,9 +395,11 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     // Remove player
     // socket.emit('death', hitPlayer, hitterPlayer, bodyPartHit)
     hitPlayer.health = 0
+    hitterPlayer.killStreak += 1
     let Matter = io.sockets.adapter.rooms[roomName].Matter
     Matter.Composite.clear(hitPlayer.PlayerComposite)
     delete rooms[roomName].players[hitPlayer.id]
+    leaderBoardChange(roomName)
   }
   // Not Dead
   else {

@@ -6,6 +6,7 @@ class StartupMenu extends React.Component {
   constructor() {
     super()
     this.state = {
+      name: '',
       currentGameMode: 'FFA',
       showSkinModal: false,
       showCharacterModal: false,
@@ -27,7 +28,11 @@ class StartupMenu extends React.Component {
   }
 
   playGame = () => {
-    this.props.startGame(this.state.currentGameMode, this.state.currentCharacter, this.state.currentSkin)
+    this.props.startGame(this.state.name, this.state.currentGameMode, this.state.currentCharacter, this.state.currentSkin)
+  }
+
+  changeName = (evt) => {
+    this.setState({ name: evt.target.value })
   }
 
   render() {
@@ -56,7 +61,7 @@ class StartupMenu extends React.Component {
             </div> 
             <div id="mainControl" style={Style.mainControl}> 
               <div id="nameField">
-                <input id="nameInput" style={Style.inputField}></input>
+                <input id="nameInput" style={Style.inputField} onChange={this.changeName}></input>
               </div>
               <div id="characterDiv" style={Style.characterDiv}>
                 <button id="changeSkinButton" style={Style.skinButton} onClick={this.toggleSkinModal}> SKIN </button>
