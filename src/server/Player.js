@@ -5,7 +5,8 @@ function Player(name, id, characterType, skinType) {
   this.id = id
   this.characterType = characterType 
   this.skinType = skinType
-  this.health = c.playerTypes[characterType].initialHealth
+  this.initialHealth = c.playerTypes[characterType].initialHealth
+  this.health = this.initialHealth
   this.killStreak = 0
   this.isDead = false
 }

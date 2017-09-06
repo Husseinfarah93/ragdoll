@@ -176,6 +176,7 @@ io.on('connection', socket => {
     socket.on('respawn', () => {
       player.isDead = false
       player.createMatterPlayer2(Matter, 5000, 5000)
+      player.health = player.initialHealth
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
       socket.updateInterval = updateInterval
@@ -216,7 +217,7 @@ function updateLeaderboard(roomName) {
       name: player.name
     }
   })
-  temp = temp.sort((a1, a2) => a1.killStreak - a2.killStreak)
+  temp = temp.sort((a1, a2) => a2.killStreak - a1.killStreak)
   room.leaderBoard = temp
 }
 
@@ -409,6 +410,7 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
     hitPlayer.health = 0
+    console.log('hitterPlayer: ', hitterPlayer.killStreak)
     hitterPlayer.killStreak += 1
     let Matter = io.sockets.adapter.rooms[roomName].Matter
     Matter.Composite.clear(hitPlayer.PlayerComposite)
