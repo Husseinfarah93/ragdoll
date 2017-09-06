@@ -3,7 +3,7 @@ import Radium from 'radium'
 import socket from '../io.js'
 import Camera from './Camera.js'
 import LeaderBoard from './LeaderBoard.jsx'
-
+import RespawnModal from './RespawnModal.jsx'
 
 @Radium
 class Canvas extends React.Component {
@@ -11,7 +11,8 @@ class Canvas extends React.Component {
       super()
       this.state = {
         canvas: undefined,
-        leaderBoard: []
+        leaderBoard: [],
+        playerDead: false,
       }
       this.keyDown = {
         up: false,
@@ -19,6 +20,7 @@ class Canvas extends React.Component {
         down: false,
         left: false
       }
+      this.respawnPlayer = this.respawnPlayer.bind(this)
     }
 
     componentDidMount() {
@@ -36,17 +38,31 @@ class Canvas extends React.Component {
         this.setUpCamera(worldWidth, worldHeight, this.state.canvas)
         this.generateBackground(canvas.width, canvas.height)
       })
-      socket.on('draw', (Players, HealthPacks, Walls, Pelvis) => {
+      socket.on('draw', (Players, HealthPacks, Walls, Pelvis, id) => {
         this.camera.update(Pelvis)
         this.drawBackground(this.camera)
         this.drawPlayers(Players, this.camera)
         this.drawHealthPacks(HealthPacks)
         this.drawWalls(Walls, this.camera)
-        setTimeout(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
+        this.keydownLoop = setTimeout(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
       })
+
       socket.on('updateLeaderBoard', leaderBoard => {
         this.setState({ leaderBoard: leaderBoard })
       })
+
+      socket.on('playerDeath', deathInfo => {
+        this.handleDeath(deathInfo)
+      })
+    }
+
+    handleDeath(deathInfo) {
+      this.setState({ playerDead: true })
+    }
+
+    respawnPlayer() {
+      this.setState({ playerDead: false })
+      socket.emit('respawn')
     }
 
     drawPlayers(players, camera) {
@@ -229,10 +245,13 @@ class Canvas extends React.Component {
     render() {
       return (
         <div>
-        <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth * 0.98}/>
-        {
-          this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
-        }
+          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth * 0.98}/>
+          {
+            this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
+          }
+          { this.state.playerDead && 
+            <RespawnModal respawnPlayer={this.respawnPlayer} />
+          }
         </div>
       )
     }

@@ -173,11 +173,19 @@ io.on('connection', socket => {
         leaderBoardChange(room)
       }
     })
-
+    socket.on('respawn', () => {
+      player.isDead = false
+      player.createMatterPlayer2(Matter, 5000, 5000)
+      clearUpdates(socket.id)
+      let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
+      socket.updateInterval = updateInterval
+      leaderBoardChange(room)
+    })
     leaderBoardChange(room)
     // Update Code
     setInterval(updatePlayerVertices, 16)
-    setInterval(() => updateFrontEndInfo(room, socket, player), 15)
+    let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
+    socket.updateInterval = updateInterval
   })
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
@@ -190,7 +198,7 @@ function updateFrontEndInfo(room, socket, player) {
     x: player.pelvis.position.x,
     y: player.pelvis.position.y
   }
-  socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis)
+  socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis, socket.id)
 }
 
 function updateLeaderboard(roomName) {
@@ -198,7 +206,9 @@ function updateLeaderboard(roomName) {
   let currentLeaderBoard = room.leaderBoard
   let players = room.players
   let playerList = []
-  for(player in players) playerList.push(players[player])
+  for(player in players) {
+    playerList.push(players[player])
+  }
   let temp = playerList.map(player => {
     return {
       killStreak: player.killStreak,
@@ -278,6 +288,7 @@ function updatePlayerVertices() {
     for(room in rooms) {
         let players = rooms[room].players
         for(let player in players) {
+          if(player.isDead) continue
             let playerComp = players[player].PlayerComposite
             let bodies = playerComp.bodies
             let playerVertices = verticesFromBodies(bodies)
@@ -299,6 +310,7 @@ function getPlayerVertices(room) {
     let list = []
     let players = rooms[room].players
     for(player in players) {
+      if(player.isDead) continue
       let pushItem = {}
       pushItem.vertices = players[player].vertices
       pushItem.health = players[player].health 
@@ -327,7 +339,6 @@ function getWallInfo(roomName) {
   }
   return verticesFromBodies(bodies)
 }
-
 
 function getFrontEndInfo(room) {
   /*
@@ -393,13 +404,16 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   hitPlayer = room.players[hitPlayer]
   // Dead
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
+    let socket = io.sockets.connected[hitPlayer.id]
+    // clearUpdates(socket.id)
+    socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
-    // socket.emit('death', hitPlayer, hitterPlayer, bodyPartHit)
     hitPlayer.health = 0
     hitterPlayer.killStreak += 1
     let Matter = io.sockets.adapter.rooms[roomName].Matter
     Matter.Composite.clear(hitPlayer.PlayerComposite)
-    delete rooms[roomName].players[hitPlayer.id]
+    // delete rooms[roomName].players[hitPlayer.id]
+    hitPlayer.isDead = true
     leaderBoardChange(roomName)
   }
   // Not Dead
@@ -418,6 +432,10 @@ function damageAmount (hitterPlayer, bodyPartHit) {
   return damageDoneByHitter
 }
 
+function clearUpdates(socketId) {
+  let socket = io.sockets.connected[socketId]
+  clearInterval(socket.updateInterval)
+}
 
 
 /*

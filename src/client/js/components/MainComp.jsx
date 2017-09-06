@@ -10,19 +10,20 @@ class MainComp extends React.Component {
   constructor() {
     super()
     this.state = {
-      showStartupMenu: true
+      showStartupMenu: true,
     }
   }
 
   startGame = (name, gameType, character, skin) => {
     socket.emit('startGame', { name, gameType, character, skin })
-    this.setState({ showStartupMenu: false })
+    let newGameInfo = {name: name, gameType: gameType, character: character, skin: skin}
+    this.setState({ showStartupMenu: false, gameInfo: newGameInfo })
   }
 
   render() {
     return (
       this.state.showStartupMenu ? 
-      <StartupMenu startGame={this.startGame}/>
+      <StartupMenu startGame={this.startGame} />
       : 
       <Canvas />
     )
