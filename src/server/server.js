@@ -148,6 +148,8 @@ io.on('connection', socket => {
       rooms[room].healthPacks = {}
       rooms[room].players = {}
       rooms[room].leaderBoard = []
+      // Collision Code
+      Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
     }
     // Set up camera front end 
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
@@ -160,8 +162,6 @@ io.on('connection', socket => {
     rooms[room].players[socket.id] = player
     // Update leaderboard
     leaderBoardChange(room)
-    // Collision Code
-    Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room))
     // Body 
     socket.on('keydown', (left, up, right, down) => {
       player.movePlayer(left, up, right, down, Matter)
@@ -372,13 +372,16 @@ function getFrontEndInfo(room) {
 /* ---------------------------------------------------- COLLISION CODE -------------------------------------------------------- */
 
 
-function collisionCheck(event, roomName) {
+function collisionCheck(event, roomName, id) {
   let bodyA = event.pairs[0].bodyA
   let bodyB = event.pairs[0].bodyB
   // Check if colliding bodies are 2 different players
   if((bodyA.playerId && bodyB.playerId) && bodyA.playerId !== bodyB.playerId) {
     // Check if the hit is one which deals damage. Only if yes continue
-    if(!isHit(bodyA, bodyB)) return
+    if(!isHit(bodyA, bodyB)) {
+      repel(roomName, bodyA, bodyB, id)
+      return
+    }
     // bodyA is hitterPlayer
     if(isWinner(bodyA, bodyB)) {
       handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName)
@@ -392,7 +395,7 @@ function collisionCheck(event, roomName) {
 
 function isHit(bodyPart1, bodyPart2) {
   // If bodyPart1 or bodyPart2 is dealDamage True
-  return (bodyPart1.dealDamage && !bodyPart2.dealDamage) || (!bodyPart1.dealDamage && bodyPart2.dealDamage)
+  return (bodyPart1.dealDamage && !bodyPart2.dealDamage) === true || (!bodyPart1.dealDamage && bodyPart2.dealDamage) === true
 }
 
 function isWinner(bodyPart1, bodyPart2) {
@@ -439,6 +442,24 @@ function clearUpdates(socketId) {
   clearInterval(socket.updateInterval)
 }
 
+function repel(roomName, bodyA, bodyB) {
+  console.log('repel')
+  let Matter = io.sockets.adapter.rooms[roomName].Matter 
+  let Body = Matter.Body 
+  let bodyALeft = bodyA.position.x < bodyB.position.x 
+  let bodyAUp = bodyA.position.y < bodyB.position.y
+  let force = 0.1
+  let forceA = {
+    x: bodyALeft ? force * -1 : force, 
+    y: bodyAUp ? force * -1 : force, 
+  }
+  let forceB = {
+    x: force, 
+    y: force, 
+  }
+  Body.applyForce(bodyA, bodyA.position, forceA)
+  Body.applyForce(bodyB, bodyB.position, forceB)
+}
 
 /*
 Send Information

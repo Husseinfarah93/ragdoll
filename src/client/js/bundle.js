@@ -23680,8 +23680,7 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
     };
 
     _this.state = {
-      showStartupMenu: true,
-      gameInfo: undefined
+      showStartupMenu: true
     };
     return _this;
   }
@@ -23689,7 +23688,7 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
   _createClass(MainComp, [{
     key: 'render',
     value: function render() {
-      return this.state.showStartupMenu ? _react2.default.createElement(_StartupMenu2.default, { startGame: this.startGame }) : _react2.default.createElement(_Canvas2.default, { gameInfo: this.state.gameInfo });
+      return this.state.showStartupMenu ? _react2.default.createElement(_StartupMenu2.default, { startGame: this.startGame }) : _react2.default.createElement(_Canvas2.default, null);
     }
   }]);
 
@@ -27232,7 +27231,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         var canvas = self.state.canvas;
         _this2.setUpCamera(worldWidth, worldHeight, _this2.state.canvas);
         _this2.generateBackground(canvas.width, canvas.height);
-        // this.setState({ playerDead: false })
       });
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis, id) {
         _this2.camera.update(Pelvis);
@@ -27394,7 +27392,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var ctx = cvs.getContext('2d');
       cvs.width = canvasWidth;
       cvs.height = canvasHeight;
-      var boxSize = 50;
+      var boxSize = 25;
+      ctx.strokeStyle = '#E6E6E6';
       for (var i = 0; i <= canvasWidth; i += boxSize) {
         ctx.moveTo(i, 0);
         ctx.lineTo(i, canvasHeight);
@@ -27450,7 +27449,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         null,
         _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: window.innerHeight * 0.98, width: window.innerWidth * 0.98 }),
         this.state.leaderBoard.length && _react2.default.createElement(_LeaderBoard2.default, { leaderBoard: this.state.leaderBoard }),
-        this.state.playerDead && _react2.default.createElement(_RespawnModal2.default, { respawnPlayer: this.respawnPlayer, gameInfo: this.props.gameInfo })
+        this.state.playerDead && _react2.default.createElement(_RespawnModal2.default, { respawnPlayer: this.respawnPlayer })
       );
     }
   }]);
@@ -27545,7 +27544,6 @@ var LeaderBoard = (0, _radium2.default)(_class = function (_React$Component) {
   _createClass(LeaderBoard, [{
     key: 'render',
     value: function render() {
-      console.log('players: ', this.props.leaderBoard);
       return _react2.default.createElement(
         'div',
         { className: 'leaderBoard', style: Style.leaderBoard },

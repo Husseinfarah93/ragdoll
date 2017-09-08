@@ -190,7 +190,8 @@ class Canvas extends React.Component {
       let ctx = cvs.getContext('2d')
       cvs.width = canvasWidth 
       cvs.height = canvasHeight
-      let boxSize = 50
+      let boxSize = 25
+      ctx.strokeStyle = '#E6E6E6'
       for(let i = 0; i <= canvasWidth; i += boxSize) {
         ctx.moveTo(i, 0)
         ctx.lineTo(i, canvasHeight)
