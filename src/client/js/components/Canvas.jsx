@@ -4,6 +4,7 @@ import socket from '../io.js'
 import Camera from './Camera.js'
 import LeaderBoard from './LeaderBoard.jsx'
 import RespawnModal from './RespawnModal.jsx'
+import KillFeed from './KillFeed.jsx'
 
 @Radium
 class Canvas extends React.Component {
@@ -13,6 +14,7 @@ class Canvas extends React.Component {
         canvas: undefined,
         leaderBoard: [],
         playerDead: false,
+        newKill: undefined
       }
       this.keyDown = {
         up: false,
@@ -54,7 +56,21 @@ class Canvas extends React.Component {
       socket.on('playerDeath', deathInfo => {
         this.handleDeath(deathInfo)
       })
+
+      socket.on('updateKillFeed', (killerPlayer, killType, killedPlayer) => {
+        this.handleNewKill(killerPlayer, killType, killedPlayer)
+      })
     }
+
+    handleNewKill(killerPlayer, killType, killedPlayer) {
+      this.setState({ newKill: {
+        killerPlayer,
+        killType,
+        killedPlayer,
+        idx: this.state.newKill ? this.state.newKill.idx + 1 : 0
+      } })
+    }
+
 
     handleDeath(deathInfo) {
       this.setState({ playerDead: true })
@@ -247,6 +263,9 @@ class Canvas extends React.Component {
       return (
         <div>
           <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth * 0.98}/>
+          {
+            this.state.newKill && <KillFeed newKill={this.state.newKill}/>
+          }
           {
             this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
           }

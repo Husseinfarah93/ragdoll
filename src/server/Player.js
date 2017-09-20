@@ -1,7 +1,7 @@
 let c = require('../../config.json')
 
 function Player(name, id, characterType, skinType) {
-  this.name = name 
+  this.name = name ? name : 'Player'
   this.id = id
   this.characterType = characterType 
   this.skinType = skinType
@@ -270,7 +270,7 @@ Player.prototype.createMatterPlayer = function(Matter, x, y) {
 }
 
 // Old
-Player.prototype.createMatterPlayer3 = function(Matter, x, y) {
+Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
   let Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
@@ -539,7 +539,7 @@ Player.prototype.createMatterPlayer3 = function(Matter, x, y) {
 }
 
 // New 
-Player.prototype.createMatterPlayer2 = function(Matter, x1, y1) {
+Player.prototype.createMatterPlayer3 = function(Matter, x1, y1) {
   let Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
@@ -1315,4 +1315,3 @@ Player.prototype.genRightLeg = function(x, y, triangleHeight, angle, width, legL
 }
 
 module.exports = Player
-

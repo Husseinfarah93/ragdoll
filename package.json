@@ -27,6 +27,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "socket.io": "^2.0.3",
+    "url-loader": "^0.5.9",
     "webpack": "^3.5.5"
   }
 }

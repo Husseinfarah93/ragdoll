@@ -13,6 +13,9 @@ module.exports = {
             plugins: ['transform-decorators-legacy' ],
             presets: ['es2015', 'stage-0', 'react']
           },
+      },       {
+        test: /\.(png)$/,
+        loader: 'url-loader',
       }]
   }
 }

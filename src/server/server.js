@@ -147,9 +147,11 @@ io.on('connection', socket => {
       rooms[room] = {}
       rooms[room].healthPacks = {}
       rooms[room].players = {}
+      rooms[room].bodiesToRepel = []
       rooms[room].leaderBoard = []
       // Collision Code
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
+      Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
     }
     // Set up camera front end 
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
@@ -379,7 +381,7 @@ function collisionCheck(event, roomName, id) {
   if((bodyA.playerId && bodyB.playerId) && bodyA.playerId !== bodyB.playerId) {
     // Check if the hit is one which deals damage. Only if yes continue
     if(!isHit(bodyA, bodyB)) {
-      repel(roomName, bodyA, bodyB, id)
+      repel(roomName, bodyA, bodyB)
       return
     }
     // bodyA is hitterPlayer
@@ -419,7 +421,10 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     Matter.Composite.clear(hitPlayer.PlayerComposite)
     // delete rooms[roomName].players[hitPlayer.id]
     hitPlayer.isDead = true
+    // Update Leaderboard
     leaderBoardChange(roomName)
+    // Update Killfeed
+    updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName)
   }
   // Not Dead
   else {
@@ -443,23 +448,39 @@ function clearUpdates(socketId) {
 }
 
 function repel(roomName, bodyA, bodyB) {
-  console.log('repel')
-  let Matter = io.sockets.adapter.rooms[roomName].Matter 
-  let Body = Matter.Body 
   let bodyALeft = bodyA.position.x < bodyB.position.x 
   let bodyAUp = bodyA.position.y < bodyB.position.y
-  let force = 0.1
+  let force = 0.005
   let forceA = {
     x: bodyALeft ? force * -1 : force, 
     y: bodyAUp ? force * -1 : force, 
   }
   let forceB = {
-    x: force, 
-    y: force, 
+    x: bodyALeft ? force : force * -1, 
+    y: bodyAUp ? force : force * -1, 
   }
-  Body.applyForce(bodyA, bodyA.position, forceA)
-  Body.applyForce(bodyB, bodyB.position, forceB)
+  let elemA = {body: bodyA, force: forceA}
+  let elemB = {body: bodyB, force: forceB}
+  rooms[roomName].bodiesToRepel.push(elemA)
+  rooms[roomName].bodiesToRepel.push(elemB)
 }
+
+function executeRepel(Matter, roomName) {
+  let Body = Matter.Body
+  let bodiesToMove = rooms[roomName].bodiesToRepel
+	for(let item of bodiesToMove) {
+		let body = item.body 
+		let force = item.force
+		Body.applyForce(body, body.position, force)
+	} 
+	rooms[roomName].bodiesToRepel = []
+} 
+
+function updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName) {
+  let killType = bodyPartHit === 'head' ? 'head' : 'body'
+  io.sockets.in(roomName).emit('updateKillFeed', hitterPlayer.name, killType, hitPlayer.name)
+}
+
 
 /*
 Send Information
