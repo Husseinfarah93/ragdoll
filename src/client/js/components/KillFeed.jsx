@@ -3,8 +3,6 @@ import Radium from 'radium'
 import bodyShotImage from '../../assets/BodyShotIcon.png'
 import headShotImage from '../../assets/HeadShotIcon.png'
 
-
-
 @Radium
 class KillFeed extends React.Component {
   constructor() {
@@ -40,7 +38,7 @@ class KillFeed extends React.Component {
               <li key={idx}>
                 <div>
                   <span> {killInfo.killerPlayer} </span>
-                  <span> {killInfo.killType} </span>
+                  <span style={Style.killIcon} />
                   <span> {killInfo.killedPlayer} </span>
                 </div>
               </li>
@@ -62,9 +60,17 @@ const Style = {
     top: '0px'
   },
   killFeedList: {
-
+    //
   },
   singleKill: {
+    //
+  },
+  killIcon: {
+    background: `url(${bodyShotImage}) no-repeat`,
+    display: 'inline-block',
+    width: '10px',
+    height: '10px',
+    backgroundSize: '10px 10px',
 
   }
 }
