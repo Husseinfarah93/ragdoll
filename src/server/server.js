@@ -321,6 +321,7 @@ function getPlayerVertices(room) {
       pushItem.health = players[player].health 
       pushItem.name = players[player].name
       pushItem.id = players[player].id
+      pushItem.isDead = players[player].isDead
       pushItem.pelvis = {
         x: players[player].pelvis.position.x,
         y: players[player].pelvis.position.y

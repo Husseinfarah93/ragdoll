@@ -27291,8 +27291,10 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var yPos = camera.yPos;
       var bandList = [];
       context.beginPath();
+      console.log("PLAYERS: ", players.length);
       for (var k = 0; k < players.length; k++) {
         var player = players[k];
+        if (player.isDead) continue;
         var bodies = player.vertices;
         var isBand = false;
         for (var i = 0; i < bodies.length; i += 1) {
@@ -27403,7 +27405,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var yPos = camera.yPos;
       var img = this.img;
       context.clearRect(0, 0, canvas.width, canvas.height);
-
       // Draw Shifted Viewport 
       var newX = xPos % canvas.width - this.diff.x;
       var newY = yPos % canvas.height - this.diff.y;

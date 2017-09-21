@@ -91,6 +91,7 @@ class Canvas extends React.Component {
       context.beginPath();
       for(let k = 0; k < players.length; k++) {
         let player = players[k]
+        if(player.isDead) continue
         let bodies = player.vertices
         let isBand = false
         for (var i = 0; i < bodies.length; i += 1) {
@@ -195,7 +196,6 @@ class Canvas extends React.Component {
       let yPos = camera.yPos
       let img = this.img
       context.clearRect(0, 0, canvas.width, canvas.height)
-
       // Draw Shifted Viewport 
       let newX = (xPos % canvas.width) - this.diff.x 
       let newY = (yPos % canvas.height) - this.diff.y
