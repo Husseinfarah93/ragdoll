@@ -14,7 +14,8 @@ class Canvas extends React.Component {
         canvas: undefined,
         leaderBoard: [],
         playerDead: false,
-        newKill: undefined
+        newKill: undefined,
+        id: socket.id
       }
       this.keyDown = {
         up: false,
@@ -89,7 +90,8 @@ class Canvas extends React.Component {
       let bandList = []
       context.beginPath();
       for(let k = 0; k < players.length; k++) {
-        let bodies = players[k].vertices
+        let player = players[k]
+        let bodies = player.vertices
         let isBand = false
         for (var i = 0; i < bodies.length; i += 1) {
             var vertices = bodies[i];
@@ -112,7 +114,9 @@ class Canvas extends React.Component {
         context.fillStyle = 'black'
         context.fill();
         // this.drawHealthBar(context, canvas.width / 2, (canvas.height / 2) + 90, players[k].health)
-        this.drawName(context, (canvas.width / 2) - 30, (canvas.height / 2) - 90, players[k].name)
+        let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
+        let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
+        this.drawName(context, xName, yName, player.name)
       }
         this.drawArmBands(xPos, yPos, context, bandList)
     }
@@ -153,7 +157,7 @@ class Canvas extends React.Component {
 
     drawName(context, x, y, name) {
       context.font = '24px serif'
-      context.fillText(name, x, y)
+      context.fillText(name, x - 30, y + 90)
     }
 
     drawHealthPacks() {

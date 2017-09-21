@@ -27205,7 +27205,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       canvas: undefined,
       leaderBoard: [],
       playerDead: false,
-      newKill: undefined
+      newKill: undefined,
+      id: _io2.default.id
     };
     _this.keyDown = {
       up: false,
@@ -27291,7 +27292,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var bandList = [];
       context.beginPath();
       for (var k = 0; k < players.length; k++) {
-        var bodies = players[k].vertices;
+        var player = players[k];
+        var bodies = player.vertices;
         var isBand = false;
         for (var i = 0; i < bodies.length; i += 1) {
           var vertices = bodies[i];
@@ -27314,7 +27316,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         context.fillStyle = 'black';
         context.fill();
         // this.drawHealthBar(context, canvas.width / 2, (canvas.height / 2) + 90, players[k].health)
-        this.drawName(context, canvas.width / 2 - 30, canvas.height / 2 - 90, players[k].name);
+        var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
+        var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
+        this.drawName(context, xName, yName, player.name);
       }
       this.drawArmBands(xPos, yPos, context, bandList);
     }
@@ -27358,7 +27362,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'drawName',
     value: function drawName(context, x, y, name) {
       context.font = '24px serif';
-      context.fillText(name, x, y);
+      context.fillText(name, x - 30, y + 90);
     }
   }, {
     key: 'drawHealthPacks',
