@@ -286,8 +286,9 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
     neckHeight = 5,
     torsoHeight = 30,
     armWidth = 20,
+    armBandWidth = 10,
     armHeight = 10,
-    foreArmWidth = 40, 
+    foreArmWidth = 30, 
     pelvisHeight = 20, 
     legWidth = neckWidth, 
     thighHeight = 30,
@@ -326,8 +327,10 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
   let torso = Bodies.rectangle(head.position.x, neck.position.y + neckHeight / 2 + torsoHeight / 2, neckWidth, torsoHeight, options)
   let rightArm = Bodies.rectangle(head.position.x + neckWidth / 2 + armWidth / 2, torso.position.y, armWidth, armHeight, options)
   let leftArm = Bodies.rectangle(head.position.x - neckWidth / 2 - armWidth / 2, torso.position.y, armWidth, armHeight, options)
-  let rightForeArm = Bodies.rectangle(rightArm.position.x + armWidth / 2 + foreArmWidth / 2, torso.position.y, foreArmWidth, armHeight, rightForeArmOption)
-  let leftForeArm = Bodies.rectangle(leftArm.position.x - armWidth / 2 - foreArmWidth / 2, torso.position.y, foreArmWidth, armHeight, leftForeArmOption)
+  let rightArmBand = Bodies.rectangle(rightArm.position.x + armWidth / 2 + armBandWidth / 2, torso.position.y, armBandWidth, armHeight, options)
+  let leftArmBand = Bodies.rectangle(leftArm.position.x - armWidth / 2 - armBandWidth / 2, torso.position.y, armBandWidth, armHeight, options)
+  let rightForeArm = Bodies.rectangle(rightArmBand.position.x + armBandWidth / 2 + foreArmWidth / 2, torso.position.y, foreArmWidth, armHeight, options)
+  let leftForeArm = Bodies.rectangle(leftArmBand.position.x - armBandWidth / 2 - foreArmWidth / 2, torso.position.y, foreArmWidth, armHeight, options)
   let pelvis = Bodies.rectangle(head.position.x, torso.position.y + torsoHeight / 2+ pelvisHeight / 2, neckWidth, pelvisHeight, options)
   let rightThigh = Bodies.rectangle(head.position.x + legWidth / 2, pelvis.position.y + pelvisHeight / 2 + thighHeight / 2, legWidth, thighHeight, options)
   let leftThigh = Bodies.rectangle(head.position.x - legWidth / 2, pelvis.position.y + pelvisHeight / 2 + thighHeight / 2, legWidth, thighHeight, options)
@@ -340,6 +343,8 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
   torso.label = 'torso'
   rightArm.label = 'arm'
   leftArm.label = 'arm'
+  rightArmBand.label = 'armband'
+  leftArmBand.label = 'armband'
   rightForeArm.label = 'forearm'
   leftForeArm.label = 'forearm'
   pelvis.label = 'pelvis'
@@ -354,6 +359,8 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
   torso.dealDamage = false 
   rightArm.dealDamage = false 
   leftArm.dealDamage = false 
+  rightArmBand.dealDamage = false 
+  leftArmBand.dealDamage = false
   rightForeArm.dealDamage = true 
   leftForeArm.dealDamage = true 
   pelvis.dealDamage = false 
@@ -420,11 +427,43 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
       visible: false
     }
   })
-  let rightElbow = Constraint.create({
+
+  let rightArmArmBand = Constraint.create({
     bodyA: rightArm,
-    bodyB: rightForeArm,
+    bodyB: rightArmBand,
     pointA: {
       x: armWidth / 2,
+      y: 0
+    },
+    pointB: {
+      x: - armBandWidth / 2,
+      y: 0
+    },
+    render: {
+      visible: false
+    }
+  })
+  let leftArmArmBand = Constraint.create({
+    bodyA: leftArm,
+    bodyB: leftArmBand,
+    pointA: {
+      x: - armWidth / 2, 
+      y: 0
+    },
+    pointB: {
+      x: armBandWidth / 2, 
+      y: 0
+    },
+    render: {
+      visible: false
+    }
+  })
+  
+  let rightElbow = Constraint.create({
+    bodyA: rightArmBand,
+    bodyB: rightForeArm,
+    pointA: {
+      x: armBandWidth / 2,
       y: 0
     },
     pointB: {
@@ -436,10 +475,10 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
     }
   })
   let leftElbow = Constraint.create({
-    bodyA: leftArm,
+    bodyA: leftArmBand,
     bodyB: leftForeArm,
     pointA: {
-      x: - armWidth / 2, 
+      x: - armBandWidth / 2, 
       y: 0
     },
     pointB: {
@@ -450,6 +489,7 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
       visible: false
     }
   })
+
   let pelvisJoint = Constraint.create({
     bodyA: torso, 
     bodyB: pelvis,
@@ -530,8 +570,8 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
 
   // add all of the bodies to the world
   let player = Composite.create({
-    bodies: [head, neck, torso, rightArm, leftArm, rightForeArm, leftForeArm, pelvis, rightThigh, leftThigh, rightCalf, leftCalf],
-    constraints: [neckHead, neckTorso, rightShoulder, leftShoulder, rightElbow, leftElbow, pelvisJoint, rightPelvisThigh, leftPelvisThigh, rightKnee, leftKnee]
+    bodies: [head, neck, torso, rightArm, leftArm, rightArmBand, leftArmBand, rightForeArm, leftForeArm, pelvis, rightThigh, leftThigh, rightCalf, leftCalf],
+    constraints: [neckHead, neckTorso, rightShoulder, leftShoulder, rightArmArmBand, leftArmArmBand, rightElbow, leftElbow, pelvisJoint, rightPelvisThigh, leftPelvisThigh, rightKnee, leftKnee]
   })
   World.add(Matter.engine.world, player)
   this.PlayerComposite = player 

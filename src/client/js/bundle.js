@@ -27288,26 +27288,54 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var context = this.state.canvas.getContext('2d');
       var xPos = camera.xPos;
       var yPos = camera.yPos;
+      var bandList = [];
       context.beginPath();
       for (var k = 0; k < players.length; k++) {
         var bodies = players[k].vertices;
+        var isBand = false;
         for (var i = 0; i < bodies.length; i += 1) {
           var vertices = bodies[i];
-
           context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
+          if (vertices[0].label === 'armband') {
+            bandList.push({
+              health: players[k].health,
+              vertices: bodies[i]
+            });
+            continue;
+          }
           for (var j = 1; j < vertices.length; j += 1) {
             context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
           }
           context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
         }
-
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
         context.fillStyle = 'black';
         context.fill();
-        this.drawHealthBar(context, canvas.width / 2, canvas.height / 2 + 90, players[k].health);
+        // this.drawHealthBar(context, canvas.width / 2, (canvas.height / 2) + 90, players[k].health)
         this.drawName(context, canvas.width / 2 - 30, canvas.height / 2 - 90, players[k].name);
+      }
+      this.drawArmBands(xPos, yPos, context, bandList);
+    }
+  }, {
+    key: 'drawArmBands',
+    value: function drawArmBands(xPos, yPos, context, bodies) {
+      for (var i = 0; i < bodies.length; i += 1) {
+        context.beginPath();
+        var vertices = bodies[i].vertices;
+        var health = bodies[i].health;
+        var percentage = health / 200;
+        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
+        for (var j = 1; j < vertices.length; j += 1) {
+          context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
+        }
+        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
+        context.lineWidth = 0.5;
+        context.strokeStyle = percentage === 1 ? 'black' : 'rgba(255, 0, 0, ' + (1 - percentage) + ')';
+        context.stroke();
+        context.fillStyle = percentage === 1 ? 'black' : 'rgba(255, 0, 0, ' + (1 - percentage) + ')';
+        context.fill();
       }
     }
   }, {
@@ -27412,6 +27440,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       cvs.width = canvasWidth;
       cvs.height = canvasHeight;
       var boxSize = 25;
+      ctx.fillStyle = '#404040';
+      ctx.fill();
       ctx.strokeStyle = '#E6E6E6';
       for (var i = 0; i <= canvasWidth; i += boxSize) {
         ctx.moveTo(i, 0);
@@ -27466,7 +27496,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: window.innerHeight * 0.98, width: window.innerWidth * 0.98 }),
+        _react2.default.createElement('canvas', { ref: 'canvas', id: 'mainCanvas', height: window.innerHeight * 0.98, width: window.innerWidth }),
         this.state.newKill && _react2.default.createElement(_KillFeed2.default, { newKill: this.state.newKill }),
         this.state.leaderBoard.length && _react2.default.createElement(_LeaderBoard2.default, { leaderBoard: this.state.leaderBoard }),
         this.state.playerDead && _react2.default.createElement(_RespawnModal2.default, { respawnPlayer: this.respawnPlayer })

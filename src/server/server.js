@@ -278,9 +278,11 @@ function verticesFromBodies(bodies) {
   let verticesToReturn = []
   for(let i = 0; i < bodies.length; i++) {
       let vertices = bodies[i].vertices
+      let label = bodies[i].label
       vertices = vertices.map(e => ({
           x: e.x,
-          y: e.y
+          y: e.y,
+          label: label
       }))
       verticesToReturn.push(vertices)
   }

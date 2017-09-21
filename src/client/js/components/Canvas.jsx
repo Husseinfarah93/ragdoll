@@ -86,26 +86,53 @@ class Canvas extends React.Component {
       let context = this.state.canvas.getContext('2d')
       let xPos = camera.xPos 
       let yPos = camera.yPos
+      let bandList = []
       context.beginPath();
       for(let k = 0; k < players.length; k++) {
         let bodies = players[k].vertices
+        let isBand = false
         for (var i = 0; i < bodies.length; i += 1) {
             var vertices = bodies[i];
-
             context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
+            if(vertices[0].label === 'armband') {
+              bandList.push({
+                health: players[k].health,
+                vertices: bodies[i]
+              })
+              continue
+            }
             for (var j = 1; j < vertices.length; j += 1) {
                 context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
             }
             context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
         }
-
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
         context.fillStyle = 'black'
         context.fill();
-        this.drawHealthBar(context, canvas.width / 2, (canvas.height / 2) + 90, players[k].health)
+        // this.drawHealthBar(context, canvas.width / 2, (canvas.height / 2) + 90, players[k].health)
         this.drawName(context, (canvas.width / 2) - 30, (canvas.height / 2) - 90, players[k].name)
+      }
+        this.drawArmBands(xPos, yPos, context, bandList)
+    }
+
+    drawArmBands(xPos, yPos, context, bodies) {
+      for (var i = 0; i < bodies.length; i += 1) {
+        context.beginPath()
+        var vertices = bodies[i].vertices;
+        var health = bodies[i].health
+        var percentage = health / 200
+        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
+        for (var j = 1; j < vertices.length; j += 1) {
+            context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
+        }
+        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
+        context.lineWidth = 0.5;
+        context.strokeStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
+        context.stroke();
+        context.fillStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
+        context.fill();
       }
     }
 
@@ -207,6 +234,8 @@ class Canvas extends React.Component {
       cvs.width = canvasWidth 
       cvs.height = canvasHeight
       let boxSize = 25
+      ctx.fillStyle = '#404040'
+      ctx.fill()
       ctx.strokeStyle = '#E6E6E6'
       for(let i = 0; i <= canvasWidth; i += boxSize) {
         ctx.moveTo(i, 0)
@@ -262,7 +291,7 @@ class Canvas extends React.Component {
     render() {
       return (
         <div>
-          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth * 0.98}/>
+          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth}/>
           {
             this.state.newKill && <KillFeed newKill={this.state.newKill}/>
           }
