@@ -282,7 +282,8 @@ function verticesFromBodies(bodies) {
       vertices = vertices.map(e => ({
           x: e.x,
           y: e.y,
-          label: label
+          label: label,
+          hitInfo: bodies[i].hitInfo
       }))
       verticesToReturn.push(vertices)
   }
@@ -391,10 +392,12 @@ function collisionCheck(event, roomName, id) {
     // bodyA is hitterPlayer
     if(isWinner(bodyA, bodyB)) {
       handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName)
+      bodyPartHit(bodyB, 3000)
     }
     // bodyB is hitterPlayer
     else {
       handleHit(bodyB.playerId, bodyA.playerId, bodyB.label, bodyA.label, roomName)
+      bodyPartHit(bodyA, 3000)
     }
   }
 }
@@ -485,6 +488,24 @@ function updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName) {
   io.sockets.in(roomName).emit('updateKillFeed', hitterPlayer.name, killType, hitPlayer.name)
 }
 
+function bodyPartHit(bodyPart, duration, playerId) {
+  if(bodyPart.changeFunc) clearInterval(bodyPart.changeFunc)
+  bodyPart.hitInfo = {
+    isHit: true,
+    current: Date.now(),
+    duration: duration,
+    end: Date.now() + duration,
+    percent: 1
+  }
+  bodyPart.changeFunc = setInterval(() => {
+   bodyPart.hitInfo.current = Date.now()
+   bodyPart.hitInfo.percent = (bodyPart.hitInfo.end - bodyPart.hitInfo.current) / duration
+  })
+  setTimeout(() => {
+    bodyPart.hitInfo = undefined
+    clearInterval(bodyPart.changeFunc)
+  }, duration)
+}
 
 /*
 Send Information

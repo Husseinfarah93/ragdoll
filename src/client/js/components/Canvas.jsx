@@ -88,38 +88,48 @@ class Canvas extends React.Component {
       let xPos = camera.xPos 
       let yPos = camera.yPos
       let bandList = []
-      context.beginPath();
       for(let k = 0; k < players.length; k++) {
         let player = players[k]
         if(player.isDead) continue
         let bodies = player.vertices
-        let isBand = false
         for (var i = 0; i < bodies.length; i += 1) {
-            var vertices = bodies[i];
-            context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
-            if(vertices[0].label === 'armband') {
-              bandList.push({
-                health: players[k].health,
-                vertices: bodies[i]
-              })
-              continue
-            }
-            for (var j = 1; j < vertices.length; j += 1) {
-                context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
-            }
-            context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
+          context.beginPath();
+          var vertices = bodies[i];
+          let hitInfo = vertices[0].hitInfo
+          context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
+          for (var j = 1; j < vertices.length; j += 1) {
+              context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
+          }
+        
+          context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
+          let label = vertices[0].label
+          context.lineWidth = 1;
+          context.strokeStyle = 'black';
+          context.fillStyle = 'black'
+
+          if(label === 'armband') {
+            var health = player.health
+            var percentage = health / 200
+            context.strokeStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`
+            context.fillStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
+          }
+          context.stroke();
+          context.fill();
+          if(hitInfo) {
+            let percent = hitInfo.percent
+            context.strokeStyle = `rgba(255, 0, 0, ${percent}`
+            context.fillStyle = `rgba(255, 0, 0, ${percent}`
+            context.stroke();
+            context.fill();
+          }
         }
-        context.lineWidth = 1;
-        context.strokeStyle = '#999';
-        context.stroke();
-        context.fillStyle = 'black'
-        context.fill();
+
         // this.drawHealthBar(context, canvas.width / 2, (canvas.height / 2) + 90, players[k].health)
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
         this.drawName(context, xName, yName, player.name)
       }
-        this.drawArmBands(xPos, yPos, context, bandList)
+        // this.drawArmBands(xPos, yPos, context, bandList)
     }
 
     drawArmBands(xPos, yPos, context, bodies) {
