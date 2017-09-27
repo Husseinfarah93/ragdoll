@@ -27317,7 +27317,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           }
           context.stroke();
           context.fill();
-          if (hitInfo) {
+          if (hitInfo && label !== 'armband') {
             var percent = hitInfo.percent;
             context.strokeStyle = 'rgba(255, 0, 0, ' + percent;
             context.fillStyle = 'rgba(255, 0, 0, ' + percent;
@@ -27372,8 +27372,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawName',
     value: function drawName(context, x, y, name) {
-      context.font = '24px serif';
-      context.fillText(name, x - 30, y + 90);
+      context.font = '18px Ubuntu';
+      context.fillText(name, x - 20, y + 100);
     }
   }, {
     key: 'drawHealthPacks',
@@ -27619,37 +27619,38 @@ var LeaderBoard = (0, _radium2.default)(_class = function (_React$Component) {
             { className: 'leaderBoardHeader' },
             _react2.default.createElement(
               'th',
-              { className: 'leaderBoardHeaderCell' },
+              { className: 'leaderBoardHeaderCell', style: Style.thFirst },
               ' Rank '
             ),
             _react2.default.createElement(
               'th',
-              { className: 'leaderBoardHeaderCell' },
+              { className: 'leaderBoardHeaderCell', id: 'headerName', style: Style.thName },
               ' Name '
             ),
             _react2.default.createElement(
               'th',
-              { className: 'leaderBoardHeaderCell' },
+              { className: 'leaderBoardHeaderCell', style: Style.th },
               ' Kill Streak '
             )
           ),
           this.props.leaderBoard.length && this.props.leaderBoard.map(function (player, idx) {
+            var colorStyle = { color: player.colour };
             return _react2.default.createElement(
               'tr',
-              { className: 'leaderBoardPlayer', key: idx },
+              { className: 'leaderBoardPlayer', key: idx, style: colorStyle },
               _react2.default.createElement(
                 'td',
-                { className: 'leaderBoardPlayerRank' },
+                { className: 'leaderBoardPlayerRank', style: Style.tdFirst },
                 '#' + (idx + 1).toString()
               ),
               _react2.default.createElement(
                 'td',
-                { className: 'leaderBoardPlayerName' },
+                { className: 'leaderBoardPlayerName', style: Style.th },
                 player.name
               ),
               _react2.default.createElement(
                 'td',
-                { className: 'leaderBoardPlayerKillStreak' },
+                { className: 'leaderBoardPlayerKillStreak', style: Style.th },
                 player.killStreak
               )
             );
@@ -27668,7 +27669,24 @@ var Style = {
     display: 'inline-block',
     position: 'absolute',
     top: '20px',
-    right: '20px'
+    right: '20px',
+    fontFamily: 'Ubuntu'
+  },
+  th: {
+    textAlign: 'left',
+    padding: '0px 10px 0px 10px'
+  },
+  thName: {
+    textAlign: 'left',
+    width: '120px',
+    padding: '0px 10px 0px 10px'
+  },
+  tdFirst: {
+    padding: '0px 10px 0px 0px'
+  },
+  thFirst: {
+    textAlign: 'left',
+    padding: '0px 10px 0px 0px'
   }
 };
 
@@ -27795,24 +27813,36 @@ var KillFeed = (0, _radium2.default)(_class = function (_React$Component) {
       killfeed: [],
       currentIdx: 0
     };
+    _this.removeKill = _this.removeKill.bind(_this);
     return _this;
   }
 
   _createClass(KillFeed, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var newList = this.state.killfeed;
-      newList.push(this.props.newKill);
-      this.setState({ killfeed: newList, currentIdx: this.props.newKill.idx });
+      this.updateKillFeed(this.props);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       if (newProps.newKill.idx !== this.state.currentIdx) {
-        var newList = this.state.killfeed;
-        newList.push(newProps.newKill);
-        this.setState({ killfeed: newList, currentIdx: newProps.newKill.idx });
+        this.updateKillFeed(newProps);
       }
+    }
+  }, {
+    key: 'updateKillFeed',
+    value: function updateKillFeed(props) {
+      var newList = this.state.killfeed;
+      newList.push(props.newKill);
+      this.setState({ killfeed: newList, currentIdx: props.newKill.idx });
+      setTimeout(this.removeKill, 10000);
+    }
+  }, {
+    key: 'removeKill',
+    value: function removeKill() {
+      var list = this.state.killfeed;
+      var newList = this.state.killfeed.slice(1);
+      if (list.length) this.setState({ killfeed: newList });
     }
   }, {
     key: 'render',
@@ -27823,24 +27853,24 @@ var KillFeed = (0, _radium2.default)(_class = function (_React$Component) {
         _react2.default.createElement(
           'ul',
           { id: 'killFeedList', style: Style.killFeedList },
-          this.state.killfeed.length && this.state.killfeed.map(function (killInfo, idx) {
+          this.state.killfeed.length > 0 && this.state.killfeed.map(function (killInfo, idx) {
             return _react2.default.createElement(
               'li',
               { key: idx },
               _react2.default.createElement(
                 'div',
-                null,
+                { id: 'killContainer', style: Style.killContainer },
                 _react2.default.createElement(
                   'span',
-                  null,
+                  { style: Style.playerNameLeft },
                   ' ',
                   killInfo.killerPlayer,
                   ' '
                 ),
-                _react2.default.createElement('span', { style: Style.killIcon }),
+                _react2.default.createElement('span', { style: killInfo.killType === 'body' ? Style.killIconBody : Style.killIconHead }),
                 _react2.default.createElement(
                   'span',
-                  null,
+                  { style: Style.playerNameRight },
                   ' ',
                   killInfo.killedPlayer,
                   ' '
@@ -27858,25 +27888,47 @@ var KillFeed = (0, _radium2.default)(_class = function (_React$Component) {
 
 var Style = {
   killFeedContainer: {
-    backgroundColor: 'rgba(255, 0, 0, 0.2)',
     width: '200px',
-    height: '200px',
     position: 'fixed',
-    top: '0px'
+    top: '20px',
+    left: '20px'
   },
   killFeedList: {
-    //
+    listStyle: 'none',
+    padding: '0px',
+    margin: '0px'
   },
   singleKill: {
     //
   },
-  killIcon: {
-    background: 'url(' + _BodyShotIcon2.default + ') no-repeat',
-    display: 'inline-block',
-    width: '10px',
-    height: '10px',
-    backgroundSize: '10px 10px'
+  killIconBody: {
+    background: 'url(' + _BodyShotIcon2.default + ')',
+    width: '20px',
+    height: '20px',
+    backgroundSize: '20px 20px'
 
+  },
+  killIconHead: {
+    background: 'url(' + _HeadShotIcon2.default + ')',
+    width: '20px',
+    height: '20px',
+    backgroundSize: '20px 20px'
+
+  },
+  killContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2px'
+  },
+  playerNameLeft: {
+    padding: '0px 10px 0px 10px',
+    fontFamily: 'Ubuntu',
+    color: 'blue'
+  },
+  playerNameRight: {
+    padding: '0px 10px 0px 10px',
+    fontFamily: 'Ubuntu',
+    color: 'green'
   }
 };
 

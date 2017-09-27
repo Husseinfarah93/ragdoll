@@ -115,7 +115,7 @@ class Canvas extends React.Component {
           }
           context.stroke();
           context.fill();
-          if(hitInfo) {
+          if(hitInfo && label !== 'armband') {
             let percent = hitInfo.percent
             context.strokeStyle = `rgba(255, 0, 0, ${percent}`
             context.fillStyle = `rgba(255, 0, 0, ${percent}`
@@ -167,8 +167,8 @@ class Canvas extends React.Component {
     }
 
     drawName(context, x, y, name) {
-      context.font = '24px serif'
-      context.fillText(name, x - 30, y + 90)
+      context.font = '18px Ubuntu'
+      context.fillText(name, x - 20, y + 100)
     }
 
     drawHealthPacks() {

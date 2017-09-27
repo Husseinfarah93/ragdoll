@@ -204,6 +204,7 @@ function updateFrontEndInfo(room, socket, player) {
   socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis, socket.id)
 }
 
+
 function updateLeaderboard(roomName) {
   let room = rooms[roomName]
   let currentLeaderBoard = room.leaderBoard
@@ -216,7 +217,8 @@ function updateLeaderboard(roomName) {
     return {
       killStreak: player.killStreak,
       id: player.id,
-      name: player.name
+      name: player.name,
+      colour: player.colour
     }
   })
   temp = temp.sort((a1, a2) => a2.killStreak - a1.killStreak)

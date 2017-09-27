@@ -11,20 +11,31 @@ class KillFeed extends React.Component {
       killfeed: [],
       currentIdx: 0
     }
+    this.removeKill = this.removeKill.bind(this)
   }
 
   componentDidMount() {
-    let newList = this.state.killfeed 
-    newList.push(this.props.newKill)
-    this.setState({ killfeed: newList, currentIdx: this.props.newKill.idx})
+    this.updateKillFeed(this.props)
   }
 
   componentWillReceiveProps(newProps) {
     if(newProps.newKill.idx !== this.state.currentIdx) {
-      let newList = this.state.killfeed 
-      newList.push(newProps.newKill)
-      this.setState({ killfeed: newList, currentIdx: newProps.newKill.idx })
+      this.updateKillFeed(newProps)
     }
+  }
+
+  updateKillFeed(props) {
+    let newList = this.state.killfeed 
+    newList.push(props.newKill)
+    this.setState({ killfeed: newList, currentIdx: props.newKill.idx })
+    setTimeout(this.removeKill, 10000)
+  }
+
+
+  removeKill() {
+    let list = this.state.killfeed
+    let newList = this.state.killfeed.slice(1)
+    if(list.length) this.setState({ killfeed: newList })
   }
 
 
@@ -33,13 +44,13 @@ class KillFeed extends React.Component {
       <div id="killFeedContainer" style={Style.killFeedContainer}>
         <ul id="killFeedList" style={Style.killFeedList}>
         {
-          this.state.killfeed.length && this.state.killfeed.map((killInfo, idx) => {
+          this.state.killfeed.length > 0 && this.state.killfeed.map((killInfo, idx) => {
             return (
               <li key={idx}>
-                <div>
-                  <span> {killInfo.killerPlayer} </span>
-                  <span style={Style.killIcon} />
-                  <span> {killInfo.killedPlayer} </span>
+                <div id='killContainer' style={Style.killContainer}>
+                  <span style={Style.playerNameLeft}> {killInfo.killerPlayer} </span>
+                  <span style={killInfo.killType === 'body' ? Style.killIconBody : Style.killIconHead} />
+                  <span style={Style.playerNameRight}> {killInfo.killedPlayer} </span>
                 </div>
               </li>
             )
@@ -53,25 +64,47 @@ class KillFeed extends React.Component {
 
 const Style = {
   killFeedContainer: {
-    backgroundColor: 'rgba(255, 0, 0, 0.2)',
     width: '200px',
-    height: '200px',
     position: 'fixed',
-    top: '0px'
+    top: '20px',
+    left: '20px'
   },
   killFeedList: {
-    //
+    listStyle: 'none',
+    padding: '0px',
+    margin: '0px'
   },
   singleKill: {
     //
   },
-  killIcon: {
-    background: `url(${bodyShotImage}) no-repeat`,
-    display: 'inline-block',
-    width: '10px',
-    height: '10px',
-    backgroundSize: '10px 10px',
+  killIconBody: {
+    background: `url(${bodyShotImage})`,
+    width: '20px',
+    height: '20px',
+    backgroundSize: '20px 20px',
 
+  },
+  killIconHead: {
+    background: `url(${headShotImage})`,
+    width: '20px',
+    height: '20px',
+    backgroundSize: '20px 20px',
+
+  },
+  killContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '2px'
+  },
+  playerNameLeft: {
+    padding: '0px 10px 0px 10px',
+    fontFamily: 'Ubuntu',
+    color: 'blue'
+  },
+  playerNameRight: {
+    padding: '0px 10px 0px 10px',
+    fontFamily: 'Ubuntu',
+    color: 'green'
   }
 }
 
