@@ -2,7 +2,7 @@ let c = require('../../config.json')
 let randColour = require('./helper.js').randColour
 
 function Player(name, id, characterType, skinType) {
-  this.name = name ? name : 'Player'
+  this.name = name ? name : 'PLAYER'
   this.id = id
   this.characterType = characterType 
   this.skinType = skinType
@@ -272,7 +272,7 @@ Player.prototype.createMatterPlayer = function(Matter, x, y) {
 }
 
 // Old
-Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
+Player.prototype.createMatterPlayer3 = function(Matter, x, y) {
   let Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
@@ -581,7 +581,7 @@ Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
 }
 
 // New 
-Player.prototype.createMatterPlayer3 = function(Matter, x1, y1) {
+Player.prototype.createMatterPlayer2 = function(Matter, x1, y1) {
   let Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
@@ -1306,8 +1306,8 @@ Player.prototype.createMatterPlayer3 = function(Matter, x1, y1) {
     constraints: [
       neckHeadL, neckHeadM, neckHeadR, 
       neckTorsoL, neckTorsoM, neckTorsoR,
-      rightShoulderM, 
-      leftShoulderM, 
+      rightShoulderL, rightShoulderM, rightShoulderR,
+      leftShoulderL, leftShoulderM, leftShoulderR,
       rightElbowL, rightElbowM, rightElbowR, 
       leftElbowL, leftElbowM, leftElbowR, 
       pelvisJointL, pelvisJointM, pelvisJointR, 
@@ -1326,10 +1326,11 @@ Player.prototype.createMatterPlayer3 = function(Matter, x1, y1) {
 Player.prototype.movePlayer = function(left, up, right, down, Matter) {
   let head = this.head
   let Body = Matter.Body 
-  if(left) Body.applyForce(head, head.position, { x: - 0.001, y: 0 })
-  if(up) Body.applyForce(head, head.position, { x: 0, y: - 0.001 })
-  if(right) Body.applyForce(head, head.position, { x: 0.001, y: 0 })
-  if(down) Body.applyForce(head, head.position, { x: 0, y: 0.001 })
+  let force = 0.001
+  if(left) Body.applyForce(head, head.position, { x: - force, y: 0 })
+  if(up) Body.applyForce(head, head.position, { x: 0, y: - force })
+  if(right) Body.applyForce(head, head.position, { x: force, y: 0 })
+  if(down) Body.applyForce(head, head.position, { x: 0, y: force })
 }
 
 Player.prototype.genLeftLeg = function(x, y, triangleHeight, angle, width, legLength) {

@@ -1,0 +1,41 @@
+body,html {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+#root {
+  height: 100%
+}
+.fa-chevron-left {
+   color: #059995;
+   cursor: pointer
+}
+.fa-chevron-left:hover {
+   color: #194D4C;
+}
+.fa-chevron-right {
+   color: #059995;
+   cursor: pointer
+}
+.fa-chevron-right:hover {
+   color: #194D4C;
+}
+.fa-times {
+  color: #ccc
+}
+.fa-times:hover {
+  color: #059995
+}
+.fa-cog {
+  color: #ccc
+}
+.fa-cog:hover {
+  color: #059995
+}
+.fa-play {
+  color: white
+}
+.fa-play:hover {
+  color: #059995
+}

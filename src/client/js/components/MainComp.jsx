@@ -1,6 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
 import StartupMenu from './StartupMenu.jsx'
+import NewStartUpMenu from './NewStartUpMenu.jsx'
 import Canvas from './Canvas.jsx'
 import socket from '../io.js'
 
@@ -22,13 +23,21 @@ class MainComp extends React.Component {
 
   render() {
     return (
-      this.state.showStartupMenu ? 
-      <StartupMenu startGame={this.startGame} />
-      : 
-      <Canvas />
+      <div id='test' style={Style}>
+        {
+        this.state.showStartupMenu ? 
+        // <StartupMenu startGame={this.startGame} />
+        <NewStartUpMenu startGame={this.startGame}/>
+        : 
+        <Canvas />
+        }
+      </div>
     )
-  }
-  
+  } 
+}
+
+const Style = {
+  height: '100%'
 }
 
 export default MainComp

@@ -329,6 +329,7 @@ function getPlayerVertices(room) {
         x: players[player].pelvis.position.x,
         y: players[player].pelvis.position.y
       }
+      pushItem.colour = players[player].colour
       list.push(pushItem)
     }
     return list
@@ -487,7 +488,7 @@ function executeRepel(Matter, roomName) {
 
 function updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName) {
   let killType = bodyPartHit === 'head' ? 'head' : 'body'
-  io.sockets.in(roomName).emit('updateKillFeed', hitterPlayer.name, killType, hitPlayer.name)
+  io.sockets.in(roomName).emit('updateKillFeed', hitterPlayer.name, killType, hitPlayer.name, hitterPlayer.colour, hitPlayer.colour)
 }
 
 function bodyPartHit(bodyPart, duration, playerId) {

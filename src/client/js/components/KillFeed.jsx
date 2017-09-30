@@ -27,6 +27,8 @@ class KillFeed extends React.Component {
   updateKillFeed(props) {
     let newList = this.state.killfeed 
     newList.push(props.newKill)
+    Style.playerNameLeft.color = props.newKill.killerPlayerColour
+    Style.playerNameRight.color = props.newKill.killedPlayerColour
     this.setState({ killfeed: newList, currentIdx: props.newKill.idx })
     setTimeout(this.removeKill, 10000)
   }

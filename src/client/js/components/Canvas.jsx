@@ -12,6 +12,7 @@ class Canvas extends React.Component {
       super()
       this.state = {
         canvas: undefined,
+        gridCanvas: undefined,
         leaderBoard: [],
         playerDead: false,
         newKill: undefined,
@@ -27,7 +28,8 @@ class Canvas extends React.Component {
     }
 
     componentDidMount() {
-      this.setState({ canvas: this.refs.canvas })
+      console.log('cvs: ', this.refs)
+      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas })
       this.addListeners()
       this.setUpSockets()
     }
@@ -40,6 +42,7 @@ class Canvas extends React.Component {
         let canvas = self.state.canvas
         this.setUpCamera(worldWidth, worldHeight, this.state.canvas)
         this.generateBackground(canvas.width, canvas.height)
+        this.drawPlayerGrid()
       })
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis, id) => {
         this.camera.update(Pelvis)
@@ -58,28 +61,33 @@ class Canvas extends React.Component {
         this.handleDeath(deathInfo)
       })
 
-      socket.on('updateKillFeed', (killerPlayer, killType, killedPlayer) => {
-        this.handleNewKill(killerPlayer, killType, killedPlayer)
+      socket.on('updateKillFeed', (killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour) => {
+        this.handleNewKill(killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour)
       })
     }
 
-    handleNewKill(killerPlayer, killType, killedPlayer) {
+    handleNewKill(killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour) {
       this.setState({ newKill: {
         killerPlayer,
         killType,
         killedPlayer,
+        killerPlayerColour, 
+        killedPlayerColour,
         idx: this.state.newKill ? this.state.newKill.idx + 1 : 0
       } })
     }
 
-
     handleDeath(deathInfo) {
+      window.addEventListener('keydown', this.respawnPlayer)
       this.setState({ playerDead: true })
     }
 
-    respawnPlayer() {
-      this.setState({ playerDead: false })
-      socket.emit('respawn')
+    respawnPlayer(e) {
+      if(e.keyCode === 13) {
+        window.removeEventListener('keydown', this.respawnPlayer)
+        this.setState({ playerDead: false })
+        socket.emit('respawn')
+      }
     }
 
     drawPlayers(players, camera) {
@@ -104,14 +112,14 @@ class Canvas extends React.Component {
           context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
           let label = vertices[0].label
           context.lineWidth = 1;
-          context.strokeStyle = 'black';
-          context.fillStyle = 'black'
+          context.strokeStyle = player.colour;
+          context.fillStyle = player.colour
 
           if(label === 'armband') {
             var health = player.health
             var percentage = health / 200
-            context.strokeStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`
-            context.fillStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
+            context.strokeStyle = percentage === 1 ? player.colour : `rgba(255, 0, 0, ${1 - percentage})`
+            context.fillStyle = percentage === 1 ? player.colour : `rgba(255, 0, 0, ${1 - percentage})`;
           }
           context.stroke();
           context.fill();
@@ -128,6 +136,7 @@ class Canvas extends React.Component {
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
         this.drawName(context, xName, yName, player.name)
+        if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
         // this.drawArmBands(xPos, yPos, context, bandList)
     }
@@ -164,6 +173,23 @@ class Canvas extends React.Component {
       // Draw Health 
       context.fillStyle = 'red'
       context.fillRect(x, y, healthBarWidth * percent, healthBarHeight)
+    }
+
+    drawPlayerGrid(x, y) {
+      let ctx = this.state.gridCanvas.getContext('2d')
+      let worldWidth = this.camera.worldWidth
+      let worldHeight = this.camera.worldHeight
+      let newX = (x / worldWidth) * 200
+      let newY = (y / worldWidth) * 200
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
+      ctx.clearRect(0, 0, 200, 200)
+      ctx.fillRect(0, 0, 200, 200)
+      x = x ? newX : 100
+      y = y ? newY : 100
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, 2 * Math.PI, false);
+      ctx.fillStyle = 'white';
+      ctx.fill();
     }
 
     drawName(context, x, y, name) {
@@ -315,9 +341,20 @@ class Canvas extends React.Component {
           { this.state.playerDead && 
             <RespawnModal respawnPlayer={this.respawnPlayer} />
           }
+          <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
         </div>
       )
     }
+}
+
+const Style = {
+  gridCanvas: {
+    position: 'fixed',
+    bottom: '0px',
+    right: '0px',
+    marginRight: '10px',
+    marginBottom: '10px'
+  }
 }
 
 
