@@ -250,6 +250,12 @@ function sendLeaderBoard(roomName) {
   }
 }
 
+function sendDisplayBlood(bodyPart, roomName) {
+  let x = bodyPart.position.x,
+      y = bodyPart.position.y
+  io.sockets.in(roomName).emit('createBlood', x, y)
+}
+
 /* ---------------------------------------------------- LeaderBoard CODE -------------------------------------------------------- */
 
 function isPlayerInLeaderBoard(roomName, playerId) {
@@ -395,12 +401,12 @@ function collisionCheck(event, roomName, id) {
     // bodyA is hitterPlayer
     if(isWinner(bodyA, bodyB)) {
       handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName)
-      bodyPartHit(bodyB, 3000)
+      bodyPartHit(bodyB, 3000, roomName)
     }
     // bodyB is hitterPlayer
     else {
       handleHit(bodyB.playerId, bodyA.playerId, bodyB.label, bodyA.label, roomName)
-      bodyPartHit(bodyA, 3000)
+      bodyPartHit(bodyA, 3000, roomName)
     }
   }
 }
@@ -491,7 +497,7 @@ function updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName) {
   io.sockets.in(roomName).emit('updateKillFeed', hitterPlayer.name, killType, hitPlayer.name, hitterPlayer.colour, hitPlayer.colour)
 }
 
-function bodyPartHit(bodyPart, duration, playerId) {
+function bodyPartHit(bodyPart, duration, roomName) {
   if(bodyPart.changeFunc) clearInterval(bodyPart.changeFunc)
   bodyPart.hitInfo = {
     isHit: true,
@@ -508,6 +514,7 @@ function bodyPartHit(bodyPart, duration, playerId) {
     bodyPart.hitInfo = undefined
     clearInterval(bodyPart.changeFunc)
   }, duration)
+  sendDisplayBlood(bodyPart, roomName)
 }
 
 /*

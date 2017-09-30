@@ -5,6 +5,9 @@ import Camera from './Camera.js'
 import LeaderBoard from './LeaderBoard.jsx'
 import RespawnModal from './RespawnModal.jsx'
 import KillFeed from './KillFeed.jsx'
+import config from '../../../../config.json'
+import BloodParticle from '../BloodParticle.js'
+let bloodConfig = config.gameInfo.bloodParticles
 
 @Radium
 class Canvas extends React.Component {
@@ -25,6 +28,8 @@ class Canvas extends React.Component {
         left: false
       }
       this.respawnPlayer = this.respawnPlayer.bind(this)
+      this.createBloodParticles = this.createBloodParticles.bind(this)
+      this.bloodParticles = []
     }
 
     componentDidMount() {
@@ -48,6 +53,7 @@ class Canvas extends React.Component {
         this.camera.update(Pelvis)
         this.drawBackground(this.camera)
         this.drawPlayers(Players, this.camera)
+        if(this.bloodParticles.length) this.drawBloodParticles()
         this.drawHealthPacks(HealthPacks)
         this.drawWalls(Walls, this.camera)
         this.keydownLoop = setTimeout(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
@@ -63,6 +69,13 @@ class Canvas extends React.Component {
 
       socket.on('updateKillFeed', (killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour) => {
         this.handleNewKill(killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour)
+      })
+
+      socket.on('createBlood', (x, y) => {
+        let camera = this.camera
+        let newX = x - camera.xPos
+        let newY = y - camera.yPos
+        this.createBloodParticles(newX, newY, bloodConfig.particleNumber)
       })
     }
 
@@ -139,6 +152,23 @@ class Canvas extends React.Component {
         if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
         // this.drawArmBands(xPos, yPos, context, bandList)
+    }
+
+    createBloodParticles(x, y, particleNumber) {
+      for(let i = 0; i < particleNumber; i++) {
+        let newParticle = new BloodParticle(x, y)
+        this.bloodParticles.push(newParticle)
+      }
+    }
+
+    drawBloodParticles() {
+      let ctx = this.state.canvas.getContext('2d')
+      for(let particle of this.bloodParticles) particle.updateTime()
+      this.bloodParticles = this.bloodParticles.filter(particle => !particle.dead)
+      for(let particle of this.bloodParticles) {
+        particle.updatePosition()
+        particle.drawParticle(ctx)
+      }
     }
 
     drawArmBands(xPos, yPos, context, bodies) {

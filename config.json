@@ -28,8 +28,18 @@
   },
   "playerTypes": {
     "basic": {
-      "initialHealth": 50,
+      "initialHealth": 200,
       "damageDealt": 30
+    }
+  },
+  "gameInfo": {
+    "bloodParticles": {
+      "particleNumber": 50,
+      "maxParticleSize": 5,
+      "maxSpeed": 5,
+      "colourVariation": 50,
+      "colour": "red",
+      "lifeLength": 1000
     }
   }
 }

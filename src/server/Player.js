@@ -272,7 +272,7 @@ Player.prototype.createMatterPlayer = function(Matter, x, y) {
 }
 
 // Old
-Player.prototype.createMatterPlayer3 = function(Matter, x, y) {
+Player.prototype.createMatterPlayer2 = function(Matter, x, y) {
   let Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
@@ -581,7 +581,7 @@ Player.prototype.createMatterPlayer3 = function(Matter, x, y) {
 }
 
 // New 
-Player.prototype.createMatterPlayer2 = function(Matter, x1, y1) {
+Player.prototype.createMatterPlayer3 = function(Matter, x1, y1) {
   let Engine = Matter.Engine,
     World = Matter.World,
     Bodies = Matter.Bodies,
