@@ -10,6 +10,7 @@ function Player(name, id, characterType, skinType) {
   this.health = this.initialHealth
   this.killStreak = 0
   this.isDead = false
+  this.isBlownUp = false
   this.colour = randColour()
 }
 
@@ -1323,10 +1324,555 @@ Player.prototype.createMatterPlayer3 = function(Matter, x1, y1) {
   return player
 }
 
+// NEW NEW CIRCLES
+Player.prototype.createMatterPlayerCircles = function(Matter, initialX, initialY, radius) {
+  let Engine = Matter.Engine,
+    World = Matter.World,
+    Bodies = Matter.Bodies,
+    Body = Matter.Body,
+    Constraint = Matter.Constraint,
+    Composite = Matter.Composite,
+    world = Matter.engine.world
+	let options = {collisionFilter: { group: Body.nextGroup(true) }}
+	// Torso
+	let torsoCircles = []
+	let torsoConstraints = []
+	let x = initialX
+	let y = initialY
+	// Generate torsoCircles
+	for(let i = 0; i < 5; i++) {
+		let circle;
+		if(i === 0) circle = Bodies.circle(x, y, radius, options)
+		else circle = Bodies.circle(x, y, radius)
+		torsoCircles.push(circle)
+		y += (radius * 2)
+	}
+	// Generate torsoConstraints
+	for(let i = 0; i < 4; i++) {
+		let bodyA = torsoCircles[i]
+		let bodyB = torsoCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: 0, y: radius},
+			pointB: {x: 0, y: -radius},
+			render: {visible: false}
+		})
+		torsoConstraints.push(constraint)
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		torsoConstraints.push(constraint2)
+	}
+	let addedConstraint = Constraint.create({
+		bodyA: torsoCircles[0],
+		bodyB: torsoCircles[1],
+		render: {visible: false}
+	})
+	torsoConstraints.push(addedConstraint)
+	let torso = Composite.create({
+		bodies: torsoCircles,
+		constraints: torsoConstraints
+	})
+	// World.add(world, torso)
+
+		
+	// Right Arm
+	let rightArmCircles = []
+	let rightArmConstraints = []
+	x = initialX + (2 * radius)
+	y = initialY + (2 * radius)
+	// Generate rightArmCircles 
+	for(let i = 0; i < 2; i++) {
+		let circle = Bodies.circle(x, y, radius)
+		rightArmCircles.push(circle)
+		x += (radius * 2)
+	}
+	// Generate rightArmConstraints 
+	let torsoRightArmConstraint = Constraint.create({
+		bodyA: torsoCircles[1],
+		bodyB: rightArmCircles[0],
+		pointA: {x: radius, y: 0},
+		pointB: {x: -radius, y: 0},
+		render: {visible: false}
+	})
+	rightArmConstraints.push(torsoRightArmConstraint)
+	for(let i = 0; i < 1; i++) {
+		let bodyA = rightArmCircles[i]
+		let bodyB = rightArmCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: radius, y: 0},
+			pointB: {x: -radius, y: 0},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		rightArmConstraints.push(constraint)
+		rightArmConstraints.push(constraint2)
+	}
+	let rightArm = Composite.create({
+		bodies: rightArmCircles,
+		constraints: rightArmConstraints
+	})
+
+	// Right Forearm
+	let rightForeArmCircles = []
+	let rightForeArmConstraints = []
+	y = initialY + (2 * radius)
+	x = initialX + (4 * radius)
+	let angle = 110
+	let theta = angle * Math.PI / 180
+	let yDiff = 2 * radius * Math.cos(theta)
+	let xDiff = 2 * radius * Math.sin(theta)
+	// Generate rightForeArmCircles
+	for(let i = 0; i < 2; i++) {
+		x += xDiff
+		y += yDiff
+		let circle = Bodies.circle(x, y, radius)
+		rightForeArmCircles.push(circle)
+	}
+	// Generate rightForeArmConstraints
+	let initialConstraint = Constraint.create({
+		bodyA: rightArmCircles[rightArmCircles.length - 1],
+		bodyB: rightForeArmCircles[0],
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: false}
+	})
+	rightForeArmConstraints.push(initialConstraint)
+	for(let i = 0; i < 1; i++) {
+		let bodyA = rightForeArmCircles[i]
+		let bodyB = rightForeArmCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		rightForeArmConstraints.push(constraint)
+		rightForeArmConstraints.push(constraint2)
+	}
+	
+	let rightForeArm = Composite.create({
+		bodies: rightForeArmCircles,
+		constraints: rightForeArmConstraints
+	})
+
+	
+	// Left Arm
+	let leftArmCircles = []
+	let leftArmConstraints = []
+	x = initialX - (2 * radius)
+	y = initialY + (2 * radius)
+	// Generate leftArmCircles
+	for(let i = 0; i < 2; i++) {
+		let circle = Bodies.circle(x, y, radius)
+		leftArmCircles.push(circle)
+		x -= (radius * 2)
+	}
+	// Generate leftArmConstraints 
+	let torsoLeftArmConstraint = Constraint.create({
+		bodyA: torsoCircles[1],
+		bodyB: leftArmCircles[0],
+		pointA: {x: -radius, y: 0},
+		pointB: {x: radius, y: 0},
+		render: {visible: false}
+	})
+	leftArmConstraints.push(torsoLeftArmConstraint)
+	for(let i = 0; i < 1; i++) {
+		let bodyA = leftArmCircles[i]
+		let bodyB = leftArmCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: -radius, y: 0},
+			pointB: {x: radius, y: 0},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		leftArmConstraints.push(constraint)
+		leftArmConstraints.push(constraint2)
+	}
+	let leftArm = Composite.create({
+		bodies: leftArmCircles,
+		constraints: leftArmConstraints
+	})
+
+	
+	// Left Forearm 
+	let leftForeArmCircles = []
+	let leftForeArmConstraints = []
+	y = initialY + (2 * radius)
+	x = initialX - (4 * radius)
+	angle = 110
+	theta = angle * Math.PI / 180
+	yDiff = 2 * radius * Math.cos(theta)
+	xDiff = - 2 * radius * Math.sin(theta)
+	// Generate leftForeArmCircles
+	for(let i = 0; i < 2; i++) {
+		x += xDiff
+		y += yDiff
+		let circle = Bodies.circle(x, y, radius)
+		leftForeArmCircles.push(circle)
+	}
+	// Generate leftForeArmConstraints
+	initialConstraint = Constraint.create({
+		bodyA: leftArmCircles[rightArmCircles.length - 1],
+		bodyB: leftForeArmCircles[0],
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: false}
+	})
+	leftForeArmConstraints.push(initialConstraint)
+	for(let i = 0; i < 1; i++) {
+		let bodyA = leftForeArmCircles[i]
+		let bodyB = leftForeArmCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		leftForeArmConstraints.push(constraint)
+		leftForeArmConstraints.push(constraint2)
+	}
+	
+	let leftForeArm = Composite.create({
+		bodies: leftForeArmCircles,
+		constraints: leftForeArmConstraints
+	})
+
+	
+	let initialConstraint2;
+	// Right Thigh 
+	let rightThighCircles = []
+	let rightThighConstraints = []
+	x = initialX 
+	y = initialY + (8 * radius)
+	xDiff = radius 
+	yDiff = Math.pow((3 * radius * radius), 0.5)
+	// Generate rightThighCircles
+	for(let i = 0; i < 3; i++) {
+		x += xDiff 
+		y += yDiff 
+		let circle = Bodies.circle(x, y, radius)
+		rightThighCircles.push(circle)
+	}
+	initialConstraint = Constraint.create({
+		bodyA: torsoCircles[torsoCircles.length - 1],
+		bodyB: rightThighCircles[0],
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: false}
+	})
+	initialConstraint2 = Constraint.create({
+		bodyA: torsoCircles[torsoCircles.length - 1],
+		bodyB: rightThighCircles[0],
+		render: {visible: false}
+	})
+	rightThighConstraints.push(initialConstraint)
+	rightThighConstraints.push(initialConstraint2)
+	
+	// Generate rightThighConstraints
+	for(let i = 0; i < 2; i++) {
+		let bodyA = rightThighCircles[i]
+		let bodyB = rightThighCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		rightThighConstraints.push(constraint)
+		rightThighConstraints.push(constraint2)
+	}
+	let rightThigh = Composite.create({
+		bodies: rightThighCircles,
+		constraints: rightThighConstraints
+  })
+  
+	// Right Leg 
+	let rightLegCircles = []
+	let rightLegConstraints = []
+	angle = 45
+	theta = angle * Math.PI / 180
+	yDiff = 2 * radius * Math.cos(theta)
+	xDiff = 2 * radius * Math.sin(theta)
+	
+	// Generate rightLegCircles
+	for(let i = 0; i < 3; i++) {
+		x += xDiff 
+		y += yDiff
+		let circle = Bodies.circle(x, y, radius)
+		rightLegCircles.push(circle)
+	}
+	// Generate rightLegConstraints 
+	initialConstraint = Constraint.create({
+		bodyA: rightThighCircles[rightThighCircles.length - 1],
+		bodyB: rightLegCircles[0],
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: false}
+	})
+	initialConstraint2 = Constraint.create({
+		bodyA: rightThighCircles[rightThighCircles.length - 1],
+		bodyB: rightLegCircles[0],
+		render: {visible: false}
+	})
+	rightLegConstraints.push(initialConstraint)
+	rightLegConstraints.push(initialConstraint2)
+	for(let i = 0; i < 2; i++) {
+		let bodyA = rightLegCircles[i]
+		let bodyB = rightLegCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		rightLegConstraints.push(constraint)
+		rightLegConstraints.push(constraint2)
+	}
+	let rightLeg = Composite.create({
+		bodies: rightLegCircles,
+		constraints: rightLegConstraints
+	})
+	
+	// Left Thigh 
+	let leftThighCircles = []
+	let leftThighConstraints = []
+	x = initialX 
+	y = initialY + (8 * radius)
+	xDiff = -radius 
+	yDiff = Math.pow((3 * radius * radius), 0.5)
+	// Generate rightThighCircles
+	for(let i = 0; i < 3; i++) {
+		x += xDiff 
+		y += yDiff 
+		let circle = Bodies.circle(x, y, radius)
+		leftThighCircles.push(circle)
+	}
+	initialConstraint = Constraint.create({
+		bodyA: torsoCircles[torsoCircles.length - 1],
+		bodyB: leftThighCircles[0],
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: false}
+	})
+	initialConstraint2 = Constraint.create({
+		bodyA: torsoCircles[torsoCircles.length - 1],
+		bodyB: leftThighCircles[0],
+		render: {visible: false}
+	})
+	leftThighConstraints.push(initialConstraint)
+	leftThighConstraints.push(initialConstraint2)
+	// Generate rightThighConstraints
+	for(let i = 0; i < 2; i++) {
+		let bodyA = leftThighCircles[i]
+		let bodyB = leftThighCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		leftThighConstraints.push(constraint)
+		leftThighConstraints.push(constraint2)
+	}
+	let leftThigh = Composite.create({
+		bodies: leftThighCircles,
+		constraints: leftThighConstraints
+	})
+
+	
+	// Right Leg 
+	let leftLegCircles = []
+	let leftLegConstraints = []
+	angle = 45
+	theta = angle * Math.PI / 180
+	yDiff = 2 * radius * Math.cos(theta)
+	xDiff = - 2 * radius * Math.sin(theta)
+	
+	// Generate rightLegCircles
+	for(let i = 0; i < 3; i++) {
+		x += xDiff 
+		y += yDiff
+		let circle = Bodies.circle(x, y, radius)
+		leftLegCircles.push(circle)
+	}
+	// Generate rightLegConstraints 
+	initialConstraint = Constraint.create({
+		bodyA: leftThighCircles[rightThighCircles.length - 1],
+		bodyB: leftLegCircles[0],
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: false}
+	})
+	initialConstraint2 = Constraint.create({
+		bodyA: leftThighCircles[rightThighCircles.length - 1],
+		bodyB: leftLegCircles[0],
+		render: {visible: false}
+	})
+	leftLegConstraints.push(initialConstraint)
+	leftLegConstraints.push(initialConstraint2)
+	for(let i = 0; i < 2; i++) {
+		let bodyA = leftLegCircles[i]
+		let bodyB = leftLegCircles[i + 1]
+		let constraint = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: false}
+		})
+		let constraint2 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			render: {visible: false}
+		})
+		leftLegConstraints.push(constraint)
+		leftLegConstraints.push(constraint2)
+	}
+	let leftLeg = Composite.create({
+		bodies: leftLegCircles,
+		constraints: leftLegConstraints
+	})
+
+	
+	
+	// Head
+	x = initialX
+	y = initialY - (2 * radius) 
+	radius *= 2
+	let headCircles = [Bodies.circle(x, y, radius, options)]
+	let headConstraint = Constraint.create({
+		bodyA: headCircles[0],
+		bodyB: torsoCircles[0],
+		pointA: {x: 0, y: radius},
+		pointB: {x: 0, y: 0},
+		render: {visible: false}
+	})
+	let headConstraint2 = Constraint.create({
+		bodyA: headCircles[0],
+		bodyB: torsoCircles[0],
+		pointA: {x: 0, y: 0},
+		pointB: {x: 0, y: -10},
+		render: {visible: false}
+	})
+	let head = Composite.create({
+		bodies: headCircles,
+		constraints: [headConstraint, headConstraint2]
+	})
+	
+	let player = Composite.create({
+		composites: [head, torso, rightArm, rightForeArm, leftArm, leftForeArm, rightThigh, rightLeg, leftThigh, leftLeg]
+	})
+	
+	// Labels and dealDamage
+	
+	// head 
+	for(let headCircle in headCircles) {
+		headCircle.label = 'head'
+		headCircle.dealDamage = false
+	}
+	// Torso 
+	for(torsoCircle of torsoCircles) {
+		torsoCircle.label = 'torso'
+		torsoCircle.dealDamage = false
+	}
+	// rightArm 
+	for(rightArmCircle of rightArmCircles) {
+		rightArmCircle.label = 'arm'
+		rightArmCircle.dealDamage = false
+	}
+	// rightForeArm 
+	for(rightForeArmCircle of rightForeArmCircles) {
+		rightForeArmCircle.label = 'forearm'
+		rightForeArmCircle.dealDamage = true
+	}
+	// leftArm 
+	for(leftArmCircle of leftArmCircles) {
+		leftArmCircle.label = 'arm'
+		leftArmCircle.dealDamage = false
+	}
+	// leftForeArm 
+	for(leftForeArmCircle of leftForeArmCircles) {
+		leftForeArmCircle.label = 'forearm'
+		leftForeArmCircle.dealDamage = true
+	}
+	// rightThigh
+	for(rightThighCircle of rightThighCircles) {
+		rightThighCircle.label = 'thigh'
+		rightThighCircle.dealDamage = false
+	}
+	// rightLeg 
+	for(rightLegCircle of rightLegCircles) {
+		rightLegCircle.label = 'leg'
+		rightLegCircle.dealDamage = true
+	}
+	// leftThigh 
+	for(leftThighCircle of leftThighCircles) {
+		leftThighCircle.label = 'thigh'
+		leftThighCircle.dealDamage = false
+	}
+	// leftLeg
+	for(leftLegCircle of leftLegCircles) {
+		leftLegCircle.label = 'leg'
+		leftLegCircle.dealDamage = true
+  }
+  
+  this.head = headCircles[0]
+  this.pelvis = torsoCircles[torsoCircles.length - 2]
+  this.PlayerComposite = player
+  this.force = radius / 5500
+  World.add(Matter.engine.world, player)
+}
+
 Player.prototype.movePlayer = function(left, up, right, down, Matter) {
   let head = this.head
   let Body = Matter.Body 
-  let force = 0.001
+  let force = this.force
   if(left) Body.applyForce(head, head.position, { x: - force, y: 0 })
   if(up) Body.applyForce(head, head.position, { x: 0, y: - force })
   if(right) Body.applyForce(head, head.position, { x: force, y: 0 })
@@ -1355,6 +1901,30 @@ Player.prototype.genRightLeg = function(x, y, triangleHeight, angle, width, legL
 		midX: (p4.x + p2.x) / 2,
 		midY: (p1.y + p3.y) / 2
 	}
+}
+
+Player.prototype.blowUp = function(Matter) {
+  this.isBlownUp = true
+  let Body = Matter.Body
+  let forceX = forceY = 0.1
+  let pelvis = this.pelvis
+  this.pelvis = {
+    position: {
+      x: pelvis.position.x,
+      y: pelvis.position.y
+    }
+  }
+  let bodies = this.PlayerComposite.bodies
+  for(body of bodies) {
+    let minusX = Math.random() > 0.5
+    let minusY = Math.random() > 0.5
+    let newX = forceX * minusX
+    let newY = forceY * minusY 
+    Body.applyForce(body, body.position, {x: newX, y: newY})
+  }
+  // Body.applyForce(pelvis, pelvis.position, {x: forceX, y: forceY})
+  this.PlayerComposite.constraints = []
+
 }
 
 module.exports = Player

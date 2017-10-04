@@ -159,7 +159,8 @@ io.on('connection', socket => {
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
     let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
-    player.createMatterPlayer2(Matter, 5000, 5000)
+    player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
+    // player.createMatterPlayer2(Matter, 5000, 5000)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
     // Update leaderboard
@@ -177,12 +178,16 @@ io.on('connection', socket => {
     })
     socket.on('respawn', () => {
       player.isDead = false
+      player.isBlownUp = false
       player.createMatterPlayer2(Matter, 5000, 5000)
       player.health = player.initialHealth
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
       socket.updateInterval = updateInterval
       leaderBoardChange(room)
+    })
+    socket.on('blowUp', () => {
+      player.blowUp(Matter)
     })
     leaderBoardChange(room)
     // Update Code
@@ -303,18 +308,12 @@ function updatePlayerVertices() {
         let players = rooms[room].players
         for(let player in players) {
           if(player.isDead) continue
-            let playerComp = players[player].PlayerComposite
-            let bodies = playerComp.bodies
-            let playerVertices = verticesFromBodies(bodies)
-            // for(let i = 0; i < bodies.length; i++) {
-            //     let vertices = bodies[i].vertices
-            //     vertices = vertices.map(e => ({
-            //         x: e.x,
-            //         y: e.y
-            //     }))
-            //     playerVertices.push(vertices)
-            // }
-            players[player].vertices = playerVertices
+          let Matter = io.sockets.adapter.rooms[room].Matter
+          let Composite = Matter.Composite
+          let playerComp = players[player].PlayerComposite
+          let bodies = Composite.allBodies(playerComp)
+          let playerVertices = verticesFromBodies(bodies)
+          players[player].vertices = playerVertices
         }
     }
 }
@@ -392,7 +391,11 @@ function collisionCheck(event, roomName, id) {
   let bodyA = event.pairs[0].bodyA
   let bodyB = event.pairs[0].bodyB
   // Check if colliding bodies are 2 different players
+  let playerA = rooms[roomName].players[bodyA.playerId]
+  let playerB = rooms[roomName].players[bodyB.playerId]
   if((bodyA.playerId && bodyB.playerId) && bodyA.playerId !== bodyB.playerId) {
+    // Do nothing if its a blown up body piece
+    if(playerA.isBlownUp || playerB.isBlownUp) return
     // Check if the hit is one which deals damage. Only if yes continue
     if(!isHit(bodyA, bodyB)) {
       repel(roomName, bodyA, bodyB)
@@ -431,16 +434,18 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
     hitPlayer.health = 0
-    console.log('hitterPlayer: ', hitterPlayer.killStreak)
     hitterPlayer.killStreak += 1
     let Matter = io.sockets.adapter.rooms[roomName].Matter
-    Matter.Composite.clear(hitPlayer.PlayerComposite)
-    // delete rooms[roomName].players[hitPlayer.id]
-    hitPlayer.isDead = true
     // Update Leaderboard
     leaderBoardChange(roomName)
     // Update Killfeed
     updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName)
+    hitPlayer.blowUp(Matter)
+    setTimeout(() => {
+      Matter.Composite.clear(hitPlayer.PlayerComposite)
+      // delete rooms[roomName].players[hitPlayer.id]
+      hitPlayer.isDead = true
+    }, 2000)
   }
   // Not Dead
   else {
