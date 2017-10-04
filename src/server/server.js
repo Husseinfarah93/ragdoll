@@ -179,7 +179,7 @@ io.on('connection', socket => {
     socket.on('respawn', () => {
       player.isDead = false
       player.isBlownUp = false
-      player.createMatterPlayer2(Matter, 5000, 5000)
+      player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
       player.health = player.initialHealth
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)

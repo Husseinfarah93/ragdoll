@@ -1333,7 +1333,8 @@ Player.prototype.createMatterPlayerCircles = function(Matter, initialX, initialY
     Constraint = Matter.Constraint,
     Composite = Matter.Composite,
     world = Matter.engine.world
-	let options = {collisionFilter: { group: Body.nextGroup(true) }}
+  let options = {collisionFilter: { group: Body.nextGroup(true) }}
+  let playerId = this.id
 	// Torso
 	let torsoCircles = []
 	let torsoConstraints = []
@@ -1861,7 +1862,7 @@ Player.prototype.createMatterPlayerCircles = function(Matter, initialX, initialY
 		leftLegCircle.label = 'leg'
 		leftLegCircle.dealDamage = true
   }
-  
+  for(circle of Composite.allBodies(player)) circle.playerId = playerId
   this.head = headCircles[0]
   this.pelvis = torsoCircles[torsoCircles.length - 2]
   this.PlayerComposite = player
@@ -1905,26 +1906,8 @@ Player.prototype.genRightLeg = function(x, y, triangleHeight, angle, width, legL
 
 Player.prototype.blowUp = function(Matter) {
   this.isBlownUp = true
-  let Body = Matter.Body
-  let forceX = forceY = 0.1
-  let pelvis = this.pelvis
-  this.pelvis = {
-    position: {
-      x: pelvis.position.x,
-      y: pelvis.position.y
-    }
-  }
-  let bodies = this.PlayerComposite.bodies
-  for(body of bodies) {
-    let minusX = Math.random() > 0.5
-    let minusY = Math.random() > 0.5
-    let newX = forceX * minusX
-    let newY = forceY * minusY 
-    Body.applyForce(body, body.position, {x: newX, y: newY})
-  }
-  // Body.applyForce(pelvis, pelvis.position, {x: forceX, y: forceY})
-  this.PlayerComposite.constraints = []
-
+  let Composite = Matter.Composite
+  for(composite of Composite.allComposites(this.PlayerComposite)) composite.constraints = []
 }
 
 module.exports = Player
