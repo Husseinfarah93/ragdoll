@@ -8,6 +8,10 @@ import KillFeed from './KillFeed.jsx'
 import config from '../../../../config.json'
 import BloodParticle from '../BloodParticle.js'
 let bloodConfig = config.gameInfo.bloodParticles
+let count = 0
+
+
+
 
 @Radium
 class Canvas extends React.Component {
@@ -52,7 +56,8 @@ class Canvas extends React.Component {
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis, id) => {
         this.camera.update(Pelvis)
         this.drawBackground(this.camera)
-        this.drawPlayers(Players, this.camera)
+        // this.drawPlayers(Players, this.camera)
+        this.newDrawPlayers(Players, this.camera)
         if(this.bloodParticles.length) this.drawBloodParticles()
         this.drawHealthPacks(HealthPacks)
         this.drawWalls(Walls, this.camera)
@@ -152,6 +157,101 @@ class Canvas extends React.Component {
         if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
         // this.drawArmBands(xPos, yPos, context, bandList)
+    }
+
+    newDrawPlayers(players, camera) {
+      let canvas = this.state.canvas
+      let context = this.state.canvas.getContext('2d')
+      let xPos = camera.xPos 
+      let yPos = camera.yPos
+      //for player of players
+      for(let i = 0; i < players.length; i++) {
+        let player = players[i]
+        if(player.isDead) continue
+        if(player.isBlownUp) {
+          this.drawBlownUpCircles(player, xPos, yPos, context)
+        }
+        else {
+          this.drawBody(player, xPos, yPos, context)
+          this.drawCircles(player, xPos, yPos, context)
+          this.drawHead(player, xPos, yPos, context)
+          this.drawHitPart(player, xPos, yPos, context)
+        }
+        let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
+        let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
+        this.drawName(context, xName, yName, player.name)
+        if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
+      }
+    }
+
+    drawBody(player, xPos, yPos, ctx) {
+      for(let list of player.pointsList) {
+        let colour = 'black'
+        ctx.lineWidth = 20
+        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : 'black'
+        ctx.beginPath()
+        ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
+        for(let i = 1; i < list.length; i++) {
+          ctx.lineTo(list[i].x - xPos, list[i].y - yPos)
+        }
+        ctx.stroke()
+      }
+    }
+
+    drawCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = 'black'
+      let list = player.circleList
+      for(let elem of list) {
+        ctx.beginPath()
+        ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false)
+        ctx.fill()
+      }
+    }
+
+    drawHead(player, xPos, yPos, ctx) {
+      let head = player.headPosition
+      ctx.fillStyle = 'black'
+      ctx.beginPath()
+      ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false)
+      ctx.fill()
+    }
+
+    drawHitPart(player, xPos, yPos, ctx) {
+      // Bodies
+      for(let i = 0; i < player.pointsList.length; i++) {
+        let list = player.pointsList[i]
+        for(let j = 0; j < list.length; j++) {
+          let hitInfo = list[j].hitInfo
+          if(hitInfo) {
+            let percent = hitInfo.percent
+            ctx.beginPath()
+            ctx.fillStyle = `rgba(255, 0, 0, ${percent}`
+            ctx.arc(hitInfo.x - xPos, hitInfo.y - yPos, hitInfo.radius, 0, 2 * Math.PI, false)
+            ctx.fill();
+          }
+        }
+      }
+      // Head
+      let hitInfo = player.headPosition.hitInfo
+      if(hitInfo) {
+        let percent = hitInfo.percent
+        ctx.beginPath()
+        ctx.fillStyle = `rgba(255, 0, 0, ${percent}`
+        ctx.arc(hitInfo.x - xPos, hitInfo.y - yPos, hitInfo.radius, 0, 2 * Math.PI, false)
+        ctx.fill();
+      }
+    }
+
+    drawBlownUpCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = 'black'
+      let circleList = player.circleList
+      let pointsList = player.pointsList 
+      let totalList = [].concat(pointsList.reduce((a, b) => a.concat(b))).concat(circleList)
+      for(let elem of totalList) {
+        ctx.beginPath()
+        ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false)
+        ctx.fill()
+      }
     }
 
     createBloodParticles(x, y, particleNumber) {
@@ -303,7 +403,7 @@ class Canvas extends React.Component {
       let ctx = cvs.getContext('2d')
       cvs.width = canvasWidth 
       cvs.height = canvasHeight
-      let boxSize = 25
+      let boxSize = 100
       ctx.fillStyle = '#404040'
       ctx.fill()
       ctx.strokeStyle = '#E6E6E6'

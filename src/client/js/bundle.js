@@ -11497,7 +11497,7 @@ exports.default = socket;
 /* 104 */
 /***/ (function(module, exports) {
 
-module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":50,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000}}}
+module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":100,"maxParticleSize":5,"maxSpeed":10,"colourVariation":50,"colour":"red","lifeLength":1000}}}
 
 /***/ }),
 /* 105 */
@@ -27629,6 +27629,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var bloodConfig = _config2.default.gameInfo.bloodParticles;
+var count = 0;
 
 var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   _inherits(Canvas, _React$Component);
@@ -27683,7 +27684,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis, id) {
         _this2.camera.update(Pelvis);
         _this2.drawBackground(_this2.camera);
-        _this2.drawPlayers(Players, _this2.camera);
+        // this.drawPlayers(Players, this.camera)
+        _this2.newDrawPlayers(Players, _this2.camera);
         if (_this2.bloodParticles.length) _this2.drawBloodParticles();
         _this2.drawHealthPacks(HealthPacks);
         _this2.drawWalls(Walls, _this2.camera);
@@ -27791,25 +27793,50 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       // this.drawArmBands(xPos, yPos, context, bandList)
     }
   }, {
-    key: 'createBloodParticles',
-    value: function createBloodParticles(x, y, particleNumber) {
-      for (var i = 0; i < particleNumber; i++) {
-        var newParticle = new _BloodParticle2.default(x, y);
-        this.bloodParticles.push(newParticle);
+    key: 'newDrawPlayers',
+    value: function newDrawPlayers(players, camera) {
+      var canvas = this.state.canvas;
+      var context = this.state.canvas.getContext('2d');
+      var xPos = camera.xPos;
+      var yPos = camera.yPos;
+      //for player of players
+      for (var i = 0; i < players.length; i++) {
+        var player = players[i];
+        if (player.isDead) continue;
+        if (player.isBlownUp) {
+          this.drawBlownUpCircles(player, xPos, yPos, context);
+        } else {
+          this.drawBody(player, xPos, yPos, context);
+          this.drawCircles(player, xPos, yPos, context);
+          this.drawHead(player, xPos, yPos, context);
+          this.drawHitPart(player, xPos, yPos, context);
+        }
+        var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
+        var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
+        this.drawName(context, xName, yName, player.name);
+        if (player.id === _io2.default.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y);
       }
     }
   }, {
-    key: 'drawBloodParticles',
-    value: function drawBloodParticles() {
-      var ctx = this.state.canvas.getContext('2d');
+    key: 'drawBody',
+    value: function drawBody(player, xPos, yPos, ctx) {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = this.bloodParticles[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var particle = _step.value;
-          particle.updateTime();
+        for (var _iterator = player.pointsList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var list = _step.value;
+
+          var colour = 'black';
+          ctx.lineWidth = 20;
+          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : 'black';
+          ctx.beginPath();
+          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
+          for (var i = 1; i < list.length; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
         }
       } catch (err) {
         _didIteratorError = true;
@@ -27825,20 +27852,23 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           }
         }
       }
-
-      this.bloodParticles = this.bloodParticles.filter(function (particle) {
-        return !particle.dead;
-      });
+    }
+  }, {
+    key: 'drawCircles',
+    value: function drawCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = 'black';
+      var list = player.circleList;
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator2 = this.bloodParticles[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var _particle = _step2.value;
+        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var elem = _step2.value;
 
-          _particle.updatePosition();
-          _particle.drawParticle(ctx);
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false);
+          ctx.fill();
         }
       } catch (err) {
         _didIteratorError2 = true;
@@ -27851,6 +27881,143 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         } finally {
           if (_didIteratorError2) {
             throw _iteratorError2;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'drawHead',
+    value: function drawHead(player, xPos, yPos, ctx) {
+      var head = player.headPosition;
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false);
+      ctx.fill();
+    }
+  }, {
+    key: 'drawHitPart',
+    value: function drawHitPart(player, xPos, yPos, ctx) {
+      // Bodies
+      for (var i = 0; i < player.pointsList.length; i++) {
+        var list = player.pointsList[i];
+        for (var j = 0; j < list.length; j++) {
+          var _hitInfo = list[j].hitInfo;
+          if (_hitInfo) {
+            var percent = _hitInfo.percent;
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(255, 0, 0, ' + percent;
+            ctx.arc(_hitInfo.x - xPos, _hitInfo.y - yPos, _hitInfo.radius, 0, 2 * Math.PI, false);
+            ctx.fill();
+          }
+        }
+      }
+      // Head
+      var hitInfo = player.headPosition.hitInfo;
+      if (hitInfo) {
+        var _percent = hitInfo.percent;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 0, 0, ' + _percent;
+        ctx.arc(hitInfo.x - xPos, hitInfo.y - yPos, hitInfo.radius, 0, 2 * Math.PI, false);
+        ctx.fill();
+      }
+    }
+  }, {
+    key: 'drawBlownUpCircles',
+    value: function drawBlownUpCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = 'black';
+      var circleList = player.circleList;
+      var pointsList = player.pointsList;
+      var totalList = [].concat(pointsList.reduce(function (a, b) {
+        return a.concat(b);
+      })).concat(circleList);
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = totalList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var elem = _step3.value;
+
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
+          ctx.fill();
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'createBloodParticles',
+    value: function createBloodParticles(x, y, particleNumber) {
+      for (var i = 0; i < particleNumber; i++) {
+        var newParticle = new _BloodParticle2.default(x, y);
+        this.bloodParticles.push(newParticle);
+      }
+    }
+  }, {
+    key: 'drawBloodParticles',
+    value: function drawBloodParticles() {
+      var ctx = this.state.canvas.getContext('2d');
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = this.bloodParticles[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var particle = _step4.value;
+          particle.updateTime();
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+
+      this.bloodParticles = this.bloodParticles.filter(function (particle) {
+        return !particle.dead;
+      });
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = this.bloodParticles[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var _particle = _step5.value;
+
+          _particle.updatePosition();
+          _particle.drawParticle(ctx);
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
           }
         }
       }
@@ -27993,7 +28160,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var ctx = cvs.getContext('2d');
       cvs.width = canvasWidth;
       cvs.height = canvasHeight;
-      var boxSize = 25;
+      var boxSize = 100;
       ctx.fillStyle = '#404040';
       ctx.fill();
       ctx.strokeStyle = '#E6E6E6';

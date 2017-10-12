@@ -159,8 +159,8 @@ io.on('connection', socket => {
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
     let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
-    player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
-    // player.createMatterPlayer2(Matter, 5000, 5000)
+    // player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
+    player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
     // Update leaderboard
@@ -179,7 +179,7 @@ io.on('connection', socket => {
     socket.on('respawn', () => {
       player.isDead = false
       player.isBlownUp = false
-      player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
+      player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
       player.health = player.initialHealth
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
@@ -191,7 +191,7 @@ io.on('connection', socket => {
     })
     leaderBoardChange(room)
     // Update Code
-    setInterval(updatePlayerVertices, 16)
+    setInterval(updateCentrePoints, 16)
     let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
     socket.updateInterval = updateInterval
   })
@@ -208,7 +208,6 @@ function updateFrontEndInfo(room, socket, player) {
   }
   socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis, socket.id)
 }
-
 
 function updateLeaderboard(roomName) {
   let room = rooms[roomName]
@@ -296,7 +295,7 @@ function verticesFromBodies(bodies) {
           x: e.x,
           y: e.y,
           label: label,
-          hitInfo: bodies[i].hitInfo
+          // hitInfo: bodies[i].hitInfo
       }))
       verticesToReturn.push(vertices)
   }
@@ -319,22 +318,26 @@ function updatePlayerVertices() {
 }
 
 // returns Array of Player vertices and health e.g. => [{vertices: [], health: 200}]
+
 function getPlayerVertices(room) {
     let list = []
     let players = rooms[room].players
     for(player in players) {
       if(player.isDead) continue
       let pushItem = {}
-      pushItem.vertices = players[player].vertices
       pushItem.health = players[player].health 
       pushItem.name = players[player].name
       pushItem.id = players[player].id
       pushItem.isDead = players[player].isDead
+      pushItem.isBlownUp = players[player].isBlownUp
       pushItem.pelvis = {
         x: players[player].pelvis.position.x,
         y: players[player].pelvis.position.y
       }
       pushItem.colour = players[player].colour
+      pushItem.pointsList = players[player].pointsList
+      pushItem.circleList = players[player].circleList
+      pushItem.headPosition = players[player].headPosition
       list.push(pushItem)
     }
     return list
@@ -383,6 +386,34 @@ function getFrontEndInfo(room) {
     return item
 }
 
+function updateCentrePoints() {
+  for(room in rooms) {
+    let players = rooms[room].players
+    for(playerName in players) {
+      let player = players[playerName]
+      let pointsList = []
+      let circleList = []
+      let headPosition = {}
+      let composites = player.PlayerComposite.composites
+      for(composite of composites) {
+        let bodies = composite.bodies
+        let bodyList = []
+        for(body of bodies) {
+          let colour = 'black'
+          if(body.isEnd) circleList.push({ x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius })
+          if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius }
+          bodyList.push({ x: body.position.x, y: body.position.y, label: body.label, hitInfo: body.hitInfo, radius: body.circleRadius})
+        }
+        pointsList.push(bodyList)
+      }
+      player.pointsList = pointsList
+      player.circleList = circleList
+      player.headPosition = headPosition
+    }
+  }
+}
+
+
 
 /* ---------------------------------------------------- COLLISION CODE -------------------------------------------------------- */
 
@@ -425,6 +456,7 @@ function isWinner(bodyPart1, bodyPart2) {
 
 function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomName) {
   let room = rooms[roomName]
+  let bodiesToMove = rooms[roomName].bodiesToRepel
   hitterPlayer = room.players[hitterPlayer]
   hitPlayer = room.players[hitPlayer]
   // Dead
@@ -440,12 +472,13 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     leaderBoardChange(roomName)
     // Update Killfeed
     updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName)
-    hitPlayer.blowUp(Matter)
+    hitPlayer.blowUp(Matter, bodiesToMove)
     setTimeout(() => {
       Matter.Composite.clear(hitPlayer.PlayerComposite)
       // delete rooms[roomName].players[hitPlayer.id]
       hitPlayer.isDead = true
-    }, 2000)
+      // hitPlayer.isBlownUp = false
+    }, 5000)
   }
   // Not Dead
   else {
@@ -469,6 +502,7 @@ function clearUpdates(socketId) {
 }
 
 function repel(roomName, bodyA, bodyB) {
+  return;
   let bodyALeft = bodyA.position.x < bodyB.position.x 
   let bodyAUp = bodyA.position.y < bodyB.position.y
   let force = 0.005
@@ -495,7 +529,7 @@ function executeRepel(Matter, roomName) {
 		Body.applyForce(body, body.position, force)
 	} 
 	rooms[roomName].bodiesToRepel = []
-} 
+}
 
 function updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName) {
   let killType = bodyPartHit === 'head' ? 'head' : 'body'
@@ -509,14 +543,21 @@ function bodyPartHit(bodyPart, duration, roomName) {
     current: Date.now(),
     duration: duration,
     end: Date.now() + duration,
-    percent: 1
+    percent: 1,
+    x: bodyPart.position.x,
+    y: bodyPart.position.y,
+    radius: bodyPart.circleRadius,
+    id: bodyPart.playerId,
+    label: bodyPart.label
   }
   bodyPart.changeFunc = setInterval(() => {
    bodyPart.hitInfo.current = Date.now()
    bodyPart.hitInfo.percent = (bodyPart.hitInfo.end - bodyPart.hitInfo.current) / duration
+   bodyPart.hitInfo.x = bodyPart.position.x
+   bodyPart.hitInfo.y = bodyPart.position.y
   })
   setTimeout(() => {
-    bodyPart.hitInfo = undefined
+    bodyPart.hitInfo = null
     clearInterval(bodyPart.changeFunc)
   }, duration)
   sendDisplayBlood(bodyPart, roomName)
