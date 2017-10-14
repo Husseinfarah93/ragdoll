@@ -34,12 +34,13 @@
   },
   "gameInfo": {
     "bloodParticles": {
-      "particleNumber": 50,
+      "particleNumber": 100,
       "maxParticleSize": 5,
-      "maxSpeed": 5,
+      "maxSpeed": 10,
       "colourVariation": 50,
       "colour": "red",
       "lifeLength": 1000
-    }
+    },
+    "blowUpForce": 0.005
   }
 }

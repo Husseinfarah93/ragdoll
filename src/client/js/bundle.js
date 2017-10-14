@@ -774,6 +774,16 @@ module.exports = ExecutionEnvironment;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = __webpack_require__(22);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -1155,16 +1165,6 @@ module.exports = ReactComponentTreeHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(22);
-
-
-/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1259,7 +1259,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(64);
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 var ReactFeatureFlags = __webpack_require__(65);
 var ReactReconciler = __webpack_require__(19);
 var Transaction = __webpack_require__(28);
@@ -1548,7 +1548,7 @@ module.exports = ReactCurrentOwner;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 
 var emptyFunction = __webpack_require__(9);
 var warning = __webpack_require__(2);
@@ -2038,6 +2038,67 @@ module.exports = DOMProperty;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _enhancer = __webpack_require__(92);
+
+var _enhancer2 = _interopRequireDefault(_enhancer);
+
+var _plugins = __webpack_require__(102);
+
+var _plugins2 = _interopRequireDefault(_plugins);
+
+var _style = __webpack_require__(250);
+
+var _style2 = _interopRequireDefault(_style);
+
+var _styleRoot = __webpack_require__(251);
+
+var _styleRoot2 = _interopRequireDefault(_styleRoot);
+
+var _getState = __webpack_require__(99);
+
+var _getState2 = _interopRequireDefault(_getState);
+
+var _keyframes = __webpack_require__(253);
+
+var _keyframes2 = _interopRequireDefault(_keyframes);
+
+var _resolveStyles = __webpack_require__(93);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Radium(ComposedComponent) {
+  return (0, _enhancer2.default)(ComposedComponent);
+}
+
+Radium.Plugins = _plugins2.default;
+Radium.Style = _style2.default;
+Radium.StyleRoot = _styleRoot2.default;
+Radium.getState = _getState2.default;
+Radium.keyframes = _keyframes2.default;
+
+if (process.env.NODE_ENV !== 'production') {
+  Radium.TestMode = {
+    clearState: _resolveStyles.__clearStateForTests,
+    disable: _resolveStyles.__setTestMode.bind(null, false),
+    enable: _resolveStyles.__setTestMode.bind(null, true)
+  };
+}
+
+exports.default = Radium;
+module.exports = exports['default'];
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -2152,7 +2213,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2496,67 +2557,6 @@ ReactElement.isValidElement = function (object) {
 };
 
 module.exports = ReactElement;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _enhancer = __webpack_require__(92);
-
-var _enhancer2 = _interopRequireDefault(_enhancer);
-
-var _plugins = __webpack_require__(102);
-
-var _plugins2 = _interopRequireDefault(_plugins);
-
-var _style = __webpack_require__(250);
-
-var _style2 = _interopRequireDefault(_style);
-
-var _styleRoot = __webpack_require__(251);
-
-var _styleRoot2 = _interopRequireDefault(_styleRoot);
-
-var _getState = __webpack_require__(99);
-
-var _getState2 = _interopRequireDefault(_getState);
-
-var _keyframes = __webpack_require__(253);
-
-var _keyframes2 = _interopRequireDefault(_keyframes);
-
-var _resolveStyles = __webpack_require__(93);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Radium(ComposedComponent) {
-  return (0, _enhancer2.default)(ComposedComponent);
-}
-
-Radium.Plugins = _plugins2.default;
-Radium.Style = _style2.default;
-Radium.StyleRoot = _styleRoot2.default;
-Radium.getState = _getState2.default;
-Radium.keyframes = _keyframes2.default;
-
-if (process.env.NODE_ENV !== 'production') {
-  Radium.TestMode = {
-    clearState: _resolveStyles.__clearStateForTests,
-    disable: _resolveStyles.__setTestMode.bind(null, false),
-    enable: _resolveStyles.__setTestMode.bind(null, true)
-  };
-}
-
-exports.default = Radium;
-module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
@@ -2920,7 +2920,7 @@ var _assign = __webpack_require__(4);
 var ReactBaseClasses = __webpack_require__(76);
 var ReactChildren = __webpack_require__(145);
 var ReactDOMFactories = __webpack_require__(149);
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 var ReactPropTypes = __webpack_require__(153);
 var ReactVersion = __webpack_require__(154);
 
@@ -7152,7 +7152,7 @@ var _prodInvariant = __webpack_require__(3);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 
 var invariant = __webpack_require__(1);
 
@@ -8901,8 +8901,8 @@ module.exports = getIteratorFn;
 
 
 var ReactCurrentOwner = __webpack_require__(12);
-var ReactComponentTreeHook = __webpack_require__(7);
-var ReactElement = __webpack_require__(17);
+var ReactComponentTreeHook = __webpack_require__(8);
+var ReactElement = __webpack_require__(18);
 
 var checkReactTypeSpec = __webpack_require__(150);
 
@@ -10664,7 +10664,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.default = enhanceWithRadium;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _propTypes = __webpack_require__(35);
 
@@ -10880,7 +10880,7 @@ var _exenv = __webpack_require__(249);
 
 var _exenv2 = _interopRequireDefault(_exenv);
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -11497,7 +11497,7 @@ exports.default = socket;
 /* 104 */
 /***/ (function(module, exports) {
 
-module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":50,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000}}}
+module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":100,"maxParticleSize":5,"maxSpeed":10,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005}}
 
 /***/ }),
 /* 105 */
@@ -11514,7 +11514,7 @@ var _MainComp = __webpack_require__(206);
 
 var _MainComp2 = _interopRequireDefault(_MainComp);
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -12227,7 +12227,7 @@ module.exports = BeforeInputEventPlugin;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 
 var getTextContentAccessor = __webpack_require__(63);
 
@@ -12921,7 +12921,7 @@ module.exports = ReactOwner;
 
 var ReactInvalidSetStateWarningHook = __webpack_require__(118);
 var ReactHostOperationHistoryHook = __webpack_require__(119);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 var ExecutionEnvironment = __webpack_require__(6);
 
 var performanceNow = __webpack_require__(120);
@@ -16343,7 +16343,7 @@ module.exports = checkPropTypes;
 
 
 var PooledClass = __webpack_require__(146);
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 
 var emptyFunction = __webpack_require__(9);
 var traverseAllChildren = __webpack_require__(147);
@@ -16902,7 +16902,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -17093,7 +17093,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 var loggedTypeFailures = {};
@@ -17135,7 +17135,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
         if (process.env.NODE_ENV !== 'production') {
           if (!ReactComponentTreeHook) {
-            ReactComponentTreeHook = __webpack_require__(7);
+            ReactComponentTreeHook = __webpack_require__(8);
           }
           if (debugID !== null) {
             componentStackInfo = ReactComponentTreeHook.getStackAddendumByID(debugID);
@@ -17223,7 +17223,7 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var _require = __webpack_require__(17),
+var _require = __webpack_require__(18),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(74);
@@ -17269,7 +17269,7 @@ module.exports = '15.6.1';
 var _require = __webpack_require__(76),
     Component = _require.Component;
 
-var _require2 = __webpack_require__(17),
+var _require2 = __webpack_require__(18),
     isValidElement = _require2.isValidElement;
 
 var ReactNoopUpdateQueue = __webpack_require__(77);
@@ -18175,7 +18175,7 @@ module.exports = factory;
 
 var _prodInvariant = __webpack_require__(20);
 
-var ReactElement = __webpack_require__(17);
+var ReactElement = __webpack_require__(18);
 
 var invariant = __webpack_require__(1);
 
@@ -18980,7 +18980,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 function instantiateChild(childInstances, child, name, selfDebugID) {
@@ -18988,7 +18988,7 @@ function instantiateChild(childInstances, child, name, selfDebugID) {
   var keyUnique = childInstances[name] === undefined;
   if (process.env.NODE_ENV !== 'production') {
     if (!ReactComponentTreeHook) {
-      ReactComponentTreeHook = __webpack_require__(7);
+      ReactComponentTreeHook = __webpack_require__(8);
     }
     if (!keyUnique) {
       process.env.NODE_ENV !== 'production' ? warning(false, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.%s', KeyEscapeUtils.unescape(name), ReactComponentTreeHook.getStackAddendumByID(selfDebugID)) : void 0;
@@ -20045,7 +20045,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 var loggedTypeFailures = {};
@@ -20087,7 +20087,7 @@ function checkReactTypeSpec(typeSpecs, values, location, componentName, element,
 
         if (process.env.NODE_ENV !== 'production') {
           if (!ReactComponentTreeHook) {
-            ReactComponentTreeHook = __webpack_require__(7);
+            ReactComponentTreeHook = __webpack_require__(8);
           }
           if (debugID !== null) {
             componentStackInfo = ReactComponentTreeHook.getStackAddendumByID(debugID);
@@ -20263,7 +20263,7 @@ if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 't
   // https://github.com/facebook/react/issues/7240
   // Remove the inline requires when we don't need them anymore:
   // https://github.com/facebook/react/pull/7178
-  ReactComponentTreeHook = __webpack_require__(7);
+  ReactComponentTreeHook = __webpack_require__(8);
 }
 
 /**
@@ -20279,7 +20279,7 @@ function flattenSingleChildIntoContext(traverseContext, child, name, selfDebugID
     var keyUnique = result[name] === undefined;
     if (process.env.NODE_ENV !== 'production') {
       if (!ReactComponentTreeHook) {
-        ReactComponentTreeHook = __webpack_require__(7);
+        ReactComponentTreeHook = __webpack_require__(8);
       }
       if (!keyUnique) {
         process.env.NODE_ENV !== 'production' ? warning(false, 'flattenChildren(...): Encountered two children with the same key, ' + '`%s`. Child keys must be unique; when two children share a key, only ' + 'the first child will be used.%s', KeyEscapeUtils.unescape(name), ReactComponentTreeHook.getStackAddendumByID(selfDebugID)) : void 0;
@@ -20334,7 +20334,7 @@ module.exports = flattenChildren;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 var Transaction = __webpack_require__(28);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactServerUpdateQueue = __webpack_require__(170);
@@ -21025,7 +21025,7 @@ var _assign = __webpack_require__(4);
 
 var EventListener = __webpack_require__(87);
 var ExecutionEnvironment = __webpack_require__(6);
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactUpdates = __webpack_require__(11);
 
@@ -21267,7 +21267,7 @@ module.exports = ReactInjection;
 var _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(64);
-var PooledClass = __webpack_require__(16);
+var PooledClass = __webpack_require__(17);
 var ReactBrowserEventEmitter = __webpack_require__(32);
 var ReactInputSelection = __webpack_require__(88);
 var ReactInstrumentation = __webpack_require__(10);
@@ -23381,7 +23381,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 var DOMProperty = __webpack_require__(15);
 var EventPluginRegistry = __webpack_require__(27);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
 
@@ -23497,7 +23497,7 @@ module.exports = ReactDOMUnknownPropertyHook;
 
 
 
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
 
@@ -23547,7 +23547,7 @@ module.exports = ReactDOMNullInputValuePropHook;
 
 
 var DOMProperty = __webpack_require__(15);
-var ReactComponentTreeHook = __webpack_require__(7);
+var ReactComponentTreeHook = __webpack_require__(8);
 
 var warning = __webpack_require__(2);
 
@@ -23643,11 +23643,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -26570,7 +26570,7 @@ var _cssRuleSetToString = __webpack_require__(56);
 
 var _cssRuleSetToString2 = _interopRequireDefault(_cssRuleSetToString);
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -26674,7 +26674,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -26776,7 +26776,7 @@ exports.default = undefined;
 
 var _class, _temp;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -26898,11 +26898,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -27177,11 +27177,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -27584,11 +27584,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -27619,6 +27619,10 @@ var _config2 = _interopRequireDefault(_config);
 var _BloodParticle = __webpack_require__(263);
 
 var _BloodParticle2 = _interopRequireDefault(_BloodParticle);
+
+var _ProgressBar = __webpack_require__(264);
+
+var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27683,7 +27687,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis, id) {
         _this2.camera.update(Pelvis);
         _this2.drawBackground(_this2.camera);
-        _this2.drawPlayers(Players, _this2.camera);
+        // this.drawPlayers(Players, this.camera)
+        _this2.newDrawPlayers(Players, _this2.camera);
         if (_this2.bloodParticles.length) _this2.drawBloodParticles();
         _this2.drawHealthPacks(HealthPacks);
         _this2.drawWalls(Walls, _this2.camera);
@@ -27791,25 +27796,50 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       // this.drawArmBands(xPos, yPos, context, bandList)
     }
   }, {
-    key: 'createBloodParticles',
-    value: function createBloodParticles(x, y, particleNumber) {
-      for (var i = 0; i < particleNumber; i++) {
-        var newParticle = new _BloodParticle2.default(x, y);
-        this.bloodParticles.push(newParticle);
+    key: 'newDrawPlayers',
+    value: function newDrawPlayers(players, camera) {
+      var canvas = this.state.canvas;
+      var context = this.state.canvas.getContext('2d');
+      var xPos = camera.xPos;
+      var yPos = camera.yPos;
+      //for player of players
+      for (var i = 0; i < players.length; i++) {
+        var player = players[i];
+        if (player.isDead) continue;
+        if (player.isBlownUp) {
+          this.drawBlownUpCircles(player, xPos, yPos, context);
+        } else {
+          this.drawBody(player, xPos, yPos, context);
+          this.drawCircles(player, xPos, yPos, context);
+          this.drawHead(player, xPos, yPos, context);
+          this.drawHitPart(player, xPos, yPos, context);
+        }
+        var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
+        var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
+        this.drawName(context, xName, yName, player.name);
+        if (player.id === _io2.default.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y);
       }
     }
   }, {
-    key: 'drawBloodParticles',
-    value: function drawBloodParticles() {
-      var ctx = this.state.canvas.getContext('2d');
+    key: 'drawBody',
+    value: function drawBody(player, xPos, yPos, ctx) {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = this.bloodParticles[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var particle = _step.value;
-          particle.updateTime();
+        for (var _iterator = player.pointsList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var list = _step.value;
+
+          var colour = 'black';
+          ctx.lineWidth = 20;
+          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : 'black';
+          ctx.beginPath();
+          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
+          for (var i = 1; i < list.length; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
         }
       } catch (err) {
         _didIteratorError = true;
@@ -27825,20 +27855,23 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           }
         }
       }
-
-      this.bloodParticles = this.bloodParticles.filter(function (particle) {
-        return !particle.dead;
-      });
+    }
+  }, {
+    key: 'drawCircles',
+    value: function drawCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = 'black';
+      var list = player.circleList;
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator2 = this.bloodParticles[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var _particle = _step2.value;
+        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var elem = _step2.value;
 
-          _particle.updatePosition();
-          _particle.drawParticle(ctx);
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false);
+          ctx.fill();
         }
       } catch (err) {
         _didIteratorError2 = true;
@@ -27851,6 +27884,143 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         } finally {
           if (_didIteratorError2) {
             throw _iteratorError2;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'drawHead',
+    value: function drawHead(player, xPos, yPos, ctx) {
+      var head = player.headPosition;
+      ctx.fillStyle = 'black';
+      ctx.beginPath();
+      ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false);
+      ctx.fill();
+    }
+  }, {
+    key: 'drawHitPart',
+    value: function drawHitPart(player, xPos, yPos, ctx) {
+      // Bodies
+      for (var i = 0; i < player.pointsList.length; i++) {
+        var list = player.pointsList[i];
+        for (var j = 0; j < list.length; j++) {
+          var _hitInfo = list[j].hitInfo;
+          if (_hitInfo) {
+            var percent = _hitInfo.percent;
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(255, 0, 0, ' + percent;
+            ctx.arc(_hitInfo.x - xPos, _hitInfo.y - yPos, _hitInfo.radius, 0, 2 * Math.PI, false);
+            ctx.fill();
+          }
+        }
+      }
+      // Head
+      var hitInfo = player.headPosition.hitInfo;
+      if (hitInfo) {
+        var _percent = hitInfo.percent;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255, 0, 0, ' + _percent;
+        ctx.arc(hitInfo.x - xPos, hitInfo.y - yPos, hitInfo.radius, 0, 2 * Math.PI, false);
+        ctx.fill();
+      }
+    }
+  }, {
+    key: 'drawBlownUpCircles',
+    value: function drawBlownUpCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = 'black';
+      var circleList = player.circleList;
+      var pointsList = player.pointsList;
+      var totalList = [].concat(pointsList.reduce(function (a, b) {
+        return a.concat(b);
+      })).concat(circleList);
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = totalList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var elem = _step3.value;
+
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
+          ctx.fill();
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'createBloodParticles',
+    value: function createBloodParticles(x, y, particleNumber) {
+      for (var i = 0; i < particleNumber; i++) {
+        var newParticle = new _BloodParticle2.default(x, y);
+        this.bloodParticles.push(newParticle);
+      }
+    }
+  }, {
+    key: 'drawBloodParticles',
+    value: function drawBloodParticles() {
+      var ctx = this.state.canvas.getContext('2d');
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = this.bloodParticles[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var particle = _step4.value;
+          particle.updateTime();
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
+
+      this.bloodParticles = this.bloodParticles.filter(function (particle) {
+        return !particle.dead;
+      });
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = this.bloodParticles[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var _particle = _step5.value;
+
+          _particle.updatePosition();
+          _particle.drawParticle(ctx);
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
           }
         }
       }
@@ -27912,6 +28082,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawName',
     value: function drawName(context, x, y, name) {
+      context.fillStyle = 'black';
       context.font = '18px Ubuntu';
       context.fillText(name, x - 20, y + 100);
     }
@@ -27993,7 +28164,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var ctx = cvs.getContext('2d');
       cvs.width = canvasWidth;
       cvs.height = canvasHeight;
-      var boxSize = 25;
+      var boxSize = 100;
       ctx.fillStyle = '#404040';
       ctx.fill();
       ctx.strokeStyle = '#E6E6E6';
@@ -28054,7 +28225,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         this.state.newKill && _react2.default.createElement(_KillFeed2.default, { newKill: this.state.newKill }),
         this.state.leaderBoard.length && _react2.default.createElement(_LeaderBoard2.default, { leaderBoard: this.state.leaderBoard }),
         this.state.playerDead && _react2.default.createElement(_RespawnModal2.default, { respawnPlayer: this.respawnPlayer }),
-        _react2.default.createElement('canvas', { ref: 'gridCanvas', height: '200', width: '200', style: Style.gridCanvas })
+        _react2.default.createElement('canvas', { ref: 'gridCanvas', height: '200', width: '200', style: Style.gridCanvas }),
+        _react2.default.createElement(
+          'div',
+          { style: Style.ProgressBar },
+          _react2.default.createElement(_ProgressBar2.default, { containerWidth: '400px', containerHeight: '30px', borderRadius: '15px', progress: '20%', progressColour: '#18C29C', text: ' Black Belt ', textColour: '#FFFFFF', plusIcon: 'none' })
+        )
       );
     }
   }]);
@@ -28069,10 +28245,27 @@ var Style = {
     right: '0px',
     marginRight: '10px',
     marginBottom: '10px'
+  },
+  ProgressBar: {
+    width: "100%",
+    height: "30px",
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    bottom: "30px"
   }
 };
 
 exports.default = Canvas;
+
+/*
+Props
+Container Width
+Progress Width 
+Progress Background Colour
+Text
+PlusIcon
+*/
 
 /***/ }),
 /* 257 */
@@ -28131,11 +28324,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -28182,6 +28375,11 @@ var LeaderBoard = (0, _radium2.default)(_class = function (_React$Component) {
               'th',
               { className: 'leaderBoardHeaderCell', style: Style.th },
               ' Kill Streak '
+            ),
+            _react2.default.createElement(
+              'th',
+              { className: 'leaderBoardHeaderCell', style: Style.th },
+              ' Belt '
             )
           ),
           this.props.leaderBoard.length && this.props.leaderBoard.map(function (player, idx) {
@@ -28203,6 +28401,11 @@ var LeaderBoard = (0, _radium2.default)(_class = function (_React$Component) {
                 'td',
                 { className: 'leaderBoardPlayerKillStreak', style: Style.th },
                 player.killStreak
+              ),
+              _react2.default.createElement(
+                'td',
+                { className: 'leaderBoardPlayerKillStreak', style: Style.th },
+                'White'
               )
             );
           })
@@ -28258,11 +28461,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -28380,11 +28583,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class;
 
-var _react = __webpack_require__(8);
+var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _radium = __webpack_require__(18);
+var _radium = __webpack_require__(16);
 
 var _radium2 = _interopRequireDefault(_radium);
 
@@ -28600,6 +28803,154 @@ BloodParticle.prototype.drawParticle = function (ctx) {
 };
 
 exports.default = BloodParticle;
+
+/***/ }),
+/* 264 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class;
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _radium = __webpack_require__(16);
+
+var _radium2 = _interopRequireDefault(_radium);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProgressBar = (0, _radium2.default)(_class = function (_React$Component) {
+  _inherits(ProgressBar, _React$Component);
+
+  function ProgressBar() {
+    _classCallCheck(this, ProgressBar);
+
+    var _this = _possibleConstructorReturn(this, (ProgressBar.__proto__ || Object.getPrototypeOf(ProgressBar)).call(this));
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(ProgressBar, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {}
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {}
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'progressContainer', style: _extends({}, Style.progressContainer, { width: this.props.containerWidth, height: this.props.containerHeight, borderRadius: this.props.borderRadius }) },
+        _react2.default.createElement('div', { className: 'progress', style: _extends({}, Style.progress, { width: this.props.progress, backgroundColor: this.props.progressColour, borderRadius: this.props.borderRadius }) }),
+        _react2.default.createElement(
+          'div',
+          { className: 'textContainer', style: Style.textContainer },
+          _react2.default.createElement(
+            'span',
+            { className: 'text', style: _extends({}, Style.text, { color: this.props.textColour }) },
+            ' ',
+            this.props.text,
+            ' '
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'plusIcon', style: _extends({}, Style.plusIcon, { display: this.props.plusIcon }) },
+          ' + '
+        )
+      );
+    }
+  }]);
+
+  return ProgressBar;
+}(_react2.default.Component)) || _class;
+
+var Style = {
+  progressContainer: {
+    backgroundColor: "#6B202E",
+    display: "flex",
+    alignItems: "center",
+    position: "relative"
+  },
+  progress: {
+    height: "80%",
+    margin: "8px 3px 8px 3px",
+    left: "0px"
+  },
+  textContainer: {
+    position: "absolute",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center"
+  },
+  text: {
+    fontFamily: "Ubuntu"
+  },
+  plusIcon: {
+    position: "absolute",
+    right: "20px",
+    color: "#FFFFFF",
+    cursor: "pointer"
+  }
+};
+
+exports.default = ProgressBar;
+/*
+#progressContainer {
+  width: 400px;
+  height: 30px;
+  background-color: #6B202E;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  position: relative
+}
+
+#progress {
+  width: 70%;
+  height: 80%;
+  background-color: #CF4232;
+  border-radius: 15px;
+  margin:  8px 3px 8px 3px;
+  left: 0px
+}
+#textContainer {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center
+}
+span {
+  font-family: Ubuntu;
+  color: #FFFFFF
+}
+#plusIcon {
+  position: absolute;
+  right: 20px;
+  color: #FFFFFF;
+  cursor: pointer
+}
+*/
 
 /***/ })
 /******/ ]);
