@@ -11562,7 +11562,7 @@ var ProgressBar = (0, _radium2.default)(_class = function (_React$Component) {
           { className: 'textContainer', style: Style.textContainer },
           _react2.default.createElement(
             'span',
-            { className: 'text', style: _extends({}, Style.text, { color: this.props.textColour }) },
+            { className: 'text', style: _extends({}, Style.text, { color: this.props.textColour, fontSize: this.props.fontSize }) },
             ' ',
             this.props.text,
             ' '
@@ -28350,7 +28350,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
             { style: Style.PlayerName },
             ' Hussein '
           ),
-          _react2.default.createElement(_ProgressBar2.default, { containerWidth: '400px', containerHeight: '30px', borderRadius: '15px', progress: '10%', progressColour: '#18C29C', text: ' White Belt ', textColour: '#FFFFFF', plusIcon: 'none', plusIconRight: '20px' })
+          _react2.default.createElement(_ProgressBar2.default, { containerWidth: '400px', containerHeight: '30px', borderRadius: '15px', progress: '10%', progressColour: '#18C29C', text: ' White Belt ', textColour: '#FFFFFF', plusIcon: 'none', plusIconRight: '20px', fontSize: '16px' })
         ),
         _react2.default.createElement(_SkillPoints2.default, null)
       );
@@ -28990,11 +28990,11 @@ var SkillPoints = (0, _radium2.default)(_class = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { style: Style.Container },
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#18C29C', text: ' Max Health ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#FFBC40', text: ' Max Speed ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#F16F61', text: ' Damage Dealt ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#4A89AA', text: ' Health Regen ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#5A3662', text: ' Flexibility', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px' })
+        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#18C29C', text: ' Max Health ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
+        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#FFBC40', text: ' Max Speed ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
+        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#F16F61', text: ' Damage Dealt ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
+        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#4A89AA', text: ' Health Regen ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
+        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#5A3662', text: ' Flexibility', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' })
       );
     }
   }]);

@@ -20,7 +20,7 @@ class ProgressBar extends React.Component {
         <div className="progressContainer" style={{...Style.progressContainer, width: this.props.containerWidth, height: this.props.containerHeight, borderRadius: this.props.borderRadius}}>
           <div className="progress" style={{ ...Style.progress, width: this.props.progress, backgroundColor: this.props.progressColour, borderRadius: this.props.borderRadius }}></div>
           <div className="textContainer" style={Style.textContainer}>
-            <span className="text" style={{ ...Style.text, color: this.props.textColour }}> {this.props.text} </span>
+            <span className="text" style={{ ...Style.text, color: this.props.textColour, fontSize: this.props.fontSize }}> {this.props.text} </span>
           </div>
           <div className="plusIcon" style={{ ...Style.plusIcon, display: this.props.plusIcon, right: this.props.plusIconRight }}> + </div>
       </div>

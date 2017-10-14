@@ -19,11 +19,11 @@ class SkillPoints extends React.Component {
   render() {
     return (
       <div style={Style.Container}>
-            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" Max Health " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px"/>
-            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#FFBC40" text=" Max Speed " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px"/>
-            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#F16F61" text=" Damage Dealt " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px"/>
-            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#4A89AA" text=" Health Regen " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px"/>
-            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#5A3662" text=" Flexibility" textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px"/>
+            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" Max Health " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px" fontSize="12px"/>
+            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#FFBC40" text=" Max Speed " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px" fontSize="12px"/>
+            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#F16F61" text=" Damage Dealt " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px" fontSize="12px"/>
+            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#4A89AA" text=" Health Regen " textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px" fontSize="12px"/>
+            <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress="10%" progressColour="#5A3662" text=" Flexibility" textColour="#FFFFFF" plusIcon="inline" plusIconRight="10px" fontSize="12px"/>
       </div>
     )
   }

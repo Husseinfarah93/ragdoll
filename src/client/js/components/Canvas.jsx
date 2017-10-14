@@ -474,7 +474,7 @@ class Canvas extends React.Component {
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
           <div style={Style.ProgressBar} >
             <h2 style={Style.PlayerName}> Hussein </h2>
-            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" White Belt " textColour="#FFFFFF" plusIcon="none" plusIconRight="20px"/>
+            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" White Belt " textColour="#FFFFFF" plusIcon="none" plusIconRight="20px" fontSize="16px"/>
           </div>
           <SkillPoints />
         </div>
