@@ -7,10 +7,8 @@ import RespawnModal from './RespawnModal.jsx'
 import KillFeed from './KillFeed.jsx'
 import config from '../../../../config.json'
 import BloodParticle from '../BloodParticle.js'
+import ProgressBar from './ProgressBar.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
-let count = 0
-
-
 
 
 @Radium
@@ -323,6 +321,7 @@ class Canvas extends React.Component {
     }
 
     drawName(context, x, y, name) {
+      context.fillStyle = 'black'
       context.font = '18px Ubuntu'
       context.fillText(name, x - 20, y + 100)
     }
@@ -472,6 +471,9 @@ class Canvas extends React.Component {
             <RespawnModal respawnPlayer={this.respawnPlayer} />
           }
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
+          <div style={Style.ProgressBar} >
+            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="20%" progressColour="#18C29C" text=" Black Belt " textColour="#FFFFFF" plusIcon="none"/>
+          </div>
         </div>
       )
     }
@@ -484,8 +486,25 @@ const Style = {
     right: '0px',
     marginRight: '10px',
     marginBottom: '10px'
+  },
+  ProgressBar: {
+    width: "100%",
+    height: "30px",
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    bottom: "30px"
   }
 }
 
 
 export default Canvas
+
+/*
+Props
+Container Width
+Progress Width 
+Progress Background Colour
+Text
+PlusIcon
+*/

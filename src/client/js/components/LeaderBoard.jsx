@@ -17,6 +17,7 @@ class LeaderBoard extends React.Component {
             <th className="leaderBoardHeaderCell" style={Style.thFirst}> Rank </th>
             <th className="leaderBoardHeaderCell" id='headerName' style={Style.thName}> Name </th>
             <th className="leaderBoardHeaderCell" style={Style.th}> Kill Streak </th>
+            <th className="leaderBoardHeaderCell" style={Style.th}> Belt </th>
           </tr>
           {
             this.props.leaderBoard.length && this.props.leaderBoard.map((player, idx) => {
@@ -26,6 +27,7 @@ class LeaderBoard extends React.Component {
                   <td className="leaderBoardPlayerRank" style={Style.tdFirst}>{'#' + (idx + 1).toString()}</td>
                   <td className="leaderBoardPlayerName" style={Style.th}>{player.name}</td>
                   <td className="leaderBoardPlayerKillStreak" style={Style.th}>{player.killStreak}</td>
+                  <td className="leaderBoardPlayerKillStreak" style={Style.th}>White</td>
                 </tr>
               )
             })
