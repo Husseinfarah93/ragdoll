@@ -8,6 +8,7 @@ import KillFeed from './KillFeed.jsx'
 import config from '../../../../config.json'
 import BloodParticle from '../BloodParticle.js'
 import ProgressBar from './ProgressBar.jsx'
+import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
 
 
@@ -177,7 +178,7 @@ class Canvas extends React.Component {
         }
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
-        this.drawName(context, xName, yName, player.name)
+        // this.drawName(context, xName, yName, player.name)
         if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
     }
@@ -472,8 +473,10 @@ class Canvas extends React.Component {
           }
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
           <div style={Style.ProgressBar} >
-            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="20%" progressColour="#18C29C" text=" Black Belt " textColour="#FFFFFF" plusIcon="none"/>
+            <h2 style={Style.PlayerName}> Hussein </h2>
+            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" White Belt " textColour="#FFFFFF" plusIcon="none" plusIconRight="20px"/>
           </div>
+          <SkillPoints />
         </div>
       )
     }
@@ -489,11 +492,16 @@ const Style = {
   },
   ProgressBar: {
     width: "100%",
-    height: "30px",
     position: "fixed",
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
     bottom: "30px"
+  },
+  PlayerName: {
+    margin: "0px",
+    fontFamily: "Ubuntu"
   }
 }
 

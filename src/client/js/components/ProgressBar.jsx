@@ -22,7 +22,7 @@ class ProgressBar extends React.Component {
           <div className="textContainer" style={Style.textContainer}>
             <span className="text" style={{ ...Style.text, color: this.props.textColour }}> {this.props.text} </span>
           </div>
-          <div className="plusIcon" style={{ ...Style.plusIcon, display: this.props.plusIcon }}> + </div>
+          <div className="plusIcon" style={{ ...Style.plusIcon, display: this.props.plusIcon, right: this.props.plusIconRight }}> + </div>
       </div>
     )
   }
@@ -33,10 +33,11 @@ const Style = {
     backgroundColor: "#6B202E",
     display: "flex",
     alignItems: "center",
-    position: "relative"
+    position: "relative",
+    margin: "5px 0px 5px 0px"
   },
   progress: {
-    height: "80%",
+    height: "79%",
     margin: "8px 3px 8px 3px",
     left: "0px"
   },
@@ -51,7 +52,6 @@ const Style = {
   },
   plusIcon: {
     position: "absolute",
-    right: "20px",
     color: "#FFFFFF",
     cursor: "pointer"
   },
