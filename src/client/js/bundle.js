@@ -27749,6 +27749,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var bloodConfig = _config2.default.gameInfo.bloodParticles;
+var count = 0;
 
 var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   _inherits(Canvas, _React$Component);
@@ -27928,11 +27929,11 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           this.drawBody(player, xPos, yPos, context);
           this.drawCircles(player, xPos, yPos, context);
           this.drawHead(player, xPos, yPos, context);
+          this.drawArmBands(player, xPos, yPos, context);
           this.drawHitPart(player, xPos, yPos, context);
         }
         var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
         var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
-        // this.drawName(context, xName, yName, player.name)
         if (player.id === _io2.default.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y);
       }
     }
@@ -28143,22 +28144,37 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     }
   }, {
     key: 'drawArmBands',
-    value: function drawArmBands(xPos, yPos, context, bodies) {
-      for (var i = 0; i < bodies.length; i += 1) {
-        context.beginPath();
-        var vertices = bodies[i].vertices;
-        var health = bodies[i].health;
-        var percentage = health / 200;
-        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        for (var j = 1; j < vertices.length; j += 1) {
-          context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
+    value: function drawArmBands(player, xPos, yPos, ctx) {
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = player.armBandList[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var list = _step6.value;
+
+          var percent = player.health / player.initialHealth;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - percent);
+          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
+          for (var i = 1; i < list.length; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
         }
-        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        context.lineWidth = 0.5;
-        context.strokeStyle = percentage === 1 ? 'black' : 'rgba(255, 0, 0, ' + (1 - percentage) + ')';
-        context.stroke();
-        context.fillStyle = percentage === 1 ? 'black' : 'rgba(255, 0, 0, ' + (1 - percentage) + ')';
-        context.fill();
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
       }
     }
   }, {

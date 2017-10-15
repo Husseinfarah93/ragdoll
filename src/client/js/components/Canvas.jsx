@@ -174,11 +174,11 @@ class Canvas extends React.Component {
           this.drawBody(player, xPos, yPos, context)
           this.drawCircles(player, xPos, yPos, context)
           this.drawHead(player, xPos, yPos, context)
+          this.drawArmBands(player, xPos, yPos, context)
           this.drawHitPart(player, xPos, yPos, context)
         }
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
-        // this.drawName(context, xName, yName, player.name)
         if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
     }
@@ -270,22 +270,16 @@ class Canvas extends React.Component {
       }
     }
 
-    drawArmBands(xPos, yPos, context, bodies) {
-      for (var i = 0; i < bodies.length; i += 1) {
-        context.beginPath()
-        var vertices = bodies[i].vertices;
-        var health = bodies[i].health
-        var percentage = health / 200
-        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        for (var j = 1; j < vertices.length; j += 1) {
-            context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
+    drawArmBands(player, xPos, yPos, ctx) {
+      for(let list of player.armBandList) {
+        let percent = player.health / player.initialHealth
+        ctx.beginPath()
+        ctx.strokeStyle = `rgba(255, 0, 0, ${1 - percent}`
+        ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
+        for(let i = 1; i < list.length; i++) {
+          ctx.lineTo(list[i].x - xPos, list[i].y - yPos)
         }
-        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        context.lineWidth = 0.5;
-        context.strokeStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
-        context.stroke();
-        context.fillStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
-        context.fill();
+        ctx.stroke()
       }
     }
 

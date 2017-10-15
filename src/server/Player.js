@@ -2709,9 +2709,12 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	rightForeArmCircles[rightForeArmCircles.length - 1].isEnd = true
 	leftForeArmCircles[leftForeArmCircles.length - 1].isEnd = true
 	rightLegCircles[rightLegCircles.length - 1].isEnd = true
-	leftLegCircles[leftLegCircles.length - 1].isEnd = true
-  
+  leftLegCircles[leftLegCircles.length - 1].isEnd = true
 
+  rightForeArmCircles[rightForeArmCircles.length - 1].isArmBand = true
+  rightForeArmCircles[rightForeArmCircles.length - 2].isArmBand = true
+  leftForeArmCircles[leftForeArmCircles.length - 1].isArmBand = true
+  leftForeArmCircles[leftForeArmCircles.length - 2].isArmBand = true
 
   for(circle of Composite.allBodies(player)) {
     circle.playerId = playerId

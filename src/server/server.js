@@ -326,6 +326,7 @@ function getPlayerVertices(room) {
       if(player.isDead) continue
       let pushItem = {}
       pushItem.health = players[player].health 
+      pushItem.initialHealth = players[player].initialHealth
       pushItem.name = players[player].name
       pushItem.id = players[player].id
       pushItem.isDead = players[player].isDead
@@ -338,6 +339,7 @@ function getPlayerVertices(room) {
       pushItem.pointsList = players[player].pointsList
       pushItem.circleList = players[player].circleList
       pushItem.headPosition = players[player].headPosition
+      pushItem.armBandList = players[player].armBandList
       list.push(pushItem)
     }
     return list
@@ -386,29 +388,45 @@ function getFrontEndInfo(room) {
     return item
 }
 
+let count = 0
 function updateCentrePoints() {
   for(room in rooms) {
     let players = rooms[room].players
     for(playerName in players) {
+      count++
       let player = players[playerName]
       let pointsList = []
       let circleList = []
+      let armBandList = []
       let headPosition = {}
       let composites = player.PlayerComposite.composites
       for(composite of composites) {
         let bodies = composite.bodies
         let bodyList = []
-        for(body of bodies) {
-          let colour = 'black'
+        for(let i = 0; i < bodies.length; i++) {
+          let body = bodies[i]
+          // End Circles
           if(body.isEnd) circleList.push({ x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius })
+          // Head Position
           if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius }
+          // Body List
           bodyList.push({ x: body.position.x, y: body.position.y, label: body.label, hitInfo: body.hitInfo, radius: body.circleRadius})
+          // Armbands
+          if(i < bodies.length - 1 && body.isArmBand && bodies[i+1].isArmBand) {
+            let thingToPush = []
+            let body1 = body
+            let body2 = bodies[i+1]
+            thingToPush.push({  x: body.position.x, y: body.position.y })
+            thingToPush.push({  x: (body2.position.x), y: (body2.position.y)  })
+            armBandList.push(thingToPush)
+          }
         }
         pointsList.push(bodyList)
       }
       player.pointsList = pointsList
       player.circleList = circleList
       player.headPosition = headPosition
+      player.armBandList = armBandList
     }
   }
 }
