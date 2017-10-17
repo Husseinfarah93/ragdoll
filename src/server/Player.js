@@ -10,7 +10,7 @@ function Player(name, id, characterType, skinType) {
   this.health = this.initialHealth
   this.killStreak = 0
   this.beltNumber = 0
-  this.beltColour = "White"
+  this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
   this.skillPointValues = {
@@ -2821,5 +2821,22 @@ Player.prototype.updateProgress = function() {
   this.beltProgress += increastBy
 }
 
+Player.prototype.resetPlayer = function() {
+  this.health = this.initialHealth
+  this.killStreak = 0
+  this.beltNumber = 0
+  this.beltColour = c.gameInfo.belts[0].colour
+  this.beltProgress = 0 
+  this.skillPoints = 0
+  this.skillPointValues = {
+    maxHealth: {val: 0, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 10},
+    maxSpeed: {val: 0, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 10},
+    damageDealt: {val: 0, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 10},
+    damageReceived: {val: 0, colour: '#5A3662', text: 'Damage Received', name: 'damageReceived', updateAmount: 10},
+    healthRegen: {val: 0, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: 10}
+  }
+  this.isDead = false
+  this.isBlownUp = false
+}
 
 module.exports = Player

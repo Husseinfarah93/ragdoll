@@ -27857,6 +27857,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       });
 
       _io2.default.on('updatePlayer', function (skillPoints, skillPointValues, beltColour, beltProgress) {
+        console.log('**', skillPoints, skillPointValues, beltColour, beltProgress);
         var newPlayer = _extends({}, _this2.state.player, { skillPoints: skillPoints, skillPointValues: skillPointValues, beltColour: beltColour, beltProgress: beltProgress });
         _this2.setState({ player: newPlayer });
       });
@@ -27865,7 +27866,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'handleSkillPointsClick',
     value: function handleSkillPointsClick(progressBarType, currentProgress) {
       if (currentProgress >= 100 || this.state.player.skillPoints < 1) return;
-      console.log('updatePlayerSkillPoints');
       _io2.default.emit('updatePlayerSkillPoints', progressBarType);
     }
   }, {
@@ -27988,9 +27988,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         for (var _iterator = player.pointsList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var list = _step.value;
 
-          var colour = 'black';
+          var colour = '#272727';
           ctx.lineWidth = 20;
-          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : 'black';
+          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : '#2F3B40';
           ctx.beginPath();
           ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
           for (var i = 1; i < list.length; i++) {
@@ -28016,7 +28016,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawCircles',
     value: function drawCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = '#2F3B40';
       var list = player.circleList;
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
@@ -28049,7 +28049,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'drawHead',
     value: function drawHead(player, xPos, yPos, ctx) {
       var head = player.headPosition;
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = '#2F3B40';
       ctx.beginPath();
       ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false);
       ctx.fill();
@@ -28094,7 +28094,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawBlownUpCircles',
     value: function drawBlownUpCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = '#2F3B40';
       var circleList = player.circleList;
       var pointsList = player.pointsList;
       var totalList = [].concat(pointsList.reduce(function (a, b) {

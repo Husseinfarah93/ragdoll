@@ -7,7 +7,7 @@ let c = require('../../config.json')
 let Player = require('./Player.js')
 
 app.use('/', express.static(path.resolve(__dirname + '/../client')));
-let port = 3000;
+let port = 4000;
 
 http.listen(port, function () {
     console.log('listening on:', port);
@@ -167,10 +167,10 @@ io.on('connection', socket => {
       }
     })
     socket.on('respawn', () => {
-      player.isDead = false
-      player.isBlownUp = false
+      console.log('respawn')
+      player.resetPlayer()
       player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
-      player.health = player.initialHealth
+      updatePlayerValues(socket, player)
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
       socket.updateInterval = updateInterval
