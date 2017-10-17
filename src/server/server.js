@@ -15,17 +15,6 @@ http.listen(port, function () {
 
 let rooms = {}
 
-/*
-To do Today
-
-Camera Angle thing
-Player look like ragdoll
-Fill players
-Different players
-
-Tomorrow 
-Homepage
-*/
 
 /* --------------------------------------------- ROOMS AND LOBBY CODE ----------------------------------------------- */
 // If room exists return room. If not return false
@@ -159,6 +148,7 @@ io.on('connection', socket => {
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
     let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
+    socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
     // player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
     player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
     // Add player to room in rooms
@@ -340,6 +330,7 @@ function getPlayerVertices(room) {
       pushItem.circleList = players[player].circleList
       pushItem.headPosition = players[player].headPosition
       pushItem.armBandList = players[player].armBandList
+      pushItem.beltList = players[player].beltList
       list.push(pushItem)
     }
     return list
@@ -388,16 +379,15 @@ function getFrontEndInfo(room) {
     return item
 }
 
-let count = 0
 function updateCentrePoints() {
   for(room in rooms) {
     let players = rooms[room].players
     for(playerName in players) {
-      count++
       let player = players[playerName]
       let pointsList = []
       let circleList = []
       let armBandList = []
+      let beltList = []
       let headPosition = {}
       let composites = player.PlayerComposite.composites
       for(composite of composites) {
@@ -420,6 +410,17 @@ function updateCentrePoints() {
             thingToPush.push({  x: (body2.position.x), y: (body2.position.y)  })
             armBandList.push(thingToPush)
           }
+          // Belt
+          if(body.beltStart) {
+            let position1 = body.position
+            let theta = body.angle + Math.PI / 2
+            let position2 = {
+              x: position1.x + (body.circleRadius * Math.cos(theta)),
+              y: position1.y + (body.circleRadius * Math.sin(theta))
+            }
+            beltList.push(position1)
+            beltList.push(position2)
+          }
         }
         pointsList.push(bodyList)
       }
@@ -427,6 +428,7 @@ function updateCentrePoints() {
       player.circleList = circleList
       player.headPosition = headPosition
       player.armBandList = armBandList
+      player.beltList = beltList
     }
   }
 }
@@ -480,6 +482,7 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   // Dead
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
     let socket = io.sockets.connected[hitPlayer.id]
+    let socket2 = io.sockets.connected[hitterPlayer.id]
     // clearUpdates(socket.id)
     socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
@@ -490,6 +493,12 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     leaderBoardChange(roomName)
     // Update Killfeed
     updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName)
+    // Update Skill Points
+    hitterPlayer.increaseSkillPoints()
+    hitterPlayer.updateProgress()
+    if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
+    // updatePlayer => skillPoints, skillPointValues, beltColour
+    socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
     hitPlayer.blowUp(Matter, bodiesToMove)
     setTimeout(() => {
       Matter.Composite.clear(hitPlayer.PlayerComposite)
@@ -520,7 +529,6 @@ function clearUpdates(socketId) {
 }
 
 function repel(roomName, bodyA, bodyB) {
-  return;
   let bodyALeft = bodyA.position.x < bodyB.position.x 
   let bodyAUp = bodyA.position.y < bodyB.position.y
   let force = 0.005

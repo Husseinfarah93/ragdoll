@@ -34,13 +34,24 @@
   },
   "gameInfo": {
     "bloodParticles": {
-      "particleNumber": 100,
+      "particleNumber": 200,
       "maxParticleSize": 5,
-      "maxSpeed": 10,
+      "maxSpeed": 5,
       "colourVariation": 50,
       "colour": "red",
       "lifeLength": 1000
     },
-    "blowUpForce": 0.005
+    "blowUpForce": 0.005,
+    "belts": [
+      { "kills": 0, "colour": "White", "increaseNum": 20},
+      { "kills": 5, "colour": "Yellow", "increaseNum": 20},
+      { "kills": 10, "colour": "Orange", "increaseNum": 20},
+      { "kills": 15, "colour": "Green", "increaseNum": 20},
+      { "kills": 20, "colour": "Blue", "increaseNum": 20},
+      { "kills": 25, "colour": "Purple", "increaseNum": 20},
+      { "kills": 30, "colour": "Red", "increaseNum": 20},
+      { "kills": 35, "colour": "Brown", "increaseNum": 20},
+      { "kills": 40, "colour": "Black", "increaseNum": 20}
+    ]
   }
 }

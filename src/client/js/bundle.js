@@ -11497,7 +11497,7 @@ exports.default = socket;
 /* 104 */
 /***/ (function(module, exports) {
 
-module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":100,"maxParticleSize":5,"maxSpeed":10,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005}}
+module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}]}}
 
 /***/ }),
 /* 105 */
@@ -27692,6 +27692,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _class;
@@ -27765,7 +27767,15 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       leaderBoard: [],
       playerDead: false,
       newKill: undefined,
-      id: _io2.default.id
+      id: _io2.default.id,
+      player: {
+        name: "",
+        skillPoints: 0,
+        skillPointValues: {},
+        killStreak: 0,
+        beltColour: "",
+        beltProgress: 0
+      }
     };
     _this.keyDown = {
       up: false,
@@ -27801,6 +27811,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         _this2.generateBackground(canvas.width, canvas.height);
         _this2.drawPlayerGrid();
       });
+
+      _io2.default.on('setUpPlayer', function (name, skillPoints, skillPointValues, killStreak, beltColour, beltProgress) {
+        var newPlayer = _extends({}, _this2.state.player, { name: name, skillPoints: skillPoints, skillPointValues: skillPointValues, killStreak: killStreak, beltColour: beltColour, beltProgress: beltProgress });
+        _this2.setState({ player: newPlayer });
+      });
+
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis, id) {
         _this2.camera.update(Pelvis);
         _this2.drawBackground(_this2.camera);
@@ -27832,6 +27848,16 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         var newY = y - camera.yPos;
         _this2.createBloodParticles(newX, newY, bloodConfig.particleNumber);
       });
+
+      _io2.default.on('updatePlayer', function (skillPoints, skillPointValues, beltColour, beltProgress) {
+        var newPlayer = _extends({}, _this2.state.player, { skillPoints: skillPoints, skillPointValues: skillPointValues, beltColour: beltColour, beltProgress: beltProgress });
+        _this2.setState({ player: newPlayer });
+      });
+    }
+  }, {
+    key: 'setUpBeltImages',
+    value: function setUpBeltImages() {
+      this.state.beltImages;
     }
   }, {
     key: 'handleNewKill',
@@ -28013,6 +28039,16 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       ctx.beginPath();
       ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false);
       ctx.fill();
+    }
+  }, {
+    key: 'drawBelt',
+    value: function drawBelt(player, xPos, yPos, ctx) {
+      var belt = player.beltList;
+      ctx.strokeStyle = "black";
+      ctx.beginPath();
+      ctx.moveTo(belt[0].x - xPos, belt[0].y - yPos);
+      ctx.lineTo(belt[1].x - xPos, belt[1].y - yPos);
+      ctx.stroke();
     }
   }, {
     key: 'drawHitPart',
@@ -28364,11 +28400,13 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           _react2.default.createElement(
             'h2',
             { style: Style.PlayerName },
-            ' Hussein '
+            ' ',
+            this.state.player.name,
+            ' '
           ),
-          _react2.default.createElement(_ProgressBar2.default, { containerWidth: '400px', containerHeight: '30px', borderRadius: '15px', progress: '10%', progressColour: '#18C29C', text: ' White Belt ', textColour: '#FFFFFF', plusIcon: 'none', plusIconRight: '20px', fontSize: '16px' })
+          _react2.default.createElement(_ProgressBar2.default, { containerWidth: '400px', containerHeight: '30px', borderRadius: '15px', progress: (this.state.player.beltProgress < 10 ? 10 : this.state.player.beltProgress) + '%', progressColour: '#18C29C', text: this.state.player.beltColour + ' Belt', textColour: '#FFFFFF', plusIcon: 'none', plusIconRight: '20px', fontSize: '16px' })
         ),
-        _react2.default.createElement(_SkillPoints2.default, null)
+        _react2.default.createElement(_SkillPoints2.default, { skillPoints: this.state.player.skillPoints, skillPointValues: this.state.player.skillPointValues })
       );
     }
   }]);
@@ -29003,14 +29041,28 @@ var SkillPoints = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var progressBarList = Object.keys(this.props.skillPointValues).map(function (e) {
+        return _this2.props.skillPointValues[e];
+      });
       return _react2.default.createElement(
         'div',
         { style: Style.Container },
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#18C29C', text: ' Max Health ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#FFBC40', text: ' Max Speed ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#F16F61', text: ' Damage Dealt ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#4A89AA', text: ' Health Regen ', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' }),
-        _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: '10%', progressColour: '#5A3662', text: ' Flexibility', textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' })
+        _react2.default.createElement(
+          'div',
+          { id: 'skillPointsCircle', style: Style.skillPointsCircle },
+          _react2.default.createElement(
+            'span',
+            { style: Style.skillPointNumber },
+            ' ',
+            this.props.skillPoints,
+            ' '
+          )
+        ),
+        progressBarList.length > 0 && progressBarList.map(function (progressBarElem) {
+          return _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: progressBarElem.val + '%', progressColour: progressBarElem.colour, text: progressBarElem.text, textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' });
+        })
       );
     }
   }]);
@@ -29025,9 +29077,23 @@ var Style = {
     bottom: "10px",
     left: "10px",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-end",
     flexDirection: "column",
     justifyContent: "flex-end"
+  },
+  skillPointsCircle: {
+    width: "20px",
+    height: "20px",
+    backgroundColor: "#F0433A",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "90px",
+    fontSize: "10px"
+  },
+  skillPointNumber: {
+    fontFamily: "Ubuntu",
+    color: "#FFFFFF"
   }
 };
 

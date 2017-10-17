@@ -10,7 +10,7 @@ import BloodParticle from '../BloodParticle.js'
 import ProgressBar from './ProgressBar.jsx'
 import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
-
+let count = 0
 
 @Radium
 class Canvas extends React.Component {
@@ -22,7 +22,15 @@ class Canvas extends React.Component {
         leaderBoard: [],
         playerDead: false,
         newKill: undefined,
-        id: socket.id
+        id: socket.id,
+        player: {
+          name: "",
+          skillPoints: 0,
+          skillPointValues: {},
+          killStreak: 0,
+          beltColour: "",
+          beltProgress: 0
+        }
       }
       this.keyDown = {
         up: false,
@@ -52,6 +60,12 @@ class Canvas extends React.Component {
         this.generateBackground(canvas.width, canvas.height)
         this.drawPlayerGrid()
       })
+
+      socket.on('setUpPlayer', (name, skillPoints, skillPointValues, killStreak, beltColour, beltProgress) => {
+        let newPlayer = {...this.state.player, name: name, skillPoints: skillPoints, skillPointValues: skillPointValues, killStreak: killStreak, beltColour: beltColour, beltProgress: beltProgress}
+        this.setState({ player: newPlayer })
+      })
+
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis, id) => {
         this.camera.update(Pelvis)
         this.drawBackground(this.camera)
@@ -81,6 +95,17 @@ class Canvas extends React.Component {
         let newY = y - camera.yPos
         this.createBloodParticles(newX, newY, bloodConfig.particleNumber)
       })
+
+      socket.on('updatePlayer', (skillPoints, skillPointValues, beltColour, beltProgress) => {
+        let newPlayer = {...this.state.player, skillPoints: skillPoints, skillPointValues: skillPointValues, beltColour: beltColour, beltProgress: beltProgress}
+        this.setState({ player: newPlayer })
+      })
+
+
+    }
+
+    setUpBeltImages() {
+      this.state.beltImages
     }
 
     handleNewKill(killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour) {
@@ -213,6 +238,15 @@ class Canvas extends React.Component {
       ctx.beginPath()
       ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false)
       ctx.fill()
+    }
+
+    drawBelt(player, xPos, yPos, ctx) {
+      let belt = player.beltList
+      ctx.strokeStyle = "black"
+      ctx.beginPath()
+      ctx.moveTo(belt[0].x - xPos, belt[0].y - yPos)
+      ctx.lineTo(belt[1].x - xPos, belt[1].y - yPos)
+      ctx.stroke()
     }
 
     drawHitPart(player, xPos, yPos, ctx) {
@@ -467,10 +501,10 @@ class Canvas extends React.Component {
           }
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
           <div style={Style.ProgressBar} >
-            <h2 style={Style.PlayerName}> Hussein </h2>
-            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" White Belt " textColour="#FFFFFF" plusIcon="none" plusIconRight="20px" fontSize="16px"/>
+            <h2 style={Style.PlayerName}> {this.state.player.name} </h2>
+            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress={`${this.state.player.beltProgress < 10 ? 10 : this.state.player.beltProgress}%`} progressColour="#18C29C" text={`${this.state.player.beltColour} Belt`} textColour="#FFFFFF" plusIcon="none" plusIconRight="20px" fontSize="16px"/>
           </div>
-          <SkillPoints />
+          <SkillPoints skillPoints={this.state.player.skillPoints} skillPointValues={this.state.player.skillPointValues}/>
         </div>
       )
     }

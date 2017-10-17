@@ -9,6 +9,17 @@ function Player(name, id, characterType, skinType) {
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.initialHealth
   this.killStreak = 0
+  this.beltNumber = 0
+  this.beltColour = "White"
+  this.beltProgress = 0
+  this.skillPoints = 0
+  this.skillPointValues = {
+    maxHealth: {val: 0, colour: '#FFBC40', text: 'Max Health'},
+    maxSpeed: {val: 0, colour: '#F16F61', text: 'Max Speed'},
+    damageDealt: {val: 0, colour: '#4A89AA', text: 'Damage Dealt'},
+    damageReceived: {val: 0, colour: '#5A3662', text: 'Damage Received'},
+    healthRegen: {val: 0, colour: '#18C29C', text: 'Health Regen'}
+  }
   this.isDead = false
   this.isBlownUp = false
   this.colour = randColour()
@@ -2705,16 +2716,18 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		leftLegCircle.dealDamage = true
 	}
 	
-	
+	// End Circles
 	rightForeArmCircles[rightForeArmCircles.length - 1].isEnd = true
 	leftForeArmCircles[leftForeArmCircles.length - 1].isEnd = true
 	rightLegCircles[rightLegCircles.length - 1].isEnd = true
   leftLegCircles[leftLegCircles.length - 1].isEnd = true
-
+  // Armbands
   rightForeArmCircles[rightForeArmCircles.length - 1].isArmBand = true
   rightForeArmCircles[rightForeArmCircles.length - 2].isArmBand = true
   leftForeArmCircles[leftForeArmCircles.length - 1].isArmBand = true
   leftForeArmCircles[leftForeArmCircles.length - 2].isArmBand = true
+  // Belt
+  torsoCircles[torsoCircles.length - 2].beltStart = true
 
   for(circle of Composite.allBodies(player)) {
     circle.playerId = playerId
@@ -2775,5 +2788,34 @@ Player.prototype.blowUp = function(Matter, bodiesToMove) {
     bodiesToMove.push({ body: body, force: { x: x, y: y } })
   }
 }
+
+Player.prototype.increaseSkillPoints = function() {
+  this.skillPoints += 1
+}
+
+Player.prototype.decreaseSkillPoints = function() {
+  this.skillPoints -= 1
+  this.skillPoints = this.skillPoints < 0 ? 0: this.skillPoints
+}
+
+// Returns True / False for if player should move belt group
+Player.prototype.shouldIncreaseBelt = function() {
+  let maxBeltNumber = c.gameInfo.belts.length - 1
+  if(this.beltNumber >= maxBeltNumber) return false
+  let killTarget = c.gameInfo.belts[this.beltNumber + 1].kills
+  return this.killStreak >= killTarget
+}
+
+Player.prototype.increaseBelt = function() {
+  this.beltNumber += 1
+  this.beltColour = c.gameInfo.belts[this.beltNumber].colour
+  this.beltProgress = 0
+}
+
+Player.prototype.updateProgress = function() {
+  let increastBy = c.gameInfo.belts[this.beltNumber].increaseNum
+  this.beltProgress += increastBy
+}
+
 
 module.exports = Player
