@@ -167,7 +167,7 @@ io.on('connection', socket => {
       }
     })
     socket.on('respawn', () => {
-      console.log('respawn')
+      if(!player.isDead) Matter.Composite.clear(player.PlayerComposite)
       player.resetPlayer()
       player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
       updatePlayerValues(socket, player)
@@ -508,10 +508,12 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     updatePlayerValues(socket2, hitterPlayer)
     hitPlayer.blowUp(Matter, bodiesToMove)
     setTimeout(() => {
-      Matter.Composite.clear(hitPlayer.PlayerComposite)
-      // delete rooms[roomName].players[hitPlayer.id]
-      hitPlayer.isDead = true
-      // hitPlayer.isBlownUp = false
+      if(hitPlayer.isBlownUp) {
+        Matter.Composite.clear(hitPlayer.PlayerComposite)
+        // delete rooms[roomName].players[hitPlayer.id]
+        hitPlayer.isDead = true
+        // hitPlayer.isBlownUp = false
+      }
     }, 5000)
   }
   // Not Dead
