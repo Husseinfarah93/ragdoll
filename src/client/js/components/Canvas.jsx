@@ -40,6 +40,7 @@ class Canvas extends React.Component {
       }
       this.respawnPlayer = this.respawnPlayer.bind(this)
       this.createBloodParticles = this.createBloodParticles.bind(this)
+      this.handleSkillPointsClick = this.handleSkillPointsClick.bind(this)
       this.bloodParticles = []
     }
 
@@ -102,6 +103,13 @@ class Canvas extends React.Component {
       })
 
 
+    }
+
+
+    handleSkillPointsClick(progressBarType, currentProgress) {
+      if(currentProgress >= 100 || this.state.player.skillPoints < 1) return
+      console.log('updatePlayerSkillPoints')
+      socket.emit('updatePlayerSkillPoints', progressBarType)
     }
 
     setUpBeltImages() {
@@ -504,7 +512,7 @@ class Canvas extends React.Component {
             <h2 style={Style.PlayerName}> {this.state.player.name} </h2>
             <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress={`${this.state.player.beltProgress < 10 ? 10 : this.state.player.beltProgress}%`} progressColour="#18C29C" text={`${this.state.player.beltColour} Belt`} textColour="#FFFFFF" plusIcon="none" plusIconRight="20px" fontSize="16px"/>
           </div>
-          <SkillPoints skillPoints={this.state.player.skillPoints} skillPointValues={this.state.player.skillPointValues}/>
+          <SkillPoints skillPoints={this.state.player.skillPoints} skillPointValues={this.state.player.skillPointValues} handleSkillPointsClick={this.handleSkillPointsClick}/>
         </div>
       )
     }

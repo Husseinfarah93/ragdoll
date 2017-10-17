@@ -7,7 +7,7 @@ let c = require('../../config.json')
 let Player = require('./Player.js')
 
 app.use('/', express.static(path.resolve(__dirname + '/../client')));
-let port = 4000;
+let port = 3000;
 
 http.listen(port, function () {
     console.log('listening on:', port);
@@ -179,6 +179,12 @@ io.on('connection', socket => {
     socket.on('blowUp', () => {
       player.blowUp(Matter)
     })
+    socket.on('updatePlayerSkillPoints', name => {
+      player.updatePlayerSkillPoints(name)
+      player.decreaseSkillPoints()
+      updatePlayerValues(socket, player)
+    })
+
     leaderBoardChange(room)
     // Update Code
     setInterval(updateCentrePoints, 16)
@@ -498,7 +504,8 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     hitterPlayer.updateProgress()
     if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
     // updatePlayer => skillPoints, skillPointValues, beltColour
-    socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
+    // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
+    updatePlayerValues(socket2, hitterPlayer)
     hitPlayer.blowUp(Matter, bodiesToMove)
     setTimeout(() => {
       Matter.Composite.clear(hitPlayer.PlayerComposite)
@@ -512,6 +519,12 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
   }
 }
+
+
+function updatePlayerValues(socket, player) {
+  socket.emit('updatePlayer', player.skillPoints, player.skillPointValues, player.beltColour, player.beltProgress)
+}
+
 
 function isPlayerDead (hitPlayer, bodyPartHit, hitterPlayer) {
   return hitPlayer.health - damageAmount(hitterPlayer, bodyPartHit) <= 0

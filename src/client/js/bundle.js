@@ -11553,6 +11553,8 @@ var ProgressBar = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
         { className: 'progressContainer', style: _extends({}, Style.progressContainer, { width: this.props.containerWidth, height: this.props.containerHeight, borderRadius: this.props.borderRadius }) },
@@ -11570,7 +11572,9 @@ var ProgressBar = (0, _radium2.default)(_class = function (_React$Component) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'plusIcon', style: _extends({}, Style.plusIcon, { display: this.props.plusIcon, right: this.props.plusIconRight }) },
+          { className: 'plusIcon', style: _extends({}, Style.plusIcon, { display: this.props.plusIcon, right: this.props.plusIconRight, color: this.props.plusColour }), onClick: function onClick() {
+              return _this2.props.handleSkillPointsClick(_this2.props.name, _this2.props.progressVal);
+            } },
           ' + '
         )
       );
@@ -11600,12 +11604,14 @@ var Style = {
     justifyContent: "center"
   },
   text: {
-    fontFamily: "Ubuntu"
+    fontFamily: "Ubuntu",
+    userSelect: "none"
   },
   plusIcon: {
     position: "absolute",
     color: "#FFFFFF",
-    cursor: "pointer"
+    cursor: "pointer",
+    userSelect: "none"
   }
 };
 
@@ -27785,6 +27791,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     };
     _this.respawnPlayer = _this.respawnPlayer.bind(_this);
     _this.createBloodParticles = _this.createBloodParticles.bind(_this);
+    _this.handleSkillPointsClick = _this.handleSkillPointsClick.bind(_this);
     _this.bloodParticles = [];
     return _this;
   }
@@ -27853,6 +27860,13 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         var newPlayer = _extends({}, _this2.state.player, { skillPoints: skillPoints, skillPointValues: skillPointValues, beltColour: beltColour, beltProgress: beltProgress });
         _this2.setState({ player: newPlayer });
       });
+    }
+  }, {
+    key: 'handleSkillPointsClick',
+    value: function handleSkillPointsClick(progressBarType, currentProgress) {
+      if (currentProgress >= 100 || this.state.player.skillPoints < 1) return;
+      console.log('updatePlayerSkillPoints');
+      _io2.default.emit('updatePlayerSkillPoints', progressBarType);
     }
   }, {
     key: 'setUpBeltImages',
@@ -28406,7 +28420,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           ),
           _react2.default.createElement(_ProgressBar2.default, { containerWidth: '400px', containerHeight: '30px', borderRadius: '15px', progress: (this.state.player.beltProgress < 10 ? 10 : this.state.player.beltProgress) + '%', progressColour: '#18C29C', text: this.state.player.beltColour + ' Belt', textColour: '#FFFFFF', plusIcon: 'none', plusIconRight: '20px', fontSize: '16px' })
         ),
-        _react2.default.createElement(_SkillPoints2.default, { skillPoints: this.state.player.skillPoints, skillPointValues: this.state.player.skillPointValues })
+        _react2.default.createElement(_SkillPoints2.default, { skillPoints: this.state.player.skillPoints, skillPointValues: this.state.player.skillPointValues, handleSkillPointsClick: this.handleSkillPointsClick })
       );
     }
   }]);
@@ -29061,7 +29075,7 @@ var SkillPoints = (0, _radium2.default)(_class = function (_React$Component) {
           )
         ),
         progressBarList.length > 0 && progressBarList.map(function (progressBarElem) {
-          return _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: progressBarElem.val + '%', progressColour: progressBarElem.colour, text: progressBarElem.text, textColour: '#FFFFFF', plusIcon: 'inline', plusIconRight: '10px', fontSize: '12px' });
+          return _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: progressBarElem.val + '%', progressVal: progressBarElem.val, name: progressBarElem.name, progressColour: progressBarElem.colour, text: progressBarElem.text, textColour: '#FFFFFF', plusIcon: 'inline', plusColour: '#FFFFFF', plusIconRight: '10px', handleSkillPointsClick: _this2.props.handleSkillPointsClick, fontSize: '12px' });
         })
       );
     }

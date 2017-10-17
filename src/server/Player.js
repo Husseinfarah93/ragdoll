@@ -14,11 +14,11 @@ function Player(name, id, characterType, skinType) {
   this.beltProgress = 0
   this.skillPoints = 0
   this.skillPointValues = {
-    maxHealth: {val: 0, colour: '#FFBC40', text: 'Max Health'},
-    maxSpeed: {val: 0, colour: '#F16F61', text: 'Max Speed'},
-    damageDealt: {val: 0, colour: '#4A89AA', text: 'Damage Dealt'},
-    damageReceived: {val: 0, colour: '#5A3662', text: 'Damage Received'},
-    healthRegen: {val: 0, colour: '#18C29C', text: 'Health Regen'}
+    maxHealth: {val: 0, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 10},
+    maxSpeed: {val: 0, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 10},
+    damageDealt: {val: 0, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 10},
+    damageReceived: {val: 0, colour: '#5A3662', text: 'Damage Received', name: 'damageReceived', updateAmount: 10},
+    healthRegen: {val: 0, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: 10}
   }
   this.isDead = false
   this.isBlownUp = false
@@ -2796,6 +2796,10 @@ Player.prototype.increaseSkillPoints = function() {
 Player.prototype.decreaseSkillPoints = function() {
   this.skillPoints -= 1
   this.skillPoints = this.skillPoints < 0 ? 0: this.skillPoints
+}
+
+Player.prototype.updatePlayerSkillPoints = function(skillPoint) {
+  this.skillPointValues[skillPoint].val += this.skillPointValues[skillPoint].updateAmount
 }
 
 // Returns True / False for if player should move belt group
