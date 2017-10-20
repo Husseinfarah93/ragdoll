@@ -5,7 +5,8 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-      loaders: [{
+      loaders: [
+        {
           test: /.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
@@ -13,9 +14,16 @@ module.exports = {
             plugins: ['transform-decorators-legacy' ],
             presets: ['es2015', 'stage-0', 'react']
           },
-      },       {
+        },
+      {
+        test: /\.scss$/,
+        exclude: /chrome/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
         test: /\.(png)$/,
         loader: 'url-loader',
-      }]
+      }
+  ]
   }
 }

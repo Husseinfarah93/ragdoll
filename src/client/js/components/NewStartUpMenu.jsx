@@ -56,7 +56,7 @@ class NewStartupMenu extends React.Component {
           </div>
         </div>
         <div id='social' style={Style.social}></div>
-        {this.state.showSkinModal && 
+        {this.state.showSkinModal &&
           <div id='modalContainer' style={Style.modalContainer} onClick={this.toggleSkinModal}></div>
         }
         {this.state.showSkinModal &&
@@ -69,9 +69,7 @@ class NewStartupMenu extends React.Component {
             </div>
             <div id='tabs' style={Style.tabs}>
               <a className='tab selected' style={Style.tab}>SKIN</a>
-              <a className='tab' style={Style.tab}>CHARACTER</a>
               <a className='tab' style={Style.tab}>Game Mode</a>
-              <a className='tab' style={Style.tab}>CHILD 4</a>
             </div>
             <div id='gridContainer' style={Style.gridContainer}>
               <div id='grid' style={Style.grid}>
@@ -251,7 +249,7 @@ const Style = {
   //   margin: 0px 0.5px 0px 0px
   // },
   // .tab:hover {
-  //   background-color: #ccc  
+  //   background-color: #ccc
   // },
   // .tab.selected {
   //   background-color: #ccc
@@ -263,7 +261,7 @@ const Style = {
     display: 'flex',
   },
   grid: {
-    backgroundColor: '#D6D6D6', 
+    backgroundColor: '#D6D6D6',
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',

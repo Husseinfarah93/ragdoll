@@ -438,7 +438,7 @@ class Canvas extends React.Component {
       let ctx = cvs.getContext('2d')
       cvs.width = canvasWidth 
       cvs.height = canvasHeight
-      let boxSize = 100
+      let boxSize = 50
       ctx.fillStyle = '#404040'
       ctx.fill()
       ctx.strokeStyle = '#E6E6E6'

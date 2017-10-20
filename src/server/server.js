@@ -38,8 +38,8 @@ function printRooms() {
 }
 
 function getRooms() {
-    let rooms = io.sockets.adapter.rooms 
-    let list = [] 
+    let rooms = io.sockets.adapter.rooms
+    let list = []
     for(room in rooms) list.push(room)
     return list
 }
@@ -142,7 +142,7 @@ io.on('connection', socket => {
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
       Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
     }
-    // Set up camera front end 
+    // Set up camera front end
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
     socket.emit('setUpWorld', worldWidth, worldHeight)
@@ -155,7 +155,7 @@ io.on('connection', socket => {
     rooms[room].players[socket.id] = player
     // Update leaderboard
     leaderBoardChange(room)
-    // Body 
+    // Body
     socket.on('keydown', (left, up, right, down) => {
       player.movePlayer(left, up, right, down, Matter)
     })
@@ -321,7 +321,7 @@ function getPlayerVertices(room) {
     for(player in players) {
       if(player.isDead) continue
       let pushItem = {}
-      pushItem.health = players[player].health 
+      pushItem.health = players[player].health
       pushItem.initialHealth = players[player].initialHealth
       pushItem.name = players[player].name
       pushItem.id = players[player].id
@@ -544,16 +544,16 @@ function clearUpdates(socketId) {
 }
 
 function repel(roomName, bodyA, bodyB) {
-  let bodyALeft = bodyA.position.x < bodyB.position.x 
+  let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
   let force = 0.005
   let forceA = {
-    x: bodyALeft ? force * -1 : force, 
-    y: bodyAUp ? force * -1 : force, 
+    x: bodyALeft ? force * -1 : force,
+    y: bodyAUp ? force * -1 : force,
   }
   let forceB = {
-    x: bodyALeft ? force : force * -1, 
-    y: bodyAUp ? force : force * -1, 
+    x: bodyALeft ? force : force * -1,
+    y: bodyAUp ? force : force * -1,
   }
   let elemA = {body: bodyA, force: forceA}
   let elemB = {body: bodyB, force: forceB}
@@ -565,10 +565,10 @@ function executeRepel(Matter, roomName) {
   let Body = Matter.Body
   let bodiesToMove = rooms[roomName].bodiesToRepel
 	for(let item of bodiesToMove) {
-		let body = item.body 
+		let body = item.body
 		let force = item.force
 		Body.applyForce(body, body.position, force)
-	} 
+	}
 	rooms[roomName].bodiesToRepel = []
 }
 

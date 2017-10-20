@@ -1,0 +1,182 @@
+html, body, #landingPageContainer {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+#container {
+  background-color: #4fcbd3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+#title {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 120px;
+  color: #ecf0f1;
+  margin-bottom: 80px;
+  text-shadow: 5px 5px #336E7B;
+  user-select: none;
+  cursor: default
+}
+#nameInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 3px solid #336E7B;
+  text-align: center;
+  caret-color: #336E7B;
+  width: 30%;
+  color: #336E7B;
+  font-size: 35px;
+  text-transform: uppercase;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  box-shadow: 0px 0px 1px;
+  border-radius: 10px;
+}
+input::placeholder {
+  color: #336E7B;
+}
+#enterMessage {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Quicksand";
+  color: #34495e;
+  user-select: none;
+  cursor: default
+}
+.icon {
+  position: fixed;
+  cursor: pointer
+}
+.icon.settings {
+  top: 0px;
+  right: 5px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 40px;
+  color: #2c3e50;
+}
+.icon.controller {
+  position: fixed;
+  bottom: 3px;
+  left: 60px;
+  width: 40px;
+  height: 40px
+}
+#bottomBanner {
+  position: fixed;
+  width: 100%;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Quicksand", sans-serif;
+  font-size: 20px
+}
+span {
+  cursor: pointer;
+}
+.icon.leaderboard {
+  left: 10px;
+  top: 2px;
+  width: 40px;
+  height: 40px;
+}
+.icon.skin {
+ left: 10px;
+ bottom: 5px;
+ width: 40px;
+ height: 40px;
+}
+#socialIcons {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+}
+.social {
+  width: 40px;
+  height: 40px;
+  cursor: pointer
+}
+#modal {
+  position: fixed;
+  width: 400px;
+  height: 450px;
+  top: 50%;
+  left: 50%;
+  margin-left: -200px;
+  margin-top: -225px;
+  background-color: red;
+  border-radius: 30px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#skinDisplay {
+  /*background-color: #4fcbd3;*/
+  background-image: url("https://i.gyazo.com/0575daf80b1edcee4fc4d1ccba5bef8e.png");
+  height: 80%;
+  width: 100%;
+  border-radius: 30px 30px 0px 0px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+#skinsCarousal {
+  background-color: #3F3F3F;
+  height: 20%;
+  width: 100%;
+  border-radius: 0px 0px 30px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.blurred {
+  filter: blur(4px);
+  background-color: #41bdc1;
+}
+#skinsContainer {
+  height: 80%;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.skinOption {
+  height: 100%;
+  width: 20%;
+  border-radius: 10px;
+  background-color: red;
+  cursor: pointer
+}
+#yellowSkin {
+  background-color: #f1c40f
+}
+#blueSkin {
+  background-color: #2980b9;
+  border: 2px solid #ecf0f1
+}
+#redSkin {
+  background-color: #e74c3c
+}
+#greenSkin {
+  background-color: #27ae60
+}
+#skinInfo {
+  padding: 0px;
+  margin: 0px;
+  font-size: 40px;
+  font-family: Quicksand;
+  color: white;
+  text-shadow: 3px 3px #336E7B;
+}
