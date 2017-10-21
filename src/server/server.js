@@ -6,7 +6,8 @@ let io = require('socket.io')(http)
 let c = require('../../config.json')
 let Player = require('./Player.js')
 
-app.use('/', express.static(path.resolve(__dirname + '/../client')));
+
+app.use(express.static(path.resolve(__dirname + '/../client')));
 let port = 4000;
 
 http.listen(port, function () {

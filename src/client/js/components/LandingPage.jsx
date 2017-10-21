@@ -10,9 +10,12 @@ class LandingPage extends React.Component {
       currentGameMode: 'FFA',
       showSkinModal: false,
       currentCharacter: 'basic',
-      currentSkin: 'basic',
+      currentSkin: '',
       skinIcon: undefined,
       bg: undefined,
+
+      skinIndex: 0,
+      pageIndex: 0
     }
   }
 
@@ -36,10 +39,14 @@ class LandingPage extends React.Component {
     this.setState({ name: evt.target.value })
   }
 
+  updateSkinInfo = (skinIndex, skinColourSelected, pageIndex) => {
+    this.setState({ skinIndex: skinIndex, currentSkin: skinColourSelected, pageIndex: pageIndex })
+  }
+
   render() {
     return (
       <div id="landingPageContainer" ref="landingPageContainer" onClick={() => {
-        if(this.state.showSkinModal) this.toggleSkinModal()
+        // if(this.state.showSkinModal) this.toggleSkinModal()
       }}>
         <div className={this.state.showSkinModal ? "container blurred" : "container normal"}>
           <h2 id="title"> RAGDOLL.IO </h2>
@@ -65,7 +72,7 @@ class LandingPage extends React.Component {
           <img className="social" id="redditIcon" src="https://cdn.worldvectorlogo.com/logos/reddit-2.svg" />
           <img className="social" id="discordIcon" src="https://user-images.githubusercontent.com/11203357/29274582-4be0c7e2-8100-11e7-83c8-0435aee88626.png" />
         </div>
-        {this.state.showSkinModal && <SkinModal />}
+        {this.state.showSkinModal && <SkinModal showAmount={4} currentSelected={this.state.skinIndex} currentPage={this.state.pageIndex} updateSkinInfo={this.updateSkinInfo}/>}
       </div>
     )
   }

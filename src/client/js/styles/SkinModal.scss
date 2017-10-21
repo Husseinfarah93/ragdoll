@@ -14,23 +14,29 @@
 }
 #skinDisplay {
   background-color: #4fcbd3;
-  // background-image: url("https://i.gyazo.com/0575daf80b1edcee4fc4d1ccba5bef8e.png");
   height: 80%;
   width: 100%;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 20px 20px 0px 0px;
   text-align: center;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+}
+.skinBackground {
+  border-radius: 20px 20px 0px 0px;
+  height: calc(90px * 2.5);
+  width: calc(75px * 2.5);
+  background-size: 100% 100%;
 }
 #skinsCarousal {
   background-color: #3F3F3F;
   height: 20%;
   width: 100%;
-  border-radius: 0px 0px 30px 30px;
+  border-radius: 0px 0px 20px 20px;
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
+  position: relative
 }
 #skinsContainer {
   height: 80%;
@@ -43,15 +49,18 @@
   height: 100%;
   width: 20%;
   border-radius: 10px;
-  background-color: red;
+  z-index: 1;
   cursor: pointer
 }
+
+
+
+
 #yellowSkin {
   background-color: #f1c40f
 }
 #blueSkin {
   background-color: #2980b9;
-  border: 2px solid #ecf0f1
 }
 #redSkin {
   background-color: #e74c3c
@@ -59,11 +68,33 @@
 #greenSkin {
   background-color: #27ae60
 }
-#skinInfo {
-  padding: 0px;
-  margin: 0px;
-  font-size: 40px;
-  font-family: Quicksand;
+
+
+
+
+
+.skinOption.skinSelected {
+    border: 2px solid #ecf0f1
+}
+#buttons {
+  position: absolute;
+  width: 95%;
+  height: 100%;
+  border-radius: 0px 0px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.fa-arrow-left, .fa-arrow-right {
+  font-size: 20px;
+}
+.button {
+  width: 20px;
+  height: 20px;
   color: white;
-  text-shadow: 3px 3px #336E7B;
+  cursor: pointer
+}
+.button.disabled {
+  cursor: not-allowed;
+  color: grey
 }

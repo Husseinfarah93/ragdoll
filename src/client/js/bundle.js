@@ -28181,14 +28181,21 @@ var LandingPage = function (_React$Component) {
       _this.setState({ name: evt.target.value });
     };
 
+    _this.updateSkinInfo = function (skinIndex, skinColourSelected, pageIndex) {
+      _this.setState({ skinIndex: skinIndex, currentSkin: skinColourSelected, pageIndex: pageIndex });
+    };
+
     _this.state = {
       name: '',
       currentGameMode: 'FFA',
       showSkinModal: false,
       currentCharacter: 'basic',
-      currentSkin: 'basic',
+      currentSkin: '',
       skinIcon: undefined,
-      bg: undefined
+      bg: undefined,
+
+      skinIndex: 0,
+      pageIndex: 0
     };
     return _this;
   }
@@ -28202,12 +28209,10 @@ var LandingPage = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       return _react2.default.createElement(
         'div',
         { id: 'landingPageContainer', ref: 'landingPageContainer', onClick: function onClick() {
-            if (_this2.state.showSkinModal) _this2.toggleSkinModal();
+            // if(this.state.showSkinModal) this.toggleSkinModal()
           } },
         _react2.default.createElement(
           'div',
@@ -28267,7 +28272,7 @@ var LandingPage = function (_React$Component) {
           _react2.default.createElement('img', { className: 'social', id: 'redditIcon', src: 'https://cdn.worldvectorlogo.com/logos/reddit-2.svg' }),
           _react2.default.createElement('img', { className: 'social', id: 'discordIcon', src: 'https://user-images.githubusercontent.com/11203357/29274582-4be0c7e2-8100-11e7-83c8-0435aee88626.png' })
         ),
-        this.state.showSkinModal && _react2.default.createElement(_SkinModal2.default, null)
+        this.state.showSkinModal && _react2.default.createElement(_SkinModal2.default, { showAmount: 4, currentSelected: this.state.skinIndex, currentPage: this.state.pageIndex, updateSkinInfo: this.updateSkinInfo })
       );
     }
   }]);
@@ -28452,30 +28457,109 @@ var SkinModal = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SkinModal.__proto__ || Object.getPrototypeOf(SkinModal)).call(this));
 
-    _this.state = {};
+    _this.state = {
+      showAmount: 0,
+      arrToMap: [],
+      currentPage: 0,
+      currentSelected: 0,
+      coloursArr: ["#D24D57", "#34495E", "#59ABE3", "#f1c40f", "#00B16A", "#F62459", "#e67e22", "#9b59b6"]
+    };
+    _this.moveRightPage = _this.moveRightPage.bind(_this);
+    _this.moveLeftPage = _this.moveLeftPage.bind(_this);
+    _this.selectSkin = _this.selectSkin.bind(_this);
     return _this;
   }
 
   _createClass(SkinModal, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+      var amount = this.props.showAmount;
+      this.setState({
+        showAmount: amount,
+        arrToMap: new Array(amount).fill(""),
+        currentSelected: this.props.currentSelected,
+        currentPage: this.props.currentPage
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      var s = this.state;
+      this.props.updateSkinInfo(s.currentSelected, s.coloursArr[s.currentSelected], s.currentPage);
+    }
+  }, {
+    key: 'isFirstPage',
+    value: function isFirstPage() {
+      return this.state.currentPage === 0;
+    }
+  }, {
+    key: 'isLastPage',
+    value: function isLastPage() {
+      return this.state.currentPage === this.state.coloursArr.length / this.state.showAmount - 1;
+    }
+  }, {
+    key: 'moveLeftPage',
+    value: function moveLeftPage() {
+      if (!this.isFirstPage()) this.setState({ currentPage: this.state.currentPage - 1 });
+    }
+  }, {
+    key: 'moveRightPage',
+    value: function moveRightPage() {
+      if (!this.isLastPage()) this.setState({ currentPage: this.state.currentPage + 1 });
+    }
+  }, {
+    key: 'selectSkin',
+    value: function selectSkin(actualIndex) {
+      this.setState({ currentSelected: actualIndex });
+    }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
         { id: 'skinModal' },
-        _react2.default.createElement('div', { id: 'skinDisplay' }),
+        _react2.default.createElement(
+          'div',
+          { id: 'skinDisplay' },
+          _react2.default.createElement('div', {
+            className: 'skinBackground',
+            style: { backgroundImage: 'url("../../assets/' + this.state.coloursArr[this.state.currentSelected].slice(1) + '.png")' }
+          })
+        ),
         _react2.default.createElement(
           'div',
           { id: 'skinsCarousal' },
           _react2.default.createElement(
             'div',
+            { id: 'buttons' },
+            _react2.default.createElement(
+              'div',
+              { id: 'leftButton', className: this.isFirstPage() ? "button disabled" : "button", onClick: this.moveLeftPage },
+              _react2.default.createElement('i', { className: 'fa fa-arrow-left' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'rightButton', className: this.isLastPage() ? "button disabled" : "button", onClick: this.moveRightPage },
+              _react2.default.createElement('i', { className: 'fa fa-arrow-right' })
+            )
+          ),
+          _react2.default.createElement(
+            'div',
             { id: 'skinsContainer' },
-            _react2.default.createElement('div', { id: 'yellowSkin', className: 'skinOption' }),
-            _react2.default.createElement('div', { id: 'blueSkin', className: 'skinOption' }),
-            _react2.default.createElement('div', { id: 'redSkin', className: 'skinOption' }),
-            _react2.default.createElement('div', { id: 'greenSkin', className: 'skinOption' })
+            this.state.arrToMap.map(function (element, idx) {
+              var actualIndex = _this2.state.currentPage * _this2.state.showAmount + idx;
+              var isSelected = _this2.state.currentSelected === actualIndex;
+              return _react2.default.createElement('div', {
+                key: idx,
+                className: isSelected ? "skinOption skinSelected" : "skinOption",
+                style: { backgroundColor: _this2.state.coloursArr[actualIndex] },
+                onClick: function onClick() {
+                  return _this2.selectSkin(actualIndex);
+                }
+              });
+            })
           )
         )
       );
@@ -28527,7 +28611,7 @@ exports = module.exports = __webpack_require__(103)(undefined);
 
 
 // module
-exports.push([module.i, "#skinModal {\n  position: fixed;\n  width: 400px;\n  height: 450px;\n  top: 50%;\n  left: 50%;\n  margin-left: -200px;\n  margin-top: -225px;\n  background-color: red;\n  border-radius: 30px;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n#skinDisplay {\n  background-color: #4fcbd3;\n  height: 80%;\n  width: 100%;\n  border-radius: 30px 30px 0px 0px;\n  text-align: center;\n  display: flex;\n  justify-content: center;\n  align-items: flex-end; }\n\n#skinsCarousal {\n  background-color: #3F3F3F;\n  height: 20%;\n  width: 100%;\n  border-radius: 0px 0px 30px 30px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#skinsContainer {\n  height: 80%;\n  width: 80%;\n  display: flex;\n  justify-content: space-between;\n  align-items: center; }\n\n.skinOption {\n  height: 100%;\n  width: 20%;\n  border-radius: 10px;\n  background-color: red;\n  cursor: pointer; }\n\n#yellowSkin {\n  background-color: #f1c40f; }\n\n#blueSkin {\n  background-color: #2980b9;\n  border: 2px solid #ecf0f1; }\n\n#redSkin {\n  background-color: #e74c3c; }\n\n#greenSkin {\n  background-color: #27ae60; }\n\n#skinInfo {\n  padding: 0px;\n  margin: 0px;\n  font-size: 40px;\n  font-family: Quicksand;\n  color: white;\n  text-shadow: 3px 3px #336E7B; }\n", ""]);
+exports.push([module.i, "#skinModal {\n  position: fixed;\n  width: 400px;\n  height: 450px;\n  top: 50%;\n  left: 50%;\n  margin-left: -200px;\n  margin-top: -225px;\n  background-color: red;\n  border-radius: 30px;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n#skinDisplay {\n  background-color: #4fcbd3;\n  height: 80%;\n  width: 100%;\n  border-radius: 20px 20px 0px 0px;\n  text-align: center;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.skinBackground {\n  border-radius: 20px 20px 0px 0px;\n  height: calc(90px * 2.5);\n  width: calc(75px * 2.5);\n  background-size: 100% 100%; }\n\n#skinsCarousal {\n  background-color: #3F3F3F;\n  height: 20%;\n  width: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative; }\n\n#skinsContainer {\n  height: 80%;\n  width: 80%;\n  display: flex;\n  justify-content: space-between;\n  align-items: center; }\n\n.skinOption {\n  height: 100%;\n  width: 20%;\n  border-radius: 10px;\n  z-index: 1;\n  cursor: pointer; }\n\n#yellowSkin {\n  background-color: #f1c40f; }\n\n#blueSkin {\n  background-color: #2980b9; }\n\n#redSkin {\n  background-color: #e74c3c; }\n\n#greenSkin {\n  background-color: #27ae60; }\n\n.skinOption.skinSelected {\n  border: 2px solid #ecf0f1; }\n\n#buttons {\n  position: absolute;\n  width: 95%;\n  height: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.fa-arrow-left, .fa-arrow-right {\n  font-size: 20px; }\n\n.button {\n  width: 20px;\n  height: 20px;\n  color: white;\n  cursor: pointer; }\n\n.button.disabled {\n  cursor: not-allowed;\n  color: grey; }\n", ""]);
 
 // exports
 
