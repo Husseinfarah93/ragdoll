@@ -470,6 +470,7 @@ function collisionCheck(event, roomName, id) {
       handleHit(bodyB.playerId, bodyA.playerId, bodyB.label, bodyA.label, roomName)
       bodyPartHit(bodyA, 3000, roomName)
     }
+    
   }
 }
 
@@ -522,8 +523,8 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   else {
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
   }
-}
 
+}
 
 function updatePlayerValues(socket, player) {
   socket.emit('updatePlayer', player.skillPoints, player.skillPointValues, player.beltColour, player.beltProgress, player.killStreak)

@@ -67,10 +67,10 @@ class LandingPage extends React.Component {
         <img className="icon controller" src="https://maxcdn.icons8.com/Share/icon/p1em/Gaming//controller1600.png" />
         <img className="icon skin" id="skinIcon" src="https://i.imgur.com/dEPAF5R.png" ref="skinIcon" onClick={this.toggleSkinModal}/>
         <div id="socialIcons">
-          <img className="social" id="twitterIcon" src="https://cdn1.iconfinder.com/data/icons/iconza-circle-social/64/697029-twitter-512.png" />
-          <img className="social" id="facebookIcon" src="https://image.flaticon.com/icons/png/512/124/124010.png" />
-          <img className="social" id="redditIcon" src="https://cdn.worldvectorlogo.com/logos/reddit-2.svg" />
-          <img className="social" id="discordIcon" src="https://user-images.githubusercontent.com/11203357/29274582-4be0c7e2-8100-11e7-83c8-0435aee88626.png" />
+          <img className="social" id="twitterIcon" src="../../assets/twitter.png" />
+          <img className="social" id="facebookIcon" src="../../assets/facebook.png" />
+          <img className="social" id="redditIcon" src="../../assets/reddit.png" />
+          <img className="social" id="discordIcon" src="../../assets/discord.png" />
         </div>
         {this.state.showSkinModal && <SkinModal showAmount={4} currentSelected={this.state.skinIndex} currentPage={this.state.pageIndex} updateSkinInfo={this.updateSkinInfo}/>}
       </div>
