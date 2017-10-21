@@ -11,10 +11,10 @@ class SkinModal extends React.Component {
       currentPage: 0,
       currentSelected: 0,
       coloursArr: [
-        "#D24D57",
+        "#f1c40f",
         "#34495E",
         "#59ABE3",
-        "#f1c40f",
+        "#D24D57",
         "#00B16A",
         "#F62459",
         "#e67e22",

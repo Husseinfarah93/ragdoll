@@ -10,7 +10,7 @@ class LandingPage extends React.Component {
       currentGameMode: 'FFA',
       showSkinModal: false,
       currentCharacter: 'basic',
-      currentSkin: '',
+      currentSkin: '#f1c40f',
       skinIcon: undefined,
       bg: undefined,
 

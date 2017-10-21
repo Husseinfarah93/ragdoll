@@ -338,6 +338,7 @@ function getPlayerVertices(room) {
       pushItem.headPosition = players[player].headPosition
       pushItem.armBandList = players[player].armBandList
       pushItem.beltList = players[player].beltList
+      pushItem.skinType = players[player].skinType
       list.push(pushItem)
     }
     return list

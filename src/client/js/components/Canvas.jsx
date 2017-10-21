@@ -29,7 +29,7 @@ class Canvas extends React.Component {
           skillPointValues: {},
           killStreak: 0,
           beltColour: "",
-          beltProgress: 0
+          beltProgress: 0,
         }
       }
       this.keyDown = {
@@ -120,7 +120,7 @@ class Canvas extends React.Component {
         killerPlayer,
         killType,
         killedPlayer,
-        killerPlayerColour, 
+        killerPlayerColour,
         killedPlayerColour,
         idx: this.state.newKill ? this.state.newKill.idx + 1 : 0
       } })
@@ -142,7 +142,7 @@ class Canvas extends React.Component {
     drawPlayers(players, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       let bandList = []
       for(let k = 0; k < players.length; k++) {
@@ -157,7 +157,7 @@ class Canvas extends React.Component {
           for (var j = 1; j < vertices.length; j += 1) {
               context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
           }
-        
+
           context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
           let label = vertices[0].label
           context.lineWidth = 1;
@@ -193,7 +193,7 @@ class Canvas extends React.Component {
     newDrawPlayers(players, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       //for player of players
       for(let i = 0; i < players.length; i++) {
@@ -218,8 +218,9 @@ class Canvas extends React.Component {
     drawBody(player, xPos, yPos, ctx) {
       for(let list of player.pointsList) {
         let colour = '#272727'
+        let skinType = player.skinType
         ctx.lineWidth = 20
-        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : '#2F3B40'
+        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? skinType : '#2F3B40'
         ctx.beginPath()
         ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
         for(let i = 1; i < list.length; i++) {
@@ -285,7 +286,7 @@ class Canvas extends React.Component {
     drawBlownUpCircles(player, xPos, yPos, ctx) {
       ctx.fillStyle = '#2F3B40'
       let circleList = player.circleList
-      let pointsList = player.pointsList 
+      let pointsList = player.pointsList
       let totalList = [].concat(pointsList.reduce((a, b) => a.concat(b))).concat(circleList)
       for(let elem of totalList) {
         ctx.beginPath()
@@ -334,7 +335,7 @@ class Canvas extends React.Component {
       // Draw Background Health
       context.fillStyle = 'black'
       context.fillRect(x, y, healthBarWidth, healthBarHeight)
-      // Draw Health 
+      // Draw Health
       context.fillStyle = 'red'
       context.fillRect(x, y, healthBarWidth * percent, healthBarHeight)
     }
@@ -364,12 +365,12 @@ class Canvas extends React.Component {
 
     drawHealthPacks() {
       //
-    } 
+    }
 
     drawWalls(bodies, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       context.fillStyle = 'black';
       context.beginPath();
@@ -381,7 +382,7 @@ class Canvas extends React.Component {
           context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
         }
         context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        
+
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
@@ -391,17 +392,17 @@ class Canvas extends React.Component {
     }
 
     drawBackground(camera) {
-      let canvas = this.state.canvas 
+      let canvas = this.state.canvas
       let context = canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       let img = this.img
       context.clearRect(0, 0, canvas.width, canvas.height)
-      // Draw Shifted Viewport 
-      let newX = (xPos % canvas.width) - this.diff.x 
+      // Draw Shifted Viewport
+      let newX = (xPos % canvas.width) - this.diff.x
       let newY = (yPos % canvas.height) - this.diff.y
 
-      
+
       context.drawImage(img, newX, newY, canvas.width - newX, canvas.height - newY, 0, 0, canvas.width - newX, canvas.height - newY)
       // Right
       if(newX > 0) {
@@ -436,7 +437,7 @@ class Canvas extends React.Component {
     generateBackground(canvasWidth, canvasHeight) {
       let cvs = document.createElement('canvas')
       let ctx = cvs.getContext('2d')
-      cvs.width = canvasWidth 
+      cvs.width = canvasWidth
       cvs.height = canvasHeight
       let boxSize = 50
       ctx.fillStyle = '#404040'
@@ -452,7 +453,7 @@ class Canvas extends React.Component {
         ctx.lineTo(canvasWidth, j)
         ctx.stroke()
       }
-      let dataUrl = ctx.canvas.toDataURL("image/png");	
+      let dataUrl = ctx.canvas.toDataURL("image/png");
       let img = new Image()
       img.src = dataUrl
       this.img = img
@@ -472,11 +473,11 @@ class Canvas extends React.Component {
     adjustCentre(canvas, Pelvis) {
       let centreX = canvas.width / 2
       let centreY = canvas.height / 2
-      let diffX = Pelvis.x - centreX 
+      let diffX = Pelvis.x - centreX
       let diffY = Pelvis.y - centreY
       return { diffX, diffY }
     }
-    
+
     addListeners() {
       let self = this
       window.addEventListener('keydown', e => {
@@ -503,7 +504,7 @@ class Canvas extends React.Component {
           {
             this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
           }
-          { this.state.playerDead && 
+          { this.state.playerDead &&
             <RespawnModal respawnPlayer={this.respawnPlayer} />
           }
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
@@ -546,7 +547,7 @@ export default Canvas
 /*
 Props
 Container Width
-Progress Width 
+Progress Width
 Progress Background Colour
 Text
 PlusIcon

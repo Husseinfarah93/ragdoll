@@ -28190,7 +28190,7 @@ var LandingPage = function (_React$Component) {
       currentGameMode: 'FFA',
       showSkinModal: false,
       currentCharacter: 'basic',
-      currentSkin: '',
+      currentSkin: '#f1c40f',
       skinIcon: undefined,
       bg: undefined,
 
@@ -28462,7 +28462,7 @@ var SkinModal = function (_React$Component) {
       arrToMap: [],
       currentPage: 0,
       currentSelected: 0,
-      coloursArr: ["#D24D57", "#34495E", "#59ABE3", "#f1c40f", "#00B16A", "#F62459", "#e67e22", "#9b59b6"]
+      coloursArr: ["#f1c40f", "#34495E", "#59ABE3", "#D24D57", "#00B16A", "#F62459", "#e67e22", "#9b59b6"]
     };
     _this.moveRightPage = _this.moveRightPage.bind(_this);
     _this.moveLeftPage = _this.moveLeftPage.bind(_this);
@@ -28917,8 +28917,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           var list = _step.value;
 
           var colour = '#272727';
+          var skinType = player.skinType;
           ctx.lineWidth = 20;
-          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : '#2F3B40';
+          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? skinType : '#2F3B40';
           ctx.beginPath();
           ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
           for (var i = 1; i < list.length; i++) {
@@ -29167,7 +29168,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       // Draw Background Health
       context.fillStyle = 'black';
       context.fillRect(x, y, healthBarWidth, healthBarHeight);
-      // Draw Health 
+      // Draw Health
       context.fillStyle = 'red';
       context.fillRect(x, y, healthBarWidth * percent, healthBarHeight);
     }
@@ -29235,7 +29236,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var yPos = camera.yPos;
       var img = this.img;
       context.clearRect(0, 0, canvas.width, canvas.height);
-      // Draw Shifted Viewport 
+      // Draw Shifted Viewport
       var newX = xPos % canvas.width - this.diff.x;
       var newY = yPos % canvas.height - this.diff.y;
 
@@ -29384,7 +29385,7 @@ exports.default = Canvas;
 /*
 Props
 Container Width
-Progress Width 
+Progress Width
 Progress Background Colour
 Text
 PlusIcon
