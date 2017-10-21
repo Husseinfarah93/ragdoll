@@ -526,7 +526,7 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
 
 
 function updatePlayerValues(socket, player) {
-  socket.emit('updatePlayer', player.skillPoints, player.skillPointValues, player.beltColour, player.beltProgress)
+  socket.emit('updatePlayer', player.skillPoints, player.skillPointValues, player.beltColour, player.beltProgress, player.killStreak)
 }
 
 

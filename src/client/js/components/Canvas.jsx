@@ -97,8 +97,15 @@ class Canvas extends React.Component {
         this.createBloodParticles(newX, newY, bloodConfig.particleNumber)
       })
 
-      socket.on('updatePlayer', (skillPoints, skillPointValues, beltColour, beltProgress) => {
-        let newPlayer = {...this.state.player, skillPoints: skillPoints, skillPointValues: skillPointValues, beltColour: beltColour, beltProgress: beltProgress}
+      socket.on('updatePlayer', (skillPoints, skillPointValues, beltColour, beltProgress, killStreak) => {
+        let newPlayer = {
+          ...this.state.player,
+          skillPoints: skillPoints,
+          skillPointValues: skillPointValues,
+          beltColour: beltColour,
+          beltProgress: beltProgress,
+          killStreak: killStreak
+        }
         this.setState({ player: newPlayer })
       })
 
@@ -505,7 +512,7 @@ class Canvas extends React.Component {
             this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
           }
           { this.state.playerDead &&
-            <RespawnModal respawnPlayer={this.respawnPlayer} />
+            <RespawnModal respawnPlayer={this.respawnPlayer} killStreak={this.state.player.killStreak} beltColour={this.state.player.beltColour}/>
           }
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
           <div style={Style.ProgressBar} >
