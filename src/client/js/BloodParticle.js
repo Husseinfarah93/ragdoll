@@ -7,7 +7,7 @@ function BloodParticle(x, y) {
   this.speed = Math.pow(Math.floor(Math.random() * bloodConfig.maxSpeed), .6)
   this.direction = Math.round(Math.random() * 360)
   this.colour = bloodConfig.colour
-  
+
   this.dead = false
   this.lifeLength = this.diff = bloodConfig.lifeLength
   this.startTime = this.currentTime = Date.now()
@@ -24,9 +24,9 @@ BloodParticle.prototype.updateTime = function() {
 
 BloodParticle.prototype.updatePosition = function() {
   let a = 180 - (this.direction + 90)
-  this.direction > 0 && this.direction < 180 ? this.x += this.speed * Math.sin(this.direction) / Math.sin(this.speed) 
+  this.direction > 0 && this.direction < 180 ? this.x += this.speed * Math.sin(this.direction) / Math.sin(this.speed)
   : this.x -= this.speed * Math.sin(this.direction) / Math.sin(this.speed)
-  this.direction > 90 && this.direction < 270 ? this.y += this.speed * Math.sin(a) / Math.sin(this.speed) 
+  this.direction > 90 && this.direction < 270 ? this.y += this.speed * Math.sin(a) / Math.sin(this.speed)
   : this.y -= this.speed * Math.sin(a) / Math.sin(this.speed)
 }
 

@@ -150,6 +150,8 @@ io.on('connection', socket => {
     // Create Player
     let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
     socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
+    // SEND START BG UPDATE
+    sendBGTextUpdate(socket, 'start')
     // player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
     player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
     // Add player to room in rooms
@@ -176,6 +178,8 @@ io.on('connection', socket => {
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
       socket.updateInterval = updateInterval
       leaderBoardChange(room)
+      // SEND START BG UPDATE
+      sendBGTextUpdate(socket, 'start')
     })
     socket.on('blowUp', () => {
       player.blowUp(Matter)
@@ -470,7 +474,7 @@ function collisionCheck(event, roomName, id) {
       handleHit(bodyB.playerId, bodyA.playerId, bodyB.label, bodyA.label, roomName)
       bodyPartHit(bodyA, 3000, roomName)
     }
-    
+
   }
 }
 
@@ -489,9 +493,13 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   hitterPlayer = room.players[hitterPlayer]
   hitPlayer = room.players[hitPlayer]
   // Dead
+  let socket = io.sockets.connected[hitPlayer.id]
+  let socket2 = io.sockets.connected[hitterPlayer.id]
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
-    let socket = io.sockets.connected[hitPlayer.id]
-    let socket2 = io.sockets.connected[hitterPlayer.id]
+    // SEND KILL BG UPDATE
+    sendBGTextUpdate(socket2, 'kill')
+    // SEND DEATH BG UPDATE
+    sendBGTextUpdate(socket, 'death')
     // clearUpdates(socket.id)
     socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
@@ -521,7 +529,12 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   }
   // Not Dead
   else {
+    let text = bodyPartHit === 'head' ? 'head' : 'body'
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
+    // SEND HITTER BG UPDATE
+    sendBGTextUpdate(socket2, text, true)
+    // SEND HIT BG UPDATE
+    sendBGTextUpdate(socket, text, false)
   }
 
 }
@@ -529,7 +542,6 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
 function updatePlayerValues(socket, player) {
   socket.emit('updatePlayer', player.skillPoints, player.skillPointValues, player.beltColour, player.beltProgress, player.killStreak)
 }
-
 
 function isPlayerDead (hitPlayer, bodyPartHit, hitterPlayer) {
   return hitPlayer.health - damageAmount(hitterPlayer, bodyPartHit) <= 0
@@ -607,13 +619,46 @@ function bodyPartHit(bodyPart, duration, roomName) {
   sendDisplayBlood(bodyPart, roomName)
 }
 
+function sendBGTextUpdate(socket, textType, isHitter) {
+  let textToSend;
+  let colour;
+  let blue = "#3498db"
+  let red = "#e74c3c"
+
+  if(textType === "body") {
+    textToSend = "BODY SHOT!"
+    colour = isHitter ? blue : red
+  }
+  else if(textType === "head") {
+    textToSend = "HEAD SHOT!"
+    colour = isHitter ? blue : red
+  }
+  else if(textType === "kill") {
+    textToSend = "NICE KILL!"
+    colour = blue
+  }
+  else if(textType === "death") {
+    textToSend = "DEATH!"
+    colour = red
+  }
+  else if(textType === "levelUp") {
+    textToSend = "L-L-LEVEL UP!"
+    colour = blue
+  }
+  else if(textType === "start") {
+    textToSend = "FIGHT!"
+    colour = blue
+  }
+  socket.emit("updateBGText", textToSend, colour)
+}
+
+
 /*
-Send Information
-- Player Info
-  - Player Positions
-  - Player Health
-- Health Pack Info
-  - Health Pack Position
-  - Health Pack Status
-- Walls
+  Body
+    1,2
+  Head
+    1,2
+  Kill
+  Death
+  Level Up
 */

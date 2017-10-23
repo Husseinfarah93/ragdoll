@@ -8,6 +8,7 @@ import KillFeed from './KillFeed.jsx'
 import config from '../../../../config.json'
 import BloodParticle from '../BloodParticle.js'
 import ProgressBar from './ProgressBar.jsx'
+import TextInfo from './TextInfo.jsx'
 import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
 let count = 0
@@ -23,6 +24,12 @@ class Canvas extends React.Component {
         playerDead: false,
         newKill: undefined,
         id: socket.id,
+        backgroundText: {
+          text: "",
+          colour: "",
+          idx: 0,
+          show: true
+        },
         player: {
           name: "",
           skillPoints: 0,
@@ -30,7 +37,7 @@ class Canvas extends React.Component {
           killStreak: 0,
           beltColour: "",
           beltProgress: 0,
-        }
+        },
       }
       this.keyDown = {
         up: false,
@@ -109,7 +116,16 @@ class Canvas extends React.Component {
         this.setState({ player: newPlayer })
       })
 
-
+      socket.on('updateBGText', (text, colour) => {
+        this.setState({ backgroundText: {...this.state.backgroundText, show: false  }})
+        let newBG = {
+          text: text,
+          colour: colour,
+          idx: this.state.backgroundText.idx + 1,
+          show: true
+        }
+        this.setState({ backgroundText: newBG })
+      })
     }
 
 
@@ -504,6 +520,12 @@ class Canvas extends React.Component {
     render() {
       return (
         <div>
+          {this.state.backgroundText.show &&
+            <TextInfo
+              text={this.state.backgroundText.text}
+              idx={this.state.backgroundText.idx}
+              colour={this.state.backgroundText.colour} />
+            }
           <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth}/>
           {
             this.state.newKill && <KillFeed newKill={this.state.newKill}/>

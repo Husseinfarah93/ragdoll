@@ -120,7 +120,7 @@ const Style = {
   img: {
     width: '366px',
     height: '114px',
-    background: "url('../../assets/rags.png')",
+    background: "url('../../assets/images/rags.png')",
     backgroundSize: '366px 114px',
     backgroundRepeat: 'no-repeat'
   },

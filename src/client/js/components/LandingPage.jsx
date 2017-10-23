@@ -67,10 +67,10 @@ class LandingPage extends React.Component {
         <img className="icon controller" src="https://maxcdn.icons8.com/Share/icon/p1em/Gaming//controller1600.png" />
         <img className="icon skin" id="skinIcon" src="https://i.imgur.com/dEPAF5R.png" ref="skinIcon" onClick={this.toggleSkinModal}/>
         <div id="socialIcons">
-          <img className="social" id="twitterIcon" src="../../assets/twitter.png" />
-          <img className="social" id="facebookIcon" src="../../assets/facebook.png" />
-          <img className="social" id="redditIcon" src="../../assets/reddit.png" />
-          <img className="social" id="discordIcon" src="../../assets/discord.png" />
+          <img className="social" id="twitterIcon" src="../../assets/images/twitter.png" />
+          <img className="social" id="facebookIcon" src="../../assets/images/facebook.png" />
+          <img className="social" id="redditIcon" src="../../assets/images/reddit.png" />
+          <img className="social" id="discordIcon" src="../../assets/images/discord.png" />
         </div>
         {this.state.showSkinModal && <SkinModal showAmount={4} currentSelected={this.state.skinIndex} currentPage={this.state.pageIndex} updateSkinInfo={this.updateSkinInfo}/>}
       </div>

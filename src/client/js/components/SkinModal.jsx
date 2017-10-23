@@ -72,7 +72,7 @@ class SkinModal extends React.Component {
         <div id="skinDisplay">
           <div
             className="skinBackground"
-            style={{backgroundImage: `url("../../assets/${this.state.coloursArr[this.state.currentSelected].slice(1)}.png")`}}
+            style={{backgroundImage: `url("../../assets/images/${this.state.coloursArr[this.state.currentSelected].slice(1)}.png")`}}
           />
         </div>
         <div id="skinsCarousal">
