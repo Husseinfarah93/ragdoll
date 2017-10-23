@@ -28614,7 +28614,8 @@ var LandingPage = function (_React$Component) {
           _react2.default.createElement('img', { className: 'social', id: 'twitterIcon', src: '../../assets/images/twitter.png' }),
           _react2.default.createElement('img', { className: 'social', id: 'facebookIcon', src: '../../assets/images/facebook.png' }),
           _react2.default.createElement('img', { className: 'social', id: 'redditIcon', src: '../../assets/images/reddit.png' }),
-          _react2.default.createElement('img', { className: 'social', id: 'discordIcon', src: '../../assets/images/discord.png' })
+          _react2.default.createElement('img', { className: 'social', id: 'discordIcon', src: '../../assets/images/discord.png' }),
+          _react2.default.createElement('img', { className: 'social', id: 'youtubeIcon', src: '../../assets/images/youtube.png' })
         ),
         this.state.showSkinModal && _react2.default.createElement(_SkinModal2.default, { showAmount: 4, currentSelected: this.state.skinIndex, currentPage: this.state.pageIndex, updateSkinInfo: this.updateSkinInfo })
       );
@@ -29394,7 +29395,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawBlownUpCircles',
     value: function drawBlownUpCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = '#2F3B40';
+      var skinType = player.skinType;
       var circleList = player.circleList;
       var pointsList = player.pointsList;
       var totalList = [].concat(pointsList.reduce(function (a, b) {
@@ -29408,6 +29409,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         for (var _iterator3 = totalList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
           var elem = _step3.value;
 
+          ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40';
           ctx.beginPath();
           ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
           ctx.fill();

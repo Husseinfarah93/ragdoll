@@ -71,6 +71,7 @@ class LandingPage extends React.Component {
           <img className="social" id="facebookIcon" src="../../assets/images/facebook.png" />
           <img className="social" id="redditIcon" src="../../assets/images/reddit.png" />
           <img className="social" id="discordIcon" src="../../assets/images/discord.png" />
+          <img className="social" id="youtubeIcon" src="../../assets/images/youtube.png" />
         </div>
         {this.state.showSkinModal && <SkinModal showAmount={4} currentSelected={this.state.skinIndex} currentPage={this.state.pageIndex} updateSkinInfo={this.updateSkinInfo}/>}
       </div>

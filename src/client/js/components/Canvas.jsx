@@ -126,6 +126,7 @@ class Canvas extends React.Component {
         }
         this.setState({ backgroundText: newBG })
       })
+
     }
 
 
@@ -307,11 +308,12 @@ class Canvas extends React.Component {
     }
 
     drawBlownUpCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = '#2F3B40'
+      let skinType = player.skinType
       let circleList = player.circleList
       let pointsList = player.pointsList
       let totalList = [].concat(pointsList.reduce((a, b) => a.concat(b))).concat(circleList)
       for(let elem of totalList) {
+        ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40'
         ctx.beginPath()
         ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false)
         ctx.fill()

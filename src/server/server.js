@@ -638,7 +638,7 @@ function sendBGTextUpdate(socket, textType, isHitter) {
     colour = blue
   }
   else if(textType === "death") {
-    textToSend = "DEATH!"
+    textToSend = "GET REKT!"
     colour = red
   }
   else if(textType === "levelUp") {
@@ -652,13 +652,23 @@ function sendBGTextUpdate(socket, textType, isHitter) {
   socket.emit("updateBGText", textToSend, colour)
 }
 
+function sendSoundUpdate(socket, soundType) {
+  let soundName;
+  switch(soundType) {
+    case "hit":
+    case "block":
+    case "kill":
+    case "death":
+    case "levelUp":
+  }
+}
 
 /*
-  Body
-    1,2
-  Head
-    1,2
-  Kill
-  Death
-  Level Up
+  Sounds:
+    Hit x3
+    Block x3
+    Level Up
+    Kill
+    Death
+    Background Music
 */
