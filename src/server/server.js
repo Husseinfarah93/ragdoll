@@ -498,8 +498,10 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
     // SEND KILL BG UPDATE
     sendBGTextUpdate(socket2, 'kill')
+    sendSoundUpdate(socket2, 'kill')
     // SEND DEATH BG UPDATE
     sendBGTextUpdate(socket, 'death')
+    sendSoundUpdate(socket, 'death')
     // clearUpdates(socket.id)
     socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
@@ -533,10 +535,11 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
     // SEND HITTER BG UPDATE
     sendBGTextUpdate(socket2, text, true)
+    sendSoundUpdate(socket2, 'hit')
     // SEND HIT BG UPDATE
     sendBGTextUpdate(socket, text, false)
+    sendSoundUpdate(socket, 'hit')
   }
-
 }
 
 function updatePlayerValues(socket, player) {
@@ -638,7 +641,7 @@ function sendBGTextUpdate(socket, textType, isHitter) {
     colour = blue
   }
   else if(textType === "death") {
-    textToSend = "GET REKT!"
+    textToSend = "DEATH!"
     colour = red
   }
   else if(textType === "levelUp") {
@@ -653,22 +656,5 @@ function sendBGTextUpdate(socket, textType, isHitter) {
 }
 
 function sendSoundUpdate(socket, soundType) {
-  let soundName;
-  switch(soundType) {
-    case "hit":
-    case "block":
-    case "kill":
-    case "death":
-    case "levelUp":
-  }
+  socket.emit('playSound', soundType)
 }
-
-/*
-  Sounds:
-    Hit x3
-    Block x3
-    Level Up
-    Kill
-    Death
-    Background Music
-*/

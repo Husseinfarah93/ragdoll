@@ -56,6 +56,7 @@ class Canvas extends React.Component {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas })
       this.addListeners()
       this.setUpSockets()
+      this.props.audio.bg.play()
     }
 
     setUpSockets() {
@@ -127,8 +128,14 @@ class Canvas extends React.Component {
         this.setState({ backgroundText: newBG })
       })
 
-    }
+      socket.on('playSound', soundType => {
+        let hitLength = this.props.audio.hit.length
+        let r = Math.ceil(Math.random() * (hitLength)) - 1
+        if(soundType === 'hit') this.props.audio[soundType][r].play()
+        else this.props.audio[soundType].play()
+      })
 
+    }
 
     handleSkillPointsClick(progressBarType, currentProgress) {
       if(currentProgress >= 100 || this.state.player.skillPoints < 1) return

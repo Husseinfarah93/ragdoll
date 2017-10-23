@@ -24604,23 +24604,64 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (MainComp.__proto__ || Object.getPrototypeOf(MainComp)).call(this));
 
     _this.startGame = function (name, gameType, character, skin) {
+
       _io2.default.emit('startGame', { name: name, gameType: gameType, character: character, skin: skin });
       var newGameInfo = { name: name, gameType: gameType, character: character, skin: skin };
       _this.setState({ showStartupMenu: false, gameInfo: newGameInfo });
     };
 
     _this.state = {
-      showStartupMenu: true
+      showStartupMenu: true,
+      audio: {}
     };
     return _this;
   }
 
   _createClass(MainComp, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.createAudio();
+    }
+  }, {
+    key: 'createAudio',
+    value: function createAudio() {
+      var bg = document.createElement('audio');
+      var hit1 = document.createElement('audio');
+      var hit2 = document.createElement('audio');
+      var hit3 = document.createElement('audio');
+      var block = document.createElement('audio');
+      var kill = document.createElement('audio');
+      var death = document.createElement('audio');
+      var levelUp = document.createElement('audio');
+
+      bg.src = "../../assets/sounds/BG.wav";
+      hit1.src = "../../assets/sounds/hit1.wav";
+      hit2.src = "../../assets/sounds/hit2.wav";
+      hit3.src = "../../assets/sounds/hit3.wav";
+      hit1.volume = hit2.volume = hit3.volume = 0.3;
+      block.src = "../../assets/sounds/block.wav";
+      kill.src = "../../assets/sounds/kill.mp3";
+      death.src = "../../assets/sounds/death.wav";
+      levelUp.src = "../../assets/sounds/levelUp.wav";
+
+      bg.loop = true;
+
+      var newAudio = {
+        bg: bg,
+        hit: [hit1, hit2, hit3],
+        block: block,
+        kill: kill,
+        death: death,
+        levelUp: levelUp
+      };
+      this.setState({ audio: newAudio });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return this.state.showStartupMenu ?
       // <StartupMenu startGame={this.startGame} />
-      _react2.default.createElement(_LandingPage2.default, { startGame: this.startGame }) : _react2.default.createElement(_Canvas2.default, null);
+      _react2.default.createElement(_LandingPage2.default, { startGame: this.startGame }) : _react2.default.createElement(_Canvas2.default, { audio: this.state.audio });
     }
   }]);
 
@@ -29087,6 +29128,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas });
       this.addListeners();
       this.setUpSockets();
+      this.props.audio.bg.play();
     }
   }, {
     key: 'setUpSockets',
@@ -29160,6 +29202,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           show: true
         };
         _this2.setState({ backgroundText: newBG });
+      });
+
+      _io2.default.on('playSound', function (soundType) {
+        var hitLength = _this2.props.audio.hit.length;
+        var r = Math.ceil(Math.random() * hitLength) - 1;
+        if (soundType === 'hit') _this2.props.audio[soundType][r].play();else _this2.props.audio[soundType].play();
       });
     }
   }, {
