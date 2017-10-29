@@ -251,6 +251,7 @@ class Canvas extends React.Component {
         let colour = '#272727'
         let skinType = player.skinType
         ctx.lineWidth = 20
+        ctx.lineCap = "round"
         ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? skinType : '#2F3B40'
         ctx.beginPath()
         ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
@@ -535,13 +536,9 @@ class Canvas extends React.Component {
               idx={this.state.backgroundText.idx}
               colour={this.state.backgroundText.colour} />
             }
-          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth}/>
-          {
-            this.state.newKill && <KillFeed newKill={this.state.newKill}/>
-          }
-          {
-            this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
-          }
+          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth} />
+          { this.state.newKill && <KillFeed newKill={this.state.newKill}/> }
+          { this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>  }
           { this.state.playerDead &&
             <RespawnModal respawnPlayer={this.respawnPlayer} killStreak={this.state.player.killStreak} beltColour={this.state.player.beltColour}/>
           }

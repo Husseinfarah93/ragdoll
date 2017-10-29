@@ -11961,7 +11961,7 @@ exports.default = socket;
 /* 107 */
 /***/ (function(module, exports) {
 
-module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}]}}
+module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}],"skins":{"spiderman":{},"deadpool":{},"wolverine":{},"wonderwoman":{},"batman":{},"catwoman":{},"ironman":{},"hulk":{},"superman":{},"flash":{},"goku":{},"vegeta":{},"naruto":{}}}}
 
 /***/ }),
 /* 108 */
@@ -29339,6 +29339,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           var colour = '#272727';
           var skinType = player.skinType;
           ctx.lineWidth = 20;
+          ctx.lineCap = "round";
           ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? skinType : '#2F3B40';
           ctx.beginPath();
           ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
