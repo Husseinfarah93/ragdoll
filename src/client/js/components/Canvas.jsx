@@ -11,6 +11,7 @@ import ProgressBar from './ProgressBar.jsx'
 import TextInfo from './TextInfo.jsx'
 import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
+let skins = config.gameInfo.skins
 let count = 0
 
 @Radium
@@ -137,13 +138,14 @@ class Canvas extends React.Component {
 
     }
 
+
+
+/*  HANDLE CODE   */
+
+
     handleSkillPointsClick(progressBarType, currentProgress) {
       if(currentProgress >= 100 || this.state.player.skillPoints < 1) return
       socket.emit('updatePlayerSkillPoints', progressBarType)
-    }
-
-    setUpBeltImages() {
-      this.state.beltImages
     }
 
     handleNewKill(killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour) {
@@ -169,6 +171,10 @@ class Canvas extends React.Component {
         socket.emit('respawn')
       }
     }
+
+
+/*  DRAW CODE   */
+
 
     drawPlayers(players, camera) {
       let canvas = this.state.canvas
@@ -234,7 +240,8 @@ class Canvas extends React.Component {
           this.drawBlownUpCircles(player, xPos, yPos, context)
         }
         else {
-          this.drawBody(player, xPos, yPos, context)
+          // this.drawBody(player, xPos, yPos, context)
+          this.newDrawBody(player, xPos, yPos, context)
           this.drawCircles(player, xPos, yPos, context)
           this.drawHead(player, xPos, yPos, context)
           this.drawArmBands(player, xPos, yPos, context)
@@ -252,7 +259,11 @@ class Canvas extends React.Component {
         let skinType = player.skinType
         ctx.lineWidth = 20
         ctx.lineCap = "round"
-        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? skinType : '#2F3B40'
+        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' ||
+        list[0].label === 'rightThigh' ||
+        list[0].label === 'leftThigh' ||
+        list[0].label === 'rightArm' ||
+        list[0].label === 'leftArm' ? skinType : '#2F3B40'
         ctx.beginPath()
         ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
         for(let i = 1; i < list.length; i++) {
@@ -260,6 +271,35 @@ class Canvas extends React.Component {
         }
         ctx.stroke()
       }
+    }
+
+    newDrawBody(player, xPos, yPos, ctx) {
+      let torso;
+      let layers = skins[player.skinCategory][player.skinName]
+      for(let list of player.pointsList) {
+        if(list[0].label === "head") continue
+        if(list[0].label === "torso") torso = list
+        this.drawBodyPart(list, layers, ctx, 20, xPos, yPos)
+      }
+      this.drawBodyPart(torso, layers, ctx, 20, xPos, yPos)
+    }
+
+    drawBodyPart(list, layers, ctx, lineWidth, xPos, yPos) {
+      for(let layer of layers[list[0].label]) {
+    		let width = layer.width
+    		let colour = layer.colour
+    		ctx.lineWidth = lineWidth * width
+  	    ctx.beginPath()
+  	    ctx.lineCap = layer.lineCap ? layer.lineCap : "round"
+  	    let start = layer.start ? layer.start : 0
+  	    let end = layer.end ? layer.end : list.length - 1
+  	    ctx.moveTo(list[start].x - xPos, list[start].y - yPos)
+  	    ctx.strokeStyle = colour
+  	    for(let i = start + 1; i <= end; i++) {
+  	      ctx.lineTo(list[i].x - xPos, list[i].y - yPos)
+  	    }
+  	    ctx.stroke()
+    	}
     }
 
     drawCircles(player, xPos, yPos, ctx) {
@@ -348,6 +388,7 @@ class Canvas extends React.Component {
     drawArmBands(player, xPos, yPos, ctx) {
       for(let list of player.armBandList) {
         let percent = player.health / player.initialHealth
+        ctx.lineCap = "butt"
         ctx.beginPath()
         ctx.strokeStyle = `rgba(255, 0, 0, ${1 - percent}`
         ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
@@ -466,6 +507,10 @@ class Canvas extends React.Component {
         context.drawImage(img, newX, canvas.height + newY, canvas.width, -newY, 0, 0, canvas.width, -newY)
       }
     }
+
+
+/*  MISC CODE   */
+
 
     generateBackground(canvasWidth, canvasHeight) {
       let cvs = document.createElement('canvas')

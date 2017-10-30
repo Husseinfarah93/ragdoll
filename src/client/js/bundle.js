@@ -11961,7 +11961,7 @@ exports.default = socket;
 /* 107 */
 /***/ (function(module, exports) {
 
-module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}],"skins":{"spiderman":{},"deadpool":{},"wolverine":{},"wonderwoman":{},"batman":{},"catwoman":{},"ironman":{},"hulk":{},"superman":{},"flash":{},"goku":{},"vegeta":{},"naruto":{}}}}
+module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"SURVIVAL":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12},"1V1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}],"skins":{"comics":{"spiderman":{"torso":[{"width":1,"colour":"#072A7F","start":0,"end":4},{"width":0.5,"colour":"#EA291C","start":0,"end":4}],"rightArm":[{"width":1,"colour":"#EA291C","start":0,"end":2},{"width":0.75,"colour":"#072A7F","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#EA291C","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#EA291C","start":0,"end":2},{"width":0.75,"colour":"#072A7F","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#EA291C","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#072A7F","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"#EA291C","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"#072A7F","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"#EA291C","start":0,"end":3}]},"deadpool":{"torso":[{"width":1,"colour":"black","start":0,"end":4},{"width":0.4,"colour":"red","start":0,"end":4}],"rightArm":[{"width":1,"colour":"black","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"red","start":0,"end":2}],"leftArm":[{"width":1,"colour":"black","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"red","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"red","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"black","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"red","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"black","start":0,"end":3}]},"wolverine":{"torso":[{"width":1,"colour":"#ffd300"}],"rightArm":[{"width":1,"colour":"#FEBF8F"}],"rightForeArm":[{"width":1,"colour":"#FEBF8F"},{"width":1,"colour":"blue","start":1}],"leftArm":[{"width":1,"colour":"#FEBF8F"}],"leftForeArm":[{"width":1,"colour":"#FEBF8F"},{"width":1,"colour":"blue","start":1}],"rightThigh":[{"width":1,"colour":"#ffd300"}],"rightLeg":[{"width":1,"colour":"#ffd300"},{"width":1,"colour":"blue","start":1}],"leftThigh":[{"width":1,"colour":"#ffd300"}],"leftLeg":[{"width":1,"colour":"#ffd300"},{"width":1,"colour":"blue","start":1}]},"wonderwoman":{"torso":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1},{"width":1,"colour":"yellow","start":4}],"rightArm":[{"width":1,"colour":"#F8C28A"}],"rightForeArm":[{"width":1,"colour":"#F8C28A"}],"leftArm":[{"width":1,"colour":"#F8C28A"}],"leftForeArm":[{"width":1,"colour":"#F8C28A"}],"rightThigh":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"blue","end":1,"lineCap":"butt"}],"rightLeg":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1}],"leftThigh":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"blue","end":1,"lineCap":"butt"}],"leftLeg":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1}]},"batman":{"torso":[{"width":1,"colour":"grey"}],"rightArm":[{"width":1,"colour":"grey"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"grey"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"grey"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"grey"}],"leftLeg":[{"width":1,"colour":"black"}]},"catwoman":{"torso":[{"width":1,"colour":"black"}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"black"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"ironman":{"torso":[{"width":1,"colour":"#C4421B"}],"rightArm":[{"width":1,"colour":"#E7CE13"}],"rightForeArm":[{"width":1,"colour":"#C4421B"}],"leftArm":[{"width":1,"colour":"#E7CE13"}],"leftForeArm":[{"width":1,"colour":"#C4421B"}],"rightThigh":[{"width":1,"colour":"#E7CE13"}],"rightLeg":[{"width":1,"colour":"#C4421B"}],"leftThigh":[{"width":1,"colour":"#E7CE13"}],"leftLeg":[{"width":1,"colour":"#C4421B"}]},"hulk":{"torso":[{"width":1,"colour":"#428B37"}],"rightArm":[{"width":1,"colour":"#428B37"}],"rightForeArm":[{"width":1,"colour":"#428B37"}],"leftArm":[{"width":1,"colour":"#428B37"}],"leftForeArm":[{"width":1,"colour":"#428B37"}],"rightThigh":[{"width":1,"colour":"#753AA6"}],"rightLeg":[{"width":1,"colour":"#428B37"}],"leftThigh":[{"width":1,"colour":"#753AA6"}],"leftLeg":[{"width":1,"colour":"#428B37"}]}},"superman":{"torso":[{"width":1,"colour":"#2B366A"}],"rightArm":[{"width":1,"colour":"#2B366A"}],"rightForeArm":[{"width":1,"colour":"#2B366A"}],"leftArm":[{"width":1,"colour":"#2B366A"}],"leftForeArm":[{"width":1,"colour":"#2B366A"}],"rightThigh":[{"width":1,"colour":"#2B366A"}],"rightLeg":[{"width":1,"colour":"#DE0C43"}],"leftThigh":[{"width":1,"colour":"#2B366A"}],"leftLeg":[{"width":1,"colour":"#DE0C43"}]},"flash":{"torso":[{"width":1,"colour":"#E01913"}],"rightArm":[{"width":1,"colour":"#E01913"}],"rightForeArm":[{"width":1,"colour":"#FFD300"}],"leftArm":[{"width":1,"colour":"#E01913"}],"leftForeArm":[{"width":1,"colour":"#FFD300"}],"rightThigh":[{"width":1,"colour":"#E01913"}],"rightLeg":[{"width":1,"colour":"#FFD300"}],"leftThigh":[{"width":1,"colour":"#E01913"}],"leftLeg":[{"width":1,"colour":"#FFD300"}]},"magneto":{"torso":[{"width":1,"colour":"#BF383D"}],"rightArm":[{"width":1,"colour":"#BF383D"}],"rightForeArm":[{"width":1,"colour":"#765686"}],"leftArm":[{"width":1,"colour":"#BF383D"}],"leftForeArm":[{"width":1,"colour":"#765686"}],"rightThigh":[{"width":1,"colour":"#BF383D"}],"rightLeg":[{"width":1,"colour":"#765686"}],"leftThigh":[{"width":1,"colour":"#BF383D"}],"leftLeg":[{"width":1,"colour":"#765686"}]},"blackwidow":{"torso":[{"width":1,"colour":"black"},{"width":1,"colour":"#F8C28A","end":1,"reduction":0.5}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"black"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"mystique":{"torso":[{"width":1,"colour":"#434E94"}],"rightArm":[{"width":1,"colour":"#434E94"}],"rightForeArm":[{"width":1,"colour":"#434E94"}],"leftArm":[{"width":1,"colour":"#434E94"}],"leftForeArm":[{"width":1,"colour":"#434E94"}],"rightThigh":[{"width":1,"colour":"#434E94"}],"rightLeg":[{"width":1,"colour":"#434E94"}],"leftThigh":[{"width":1,"colour":"#434E94"}],"leftLeg":[{"width":1,"colour":"#434E94"}]},"captainamerica":{"torso":[{"width":1,"colour":"#009CC4"}],"rightArm":[{"width":1,"colour":"#009CC4"}],"rightForeArm":[{"width":1,"colour":"#8F2625"}],"leftArm":[{"width":1,"colour":"#009CC4"}],"leftForeArm":[{"width":1,"colour":"#8F2625"}],"rightThigh":[{"width":1,"colour":"#009CC4"}],"rightLeg":[{"width":1,"colour":"#8F2625"}],"leftThigh":[{"width":1,"colour":"#009CC4"}],"leftLeg":[{"width":1,"colour":"#8F2625"}]}},"anime":{"vegeta":{"torso":[{"width":1,"colour":"#3A4D8D","start":0,"end":4},{"width":0.4,"colour":"#F8B991","start":0,"end":1}],"rightArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#3A4D8D","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"3A4D8D","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"#3A4D8D","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"3A4D8D","start":0,"end":3}]},"goku":{"torso":[{"width":1,"colour":"#EE5931","start":0,"end":4}],"rightArm":[{"width":1,"colour":"#EE5931","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#F8B990","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#EE5931","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#F8B990","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#EE5931","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"#EE5931"},{"width":1,"colour":"#025090","start":1}],"leftThigh":[{"width":1,"colour":"#EE5931","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"#EE5931"},{"width":1,"colour":"#025090","start":1}]},"naruto":{"torso":[{"width":1,"colour":"orange"},{"width":1,"colour":"black","end":1,"lineCap":"butt"},{"width":0.5,"colour":"black","start":1,"lineCap":"square"}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"orange"}],"rightLeg":[{"width":1,"colour":"orange"}],"leftThigh":[{"width":1,"colour":"orange"}],"leftLeg":[{"width":1,"colour":"orange"}]},"rocklee":{"torso":[{"width":1,"colour":"#3D6F50"}],"rightArm":[{"width":1,"colour":"#3D6F50"}],"rightForeArm":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#E9E7DC","start":1}],"leftArm":[{"width":1,"colour":"#3D6F50"}],"leftForeArm":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#E9E7DC","start":1}],"rightThigh":[{"width":1,"colour":"#3D6F50"}],"rightLeg":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#DD9A5C","start":1}],"leftThigh":[{"width":1,"colour":"#3D6F50"}],"leftLeg":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#DD9A5C","start":1}]},"aang":{"torso":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#D63E1F","end":3}],"rightArm":[{"width":1,"colour":"#D63E1F"}],"rightForeArm":[{"width":1,"colour":"#D63E1F"},{"width":1,"colour":"#fefd7f","start":1}],"leftArm":[{"width":1,"colour":"#D63E1F"}],"leftForeArm":[{"width":1,"colour":"#D63E1F"},{"width":1,"colour":"#fefd7f","start":1}],"rightThigh":[{"width":1,"colour":"#fefd7f"}],"rightLeg":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#B1644F","start":1}],"leftThigh":[{"width":1,"colour":"#fefd7f"}],"leftLeg":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#B1644F","start":1}]},"saitama":{"torso":[{"width":1,"colour":"#DEB36C"}],"rightArm":[{"width":1,"colour":"#DEB36C"}],"rightForeArm":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"leftArm":[{"width":1,"colour":"#DEB36C"}],"leftForeArm":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"rightThigh":[{"width":1,"colour":"#DEB36C"}],"rightLeg":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"leftThigh":[{"width":1,"colour":"#DEB36C"}],"leftLeg":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}]},"luffy":{"torso":[{"width":1,"colour":"red"},{"width":0.5,"colour":"#F8B990","end":1}],"rightArm":[{"width":1,"colour":"#F8B990"}],"rightForeArm":[{"width":1,"colour":"#F8B990"}],"leftArm":[{"width":1,"colour":"#F8B990"}],"leftForeArm":[{"width":1,"colour":"#F8B990"}],"rightThigh":[{"width":1,"colour":"#506CAF"}],"rightLeg":[{"width":1,"colour":"#F8B990"}],"leftThigh":[{"width":1,"colour":"#506CAF"}],"leftLeg":[{"width":1,"colour":"#F8B990"}]},"kaneki":{"torso":[{"width":1,"colour":"#363A3D"}],"rightArm":[{"width":1,"colour":"#363A3D"}],"rightForeArm":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"leftArm":[{"width":1,"colour":"#363A3D"}],"leftForeArm":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"rightThigh":[{"width":1,"colour":"#363A3D"}],"rightLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"leftThigh":[{"width":1,"colour":"#363A3D"}],"leftLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}]}}}}
 
 /***/ }),
 /* 108 */
@@ -29076,6 +29076,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var bloodConfig = _config2.default.gameInfo.bloodParticles;
+var skins = _config2.default.gameInfo.skins;
 var count = 0;
 
 var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
@@ -29210,16 +29211,14 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         if (soundType === 'hit') _this2.props.audio[soundType][r].play();else _this2.props.audio[soundType].play();
       });
     }
+
+    /*  HANDLE CODE   */
+
   }, {
     key: 'handleSkillPointsClick',
     value: function handleSkillPointsClick(progressBarType, currentProgress) {
       if (currentProgress >= 100 || this.state.player.skillPoints < 1) return;
       _io2.default.emit('updatePlayerSkillPoints', progressBarType);
-    }
-  }, {
-    key: 'setUpBeltImages',
-    value: function setUpBeltImages() {
-      this.state.beltImages;
     }
   }, {
     key: 'handleNewKill',
@@ -29248,6 +29247,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         _io2.default.emit('respawn');
       }
     }
+
+    /*  DRAW CODE   */
+
   }, {
     key: 'drawPlayers',
     value: function drawPlayers(players, camera) {
@@ -29314,7 +29316,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         if (player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context);
         } else {
-          this.drawBody(player, xPos, yPos, context);
+          // this.drawBody(player, xPos, yPos, context)
+          this.newDrawBody(player, xPos, yPos, context);
           this.drawCircles(player, xPos, yPos, context);
           this.drawHead(player, xPos, yPos, context);
           this.drawArmBands(player, xPos, yPos, context);
@@ -29340,7 +29343,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           var skinType = player.skinType;
           ctx.lineWidth = 20;
           ctx.lineCap = "round";
-          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? skinType : '#2F3B40';
+          ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'rightThigh' || list[0].label === 'leftThigh' || list[0].label === 'rightArm' || list[0].label === 'leftArm' ? skinType : '#2F3B40';
           ctx.beginPath();
           ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
           for (var i = 1; i < list.length; i++) {
@@ -29364,21 +29367,21 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       }
     }
   }, {
-    key: 'drawCircles',
-    value: function drawCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = '#2F3B40';
-      var list = player.circleList;
+    key: 'newDrawBody',
+    value: function newDrawBody(player, xPos, yPos, ctx) {
+      var torso = void 0;
+      var layers = skins[player.skinCategory][player.skinName];
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var elem = _step2.value;
+        for (var _iterator2 = player.pointsList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var list = _step2.value;
 
-          ctx.beginPath();
-          ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false);
-          ctx.fill();
+          if (list[0].label === "head") continue;
+          if (list[0].label === "torso") torso = list;
+          this.drawBodyPart(list, layers, ctx, 20, xPos, yPos);
         }
       } catch (err) {
         _didIteratorError2 = true;
@@ -29391,6 +29394,80 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         } finally {
           if (_didIteratorError2) {
             throw _iteratorError2;
+          }
+        }
+      }
+
+      this.drawBodyPart(torso, layers, ctx, 20, xPos, yPos);
+    }
+  }, {
+    key: 'drawBodyPart',
+    value: function drawBodyPart(list, layers, ctx, lineWidth, xPos, yPos) {
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = layers[list[0].label][Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var layer = _step3.value;
+
+          var width = layer.width;
+          var colour = layer.colour;
+          ctx.lineWidth = lineWidth * width;
+          ctx.beginPath();
+          ctx.lineCap = layer.lineCap ? layer.lineCap : "round";
+          var start = layer.start ? layer.start : 0;
+          var end = layer.end ? layer.end : list.length - 1;
+          ctx.moveTo(list[start].x - xPos, list[start].y - yPos);
+          ctx.strokeStyle = colour;
+          for (var i = start + 1; i <= end; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'drawCircles',
+    value: function drawCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = '#2F3B40';
+      var list = player.circleList;
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
+
+      try {
+        for (var _iterator4 = list[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var elem = _step4.value;
+
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false);
+          ctx.fill();
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
           }
         }
       }
@@ -29450,83 +29527,18 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var totalList = [].concat(pointsList.reduce(function (a, b) {
         return a.concat(b);
       })).concat(circleList);
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
-
-      try {
-        for (var _iterator3 = totalList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var elem = _step3.value;
-
-          ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40';
-          ctx.beginPath();
-          ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
-          ctx.fill();
-        }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3.return) {
-            _iterator3.return();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
-      }
-    }
-  }, {
-    key: 'createBloodParticles',
-    value: function createBloodParticles(x, y, particleNumber) {
-      for (var i = 0; i < particleNumber; i++) {
-        var newParticle = new _BloodParticle2.default(x, y);
-        this.bloodParticles.push(newParticle);
-      }
-    }
-  }, {
-    key: 'drawBloodParticles',
-    value: function drawBloodParticles() {
-      var ctx = this.state.canvas.getContext('2d');
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
-
-      try {
-        for (var _iterator4 = this.bloodParticles[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var particle = _step4.value;
-          particle.updateTime();
-        }
-      } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
-          }
-        } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
-          }
-        }
-      }
-
-      this.bloodParticles = this.bloodParticles.filter(function (particle) {
-        return !particle.dead;
-      });
       var _iteratorNormalCompletion5 = true;
       var _didIteratorError5 = false;
       var _iteratorError5 = undefined;
 
       try {
-        for (var _iterator5 = this.bloodParticles[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var _particle = _step5.value;
+        for (var _iterator5 = totalList[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var elem = _step5.value;
 
-          _particle.updatePosition();
-          _particle.drawParticle(ctx);
+          ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40';
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
+          ctx.fill();
         }
       } catch (err) {
         _didIteratorError5 = true;
@@ -29544,24 +29556,25 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       }
     }
   }, {
-    key: 'drawArmBands',
-    value: function drawArmBands(player, xPos, yPos, ctx) {
+    key: 'createBloodParticles',
+    value: function createBloodParticles(x, y, particleNumber) {
+      for (var i = 0; i < particleNumber; i++) {
+        var newParticle = new _BloodParticle2.default(x, y);
+        this.bloodParticles.push(newParticle);
+      }
+    }
+  }, {
+    key: 'drawBloodParticles',
+    value: function drawBloodParticles() {
+      var ctx = this.state.canvas.getContext('2d');
       var _iteratorNormalCompletion6 = true;
       var _didIteratorError6 = false;
       var _iteratorError6 = undefined;
 
       try {
-        for (var _iterator6 = player.armBandList[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-          var list = _step6.value;
-
-          var percent = player.health / player.initialHealth;
-          ctx.beginPath();
-          ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - percent);
-          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
-          for (var i = 1; i < list.length; i++) {
-            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
-          }
-          ctx.stroke();
+        for (var _iterator6 = this.bloodParticles[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var particle = _step6.value;
+          particle.updateTime();
         }
       } catch (err) {
         _didIteratorError6 = true;
@@ -29574,6 +29587,71 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         } finally {
           if (_didIteratorError6) {
             throw _iteratorError6;
+          }
+        }
+      }
+
+      this.bloodParticles = this.bloodParticles.filter(function (particle) {
+        return !particle.dead;
+      });
+      var _iteratorNormalCompletion7 = true;
+      var _didIteratorError7 = false;
+      var _iteratorError7 = undefined;
+
+      try {
+        for (var _iterator7 = this.bloodParticles[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var _particle = _step7.value;
+
+          _particle.updatePosition();
+          _particle.drawParticle(ctx);
+        }
+      } catch (err) {
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion7 && _iterator7.return) {
+            _iterator7.return();
+          }
+        } finally {
+          if (_didIteratorError7) {
+            throw _iteratorError7;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'drawArmBands',
+    value: function drawArmBands(player, xPos, yPos, ctx) {
+      var _iteratorNormalCompletion8 = true;
+      var _didIteratorError8 = false;
+      var _iteratorError8 = undefined;
+
+      try {
+        for (var _iterator8 = player.armBandList[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+          var list = _step8.value;
+
+          var percent = player.health / player.initialHealth;
+          ctx.lineCap = "butt";
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - percent);
+          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
+          for (var i = 1; i < list.length; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
+        }
+      } catch (err) {
+        _didIteratorError8 = true;
+        _iteratorError8 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion8 && _iterator8.return) {
+            _iterator8.return();
+          }
+        } finally {
+          if (_didIteratorError8) {
+            throw _iteratorError8;
           }
         }
       }
@@ -29690,6 +29768,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           context.drawImage(img, newX, canvas.height + newY, canvas.width, -newY, 0, 0, canvas.width, -newY);
         }
     }
+
+    /*  MISC CODE   */
+
   }, {
     key: 'generateBackground',
     value: function generateBackground(canvasWidth, canvasHeight) {

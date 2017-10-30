@@ -23,7 +23,8 @@ function Player(name, id, characterType, skinType) {
   this.isDead = false
   this.isBlownUp = false
   this.colour = randColour()
-  console.log('skin: ', skinType)
+  this.skinCategory = "comics"
+  this.skinName = "spiderman"
 }
 
 Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initialY, radius) {
@@ -822,42 +823,42 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	}
 	// rightArm
 	for(rightArmCircle of rightArmCircles) {
-		rightArmCircle.label = 'arm'
+		rightArmCircle.label = 'rightArm'
 		rightArmCircle.dealDamage = false
 	}
 	// rightForeArm
 	for(rightForeArmCircle of rightForeArmCircles) {
-		rightForeArmCircle.label = 'forearm'
+		rightForeArmCircle.label = 'rightForeArm'
 		rightForeArmCircle.dealDamage = true
 	}
 	// leftArm
 	for(leftArmCircle of leftArmCircles) {
-		leftArmCircle.label = 'arm'
+		leftArmCircle.label = 'leftArm'
 		leftArmCircle.dealDamage = false
 	}
 	// leftForeArm
 	for(leftForeArmCircle of leftForeArmCircles) {
-		leftForeArmCircle.label = 'forearm'
+		leftForeArmCircle.label = 'leftForeArm'
 		leftForeArmCircle.dealDamage = true
 	}
 	// rightThigh
 	for(rightThighCircle of rightThighCircles) {
-		rightThighCircle.label = 'thigh'
+		rightThighCircle.label = 'rightThigh'
 		rightThighCircle.dealDamage = false
 	}
 	// rightLeg
 	for(rightLegCircle of rightLegCircles) {
-		rightLegCircle.label = 'leg'
+		rightLegCircle.label = 'rightLeg'
 		rightLegCircle.dealDamage = true
 	}
 	// leftThigh
 	for(leftThighCircle of leftThighCircles) {
-		leftThighCircle.label = 'thigh'
+		leftThighCircle.label = 'leftThigh'
 		leftThighCircle.dealDamage = false
 	}
 	// leftLeg
 	for(leftLegCircle of leftLegCircles) {
-		leftLegCircle.label = 'leg'
+		leftLegCircle.label = 'leftLeg'
 		leftLegCircle.dealDamage = true
 	}
 
@@ -883,6 +884,18 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   this.PlayerComposite = player
   this.force = radius / 5500
   World.add(Matter.engine.world, player)
+}
+
+Player.prototype.addSkin = function(skinCategory, skinName) {
+  console.log(skinCategory, skinName)
+  return
+  let composites = this.PlayerComposite
+  let skin = c.gameInfo.skins[skinCategory][skinName]
+  for(composite of composites) {
+    let label = composite.label
+    let layers = skin[label]
+    composite.layers = layers
+  }
 }
 
 Player.prototype.movePlayer = function(left, up, right, down, Matter) {
