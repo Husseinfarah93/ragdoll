@@ -24,7 +24,7 @@ function Player(name, id, characterType, skinType) {
   this.isBlownUp = false
   this.colour = randColour()
   this.skinCategory = "comics"
-  this.skinName = "spiderman"
+  this.skinName = "ironman"
 }
 
 Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initialY, radius) {

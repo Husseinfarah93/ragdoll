@@ -205,7 +205,8 @@ function updateFrontEndInfo(room, socket, player) {
   // Emit playerList, healthList, wallList
   let Pelvis = {
     x: player.pelvis.position.x,
-    y: player.pelvis.position.y
+    y: player.pelvis.position.y,
+    angle: player.pelvis.angle
   }
   socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis, socket.id)
 }
@@ -334,7 +335,8 @@ function getPlayerVertices(room) {
       pushItem.isBlownUp = players[player].isBlownUp
       pushItem.pelvis = {
         x: players[player].pelvis.position.x,
-        y: players[player].pelvis.position.y
+        y: players[player].pelvis.position.y,
+        angle: players[player].pelvis.angle
       }
       pushItem.colour = players[player].colour
       pushItem.pointsList = players[player].pointsList
@@ -412,7 +414,7 @@ function updateCentrePoints() {
           // End Circles
           if(body.isEnd) circleList.push({ x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius })
           // Head Position
-          if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius }
+          if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius, angle: body.angle }
           // Body List
           bodyList.push({ x: body.position.x, y: body.position.y, label: body.label, hitInfo: body.hitInfo, radius: body.circleRadius})
           // Armbands

@@ -13,6 +13,12 @@ import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
 let skins = config.gameInfo.skins
 let count = 0
+let headURL = '../../assets/images/ironman.png'
+let head = new Image(25, 25)
+head.src = headURL
+let beltURL = '../../assets/images/belt.png'
+let belt = new Image(20, 20)
+belt.src = beltURL
 
 @Radium
 class Canvas extends React.Component {
@@ -62,6 +68,7 @@ class Canvas extends React.Component {
 
     setUpSockets() {
       console.log('socket id: ', socket.id)
+      console.log('skins: ', Object.keys(skins))
       // Emit playerList, healthList, wallList
       let self = this
       socket.on('setUpWorld', (worldWidth, worldHeight) => {
@@ -242,8 +249,10 @@ class Canvas extends React.Component {
         else {
           // this.drawBody(player, xPos, yPos, context)
           this.newDrawBody(player, xPos, yPos, context)
-          this.drawCircles(player, xPos, yPos, context)
-          this.drawHead(player, xPos, yPos, context)
+          // this.drawCircles(player, xPos, yPos, context)
+          // this.drawHead(player, xPos, yPos, context)
+          this.newDrawHead(player, xPos, yPos, context)
+          // this.newDrawBelt(player, xPos, yPos, context)
           this.drawArmBands(player, xPos, yPos, context)
           this.drawHitPart(player, xPos, yPos, context)
         }
@@ -318,6 +327,31 @@ class Canvas extends React.Component {
       ctx.beginPath()
       ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false)
       ctx.fill()
+    }
+
+    newDrawHead(player, xPos, yPos, ctx) {
+      let width = player.headPosition.x - xPos
+      let height = player.headPosition.y - yPos
+      let imageWidth = 50
+      let imageHeight = 50
+      ctx.translate(width, height)
+      ctx.rotate(player.headPosition.angle)
+      ctx.drawImage(head, (-imageWidth / 2) , (-imageHeight / 2), imageWidth, imageHeight)
+      ctx.rotate(-player.headPosition.angle)
+      ctx.translate(- width, - height)
+    }
+
+    newDrawBelt(player, xPos, yPos, ctx) {
+      // return
+      let width = player.pelvis.x - xPos
+      let height = player.pelvis.y - yPos
+      let imageWidth = 40
+      let imageHeight = 40
+      ctx.translate(width, height)
+      ctx.rotate(player.pelvis.angle)
+      ctx.drawImage(belt, (-imageWidth / 2) , (-imageHeight / 2), imageWidth, imageHeight)
+      ctx.rotate(-player.pelvis.angle)
+      ctx.translate(- width, - height)
     }
 
     drawBelt(player, xPos, yPos, ctx) {

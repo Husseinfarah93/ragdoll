@@ -18,7 +18,7 @@ class SkinModal extends React.Component {
         "#00B16A",
         "#F62459",
         "#e67e22",
-        "#9b59b6"
+        "#9b59b6",
       ],
     }
     this.moveRightPage = this.moveRightPage.bind(this)
