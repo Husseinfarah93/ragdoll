@@ -46,6 +46,7 @@ html, body, #landingPageContainer {
   font-weight: bold;
   box-shadow: 0px 0px 1px;
   border-radius: 10px;
+  user-select: none
 }
 input::placeholder {
   color: #336E7B;
@@ -61,7 +62,8 @@ input::placeholder {
 }
 .icon {
   position: fixed;
-  cursor: pointer
+  cursor: pointer;
+  user-select: none
 }
 .icon.settings {
   top: 0px;
@@ -113,4 +115,19 @@ span {
   height: 40px;
   cursor: pointer;
   margin: 0px 3px;
+}
+#settingsIcons {
+  top: 10px;
+  right: 10px;
+  position: fixed;
+  display: flex;
+  color: #346E7B;
+  font-size: 30px;
+}
+#soundIcon {
+  margin-left: 15px;
+  cursor: pointer;
+}
+#musicIcon {
+  cursor: pointer;
 }

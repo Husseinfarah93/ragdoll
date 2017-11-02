@@ -18,10 +18,20 @@ class LandingPage extends React.Component {
       skinIcon: undefined,
       bg: undefined,
       gameModes: [],
+      musicOn: true,
+      soundOn: true,
 
       skinIndex: 0,
       pageIndex: 0
     }
+  }
+
+  toggleSound = () => {
+    this.setState({ soundOn: !this.state.soundOn  })
+  }
+
+  toggleMusic = () => {
+    this.setState({ musicOn: !this.state.musicOn  })
   }
 
   componentDidMount() {
@@ -81,7 +91,21 @@ class LandingPage extends React.Component {
           &nbsp; | &nbsp;
           <span>Changelog</span>
         </div>
-        <a className="icon settings">&#9881;</a>
+        {/* <a className="icon settings">&#9881;</a> */}
+        <div id="settingsIcons">
+          {/* <div id="musicIcon" onClick={this.toggleMusic}>
+              {this.state.musicOn ?
+                <i className="fa fa-music" />
+              :
+                <i className="fa fa-music" />}
+          </div> */}
+          <div id="soundIcon" onClick={this.toggleSound}>
+              {this.state.soundOn ?
+              <i className="fa fa-volume-up" />
+              :
+              <i className="fa fa-volume-off" />}
+          </div>
+        </div>
         <img className="icon leaderboard" src="http://www.freeiconspng.com/uploads/leaderboard-icon-5.png" />
         {/* <img className="icon controller" src="https://maxcdn.icons8.com/Share/icon/p1em/Gaming//controller1600.png" /> */}
         <img className="icon skin" id="skinIcon" src="https://i.imgur.com/dEPAF5R.png" ref="skinIcon" onClick={this.toggleSkinModal}/>

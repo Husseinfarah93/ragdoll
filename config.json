@@ -30,7 +30,7 @@
       "maxPlayers": 30,
       "available": false
     },
-    "Sandbox": {
+    "SANDBOX": {
       "gameHeight": 700,
       "gameWidth": 1000,
       "maxPlayers": 1,
