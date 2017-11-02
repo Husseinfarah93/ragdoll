@@ -51,7 +51,13 @@ class LandingPage extends React.Component {
       let gameMode = this.state.gameModes[this.state.currentGameModeIndex]
       if(!gameMode.available) return
       window.removeEventListener('keydown', this.playGame)
-      this.props.startGame(this.state.name.toUpperCase(), gameMode.name, this.state.currentCharacter, this.state.currentSkin)
+      this.props.startGame(
+        this.state.name.toUpperCase(),
+        gameMode.name,
+        this.state.currentCharacter,
+        this.state.currentSkin,
+        this.state.soundOn
+      )
     }
   }
 

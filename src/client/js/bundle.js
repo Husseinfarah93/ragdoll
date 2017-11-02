@@ -24603,9 +24603,9 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (MainComp.__proto__ || Object.getPrototypeOf(MainComp)).call(this));
 
-    _this.startGame = function (name, gameType, character, skin) {
+    _this.startGame = function (name, gameType, character, skin, soundOn) {
 
-      _io2.default.emit('startGame', { name: name, gameType: gameType, character: character, skin: skin });
+      _io2.default.emit('startGame', { name: name, gameType: gameType, character: character, skin: skin, soundOn: soundOn });
       var newGameInfo = { name: name, gameType: gameType, character: character, skin: skin };
       _this.setState({ showStartupMenu: false, gameInfo: newGameInfo });
     };
@@ -28580,7 +28580,7 @@ var LandingPage = function (_React$Component) {
         var gameMode = _this.state.gameModes[_this.state.currentGameModeIndex];
         if (!gameMode.available) return;
         window.removeEventListener('keydown', _this.playGame);
-        _this.props.startGame(_this.state.name.toUpperCase(), gameMode.name, _this.state.currentCharacter, _this.state.currentSkin);
+        _this.props.startGame(_this.state.name.toUpperCase(), gameMode.name, _this.state.currentCharacter, _this.state.currentSkin, _this.state.soundOn);
       }
     };
 
@@ -29318,7 +29318,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas });
       this.addListeners();
       this.setUpSockets();
-      this.props.audio.bg.play();
     }
   }, {
     key: 'setUpSockets',

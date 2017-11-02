@@ -63,7 +63,6 @@ class Canvas extends React.Component {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas })
       this.addListeners()
       this.setUpSockets()
-      this.props.audio.bg.play()
     }
 
     setUpSockets() {

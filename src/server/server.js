@@ -152,7 +152,9 @@ io.on('connection', socket => {
     socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
     // SEND START BG UPDATE
     sendBGTextUpdate(socket, 'start')
-    // player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
+    // Turn On/Off Sound
+    socket.soundOn = gameInfo.soundOn
+    sendSoundUpdate(socket, 'bg')
     player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
@@ -660,5 +662,5 @@ function sendBGTextUpdate(socket, textType, isHitter) {
 }
 
 function sendSoundUpdate(socket, soundType) {
-  socket.emit('playSound', soundType)
+  if(socket.soundOn) socket.emit('playSound', soundType)
 }

@@ -42,7 +42,7 @@ class MainComp extends React.Component {
     levelUp.src = "../../assets/sounds/levelUp.wav"
 
     bg.loop = true
-    
+
     let newAudio = {
       bg: bg,
       hit: [hit1, hit2, hit3],
@@ -55,9 +55,9 @@ class MainComp extends React.Component {
 
   }
 
-  startGame = (name, gameType, character, skin) => {
+  startGame = (name, gameType, character, skin, soundOn) => {
 
-    socket.emit('startGame', { name, gameType, character, skin })
+    socket.emit('startGame', { name, gameType, character, skin, soundOn })
     let newGameInfo = {name: name, gameType: gameType, character: character, skin: skin}
     this.setState({ showStartupMenu: false, gameInfo: newGameInfo })
   }
