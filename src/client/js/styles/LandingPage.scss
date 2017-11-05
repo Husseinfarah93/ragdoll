@@ -94,7 +94,7 @@ span {
   cursor: pointer;
 }
 .icon.leaderboard {
-  left: 10px;
+  right: 10px;
   top: 2px;
   width: 40px;
   height: 40px;
@@ -115,19 +115,4 @@ span {
   height: 40px;
   cursor: pointer;
   margin: 0px 3px;
-}
-#settingsIcons {
-  top: 10px;
-  right: 10px;
-  position: fixed;
-  display: flex;
-  color: #346E7B;
-  font-size: 30px;
-}
-#soundIcon {
-  margin-left: 15px;
-  cursor: pointer;
-}
-#musicIcon {
-  cursor: pointer;
 }

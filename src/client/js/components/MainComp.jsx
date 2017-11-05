@@ -5,7 +5,7 @@ import NewStartUpMenu from './NewStartUpMenu.jsx'
 import LandingPage from './LandingPage.jsx'
 import Canvas from './Canvas.jsx'
 import socket from '../io.js'
-
+import '../styles/MainComp.scss'
 
 @Radium
 class MainComp extends React.Component {
@@ -13,7 +13,8 @@ class MainComp extends React.Component {
     super()
     this.state = {
       showStartupMenu: true,
-      audio: {}
+      audio: {},
+      soundOn: false
     }
   }
 
@@ -55,8 +56,14 @@ class MainComp extends React.Component {
 
   }
 
-  startGame = (name, gameType, character, skinGroupName, skinName, soundOn) => {
+  toggleSound = () => {
+    this.state.soundOn ? this.state.audio.bg.pause() : this.state.audio.bg.play()
+    socket.emit('toggleSound', !this.state.soundOn)
+    this.setState({ soundOn: !this.state.soundOn  })
+  }
 
+  startGame = (name, gameType, character, skinGroupName, skinName) => {
+    let soundOn = this.state.soundOn
     socket.emit('startGame', { name, gameType, character, skinGroupName, skinName, soundOn })
     let newGameInfo = {
       name: name,
@@ -70,11 +77,23 @@ class MainComp extends React.Component {
 
   render() {
     return (
-        this.state.showStartupMenu ?
-        // <StartupMenu startGame={this.startGame} />
-        <LandingPage startGame={this.startGame} />
-        :
-        <Canvas audio={this.state.audio}/>
+      <div id="mainCompContainer">
+        <div id="settingsIcons">
+          <div id="soundIcon" onClick={this.toggleSound}>
+            {this.state.soundOn ?
+            <i className="fa fa-volume-up" />
+            :
+            <i className="fa fa-volume-off" />}
+          </div>
+        </div>
+        {
+          this.state.showStartupMenu ?
+          // <StartupMenu startGame={this.startGame} />
+          <LandingPage startGame={this.startGame} />
+          :
+          <Canvas audio={this.state.audio}/>
+        }
+      </div>
     )
   }
 }

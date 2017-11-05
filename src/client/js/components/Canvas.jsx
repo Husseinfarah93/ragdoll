@@ -13,11 +13,6 @@ import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
 let skins = config.gameInfo.skins
 let count = 0
-let headURL = '../../assets/images/skinFaces/spiderman.png'
-let head = new Image(25, 25)
-head.src = headURL
-let head2 = new Image(50, 50)
-head2.src = "../../assets/images/skinFaces/vegeta2.png"
 
 let beltURL = '../../assets/images/belts/belt.png'
 let belt = new Image(20, 20)

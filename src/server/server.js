@@ -191,6 +191,7 @@ io.on('connection', socket => {
       player.decreaseSkillPoints()
       updatePlayerValues(socket, player)
     })
+    socket.on('toggleSound', sound => socket.soundOn = sound)
 
     leaderBoardChange(room)
     // Update Code

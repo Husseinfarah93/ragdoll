@@ -101,7 +101,6 @@ class SkinModal extends React.Component {
       tempArr.push(arrToAdd)
       for(let skins of tempArr) finalArr.push({groupName: skinGroup, skins: skins})
     }
-    console.log(finalArr)
     return finalArr
   }
 
@@ -131,7 +130,6 @@ class SkinModal extends React.Component {
 
   selectSkin = (actualIndex, skinIndex) => {
     let selectedGroup = this.state.skinList[this.state.currentPage]
-    console.log(selectedGroup)
     this.setState({
       currentSelected: actualIndex,
       skinIndex: skinIndex,
@@ -149,7 +147,7 @@ class SkinModal extends React.Component {
             style={{backgroundImage: `url("../../assets/images/${this.state.coloursArr[this.state.currentSelected].slice(1)}.png")`}}
           /> */}
           <div className="newSkinBackground">
-            {/* <img id="skinBackgroundImage" src="../../assets/images/skinBodies/deadpool.png" /> */}
+            <img id="skinBackgroundImage" src={`../../assets/images/skinBodies/${this.state.skinName}.png`}/>
           </div>
         </div>
         <div id="skinsCarousal">
