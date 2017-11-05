@@ -148,7 +148,7 @@ io.on('connection', socket => {
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
-    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
+    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skinGroupName, gameInfo.skinName)
     socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
     // SEND START BG UPDATE
     sendBGTextUpdate(socket, 'start')

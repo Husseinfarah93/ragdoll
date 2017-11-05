@@ -2829,10 +2829,10 @@ module.exports = reactProdInvariant;
 
 
 
-var DOMNamespaces = __webpack_require__(45);
+var DOMNamespaces = __webpack_require__(46);
 var setInnerHTML = __webpack_require__(33);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(46);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
 var setTextContent = __webpack_require__(73);
 
 var ELEMENT_NODE_TYPE = 1;
@@ -2969,7 +2969,7 @@ var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var lowPriorityWarning = __webpack_require__(49);
+  var lowPriorityWarning = __webpack_require__(50);
   var canDefineProperty = __webpack_require__(36);
   var ReactElementValidator = __webpack_require__(84);
   var didWarnPropTypesDeprecated = false;
@@ -3091,7 +3091,7 @@ module.exports = React;
 
 
 var EventPluginHub = __webpack_require__(25);
-var EventPluginUtils = __webpack_require__(39);
+var EventPluginUtils = __webpack_require__(40);
 
 var accumulateInto = __webpack_require__(65);
 var forEachAccumulated = __webpack_require__(66);
@@ -3233,8 +3233,8 @@ module.exports = EventPropagators;
 var _prodInvariant = __webpack_require__(3);
 
 var EventPluginRegistry = __webpack_require__(30);
-var EventPluginUtils = __webpack_require__(39);
-var ReactErrorUtils = __webpack_require__(40);
+var EventPluginUtils = __webpack_require__(40);
+var ReactErrorUtils = __webpack_require__(41);
 
 var accumulateInto = __webpack_require__(65);
 var forEachAccumulated = __webpack_require__(66);
@@ -3512,7 +3512,7 @@ module.exports = EventPluginHub;
 
 var SyntheticEvent = __webpack_require__(13);
 
-var getEventTarget = __webpack_require__(41);
+var getEventTarget = __webpack_require__(42);
 
 /**
  * @interface UIEvent
@@ -4575,7 +4575,7 @@ module.exports = TransactionImpl;
 var SyntheticUIEvent = __webpack_require__(26);
 var ViewportMetrics = __webpack_require__(72);
 
-var getEventModifierState = __webpack_require__(43);
+var getEventModifierState = __webpack_require__(44);
 
 /**
  * @interface MouseEvent
@@ -4650,12 +4650,12 @@ module.exports = SyntheticMouseEvent;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var DOMNamespaces = __webpack_require__(45);
+var DOMNamespaces = __webpack_require__(46);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(46);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -4886,7 +4886,7 @@ var ReactEventEmitterMixin = __webpack_require__(147);
 var ViewportMetrics = __webpack_require__(72);
 
 var getVendorPrefixedEventName = __webpack_require__(148);
-var isEventSupported = __webpack_require__(42);
+var isEventSupported = __webpack_require__(43);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -5277,6 +5277,12 @@ module.exports = exports['default'];
 
 /***/ }),
 /* 39 */
+/***/ (function(module, exports) {
+
+module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30,"available":true},"1 V 1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2,"available":false},"BATTLE ROYALE":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30,"available":false},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12,"available":false},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30,"available":false},"SANDBOX":{"gameHeight":700,"gameWidth":1000,"maxPlayers":1,"available":false}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}],"skins":{"basic":{"yellow":{"torso":[{"width":1,"colour":"#f1c40f"}],"rightArm":[{"width":1,"colour":"#f1c40f"}],"rightForeArm":[{"width":1,"colour":"#2F3B40"}],"leftArm":[{"width":1,"colour":"#f1c40f"}],"leftForeArm":[{"width":1,"colour":"#2F3B40"}],"rightThigh":[{"width":1,"colour":"#f1c40f"}],"rightLeg":[{"width":1,"colour":"#2F3B40"}],"leftThigh":[{"width":1,"colour":"#f1c40f"}],"leftLeg":[{"width":1,"colour":"#2F3B40"}]},"darkblue":{"torso":[{"width":1,"colour":"#34495E"}],"rightArm":[{"width":1,"colour":"#34495E"}],"rightForeArm":[{"width":1,"colour":"#2F3B40"}],"leftArm":[{"width":1,"colour":"#34495E"}],"leftForeArm":[{"width":1,"colour":"#2F3B40"}],"rightThigh":[{"width":1,"colour":"#34495E"}],"rightLeg":[{"width":1,"colour":"#2F3B40"}],"leftThigh":[{"width":1,"colour":"#34495E"}],"leftLeg":[{"width":1,"colour":"#2F3B40"}]},"lightblue":{"torso":[{"width":1,"colour":"#59ABE3"}],"rightArm":[{"width":1,"colour":"#59ABE3"}],"rightForeArm":[{"width":1,"colour":"#2F3B40"}],"leftArm":[{"width":1,"colour":"#59ABE3"}],"leftForeArm":[{"width":1,"colour":"#2F3B40"}],"rightThigh":[{"width":1,"colour":"#59ABE3"}],"rightLeg":[{"width":1,"colour":"#2F3B40"}],"leftThigh":[{"width":1,"colour":"#59ABE3"}],"leftLeg":[{"width":1,"colour":"#2F3B40"}]},"red":{"torso":[{"width":1,"colour":"#D24D57"}],"rightArm":[{"width":1,"colour":"#D24D57"}],"rightForeArm":[{"width":1,"colour":"#2F3B40"}],"leftArm":[{"width":1,"colour":"#D24D57"}],"leftForeArm":[{"width":1,"colour":"#2F3B40"}],"rightThigh":[{"width":1,"colour":"#D24D57"}],"rightLeg":[{"width":1,"colour":"#2F3B40"}],"leftThigh":[{"width":1,"colour":"#D24D57"}],"leftLeg":[{"width":1,"colour":"#2F3B40"}]}},"comics":{"spiderman":{"torso":[{"width":1,"colour":"#072A7F","start":0,"end":4},{"width":0.5,"colour":"#C7271B","start":0,"end":4}],"rightArm":[{"width":1,"colour":"#C7271B","start":0,"end":2},{"width":0.75,"colour":"#072A7F","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#C7271B","start":0,"end":2},{"width":0.75,"colour":"#072A7F","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#072A7F","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"#C7271B","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"#C7271B","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"#ED1C24","start":0,"end":3}]},"deadpool":{"torso":[{"width":1,"colour":"black","start":0,"end":4},{"width":0.4,"colour":"red","start":0,"end":4}],"rightArm":[{"width":1,"colour":"black","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"red","start":0,"end":2}],"leftArm":[{"width":1,"colour":"black","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"red","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"red","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"black","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"red","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"black","start":0,"end":3}]},"wolverine":{"torso":[{"width":1,"colour":"#ffd300"}],"rightArm":[{"width":1,"colour":"#FEBF8F"}],"rightForeArm":[{"width":1,"colour":"#FEBF8F"},{"width":1,"colour":"blue","start":1}],"leftArm":[{"width":1,"colour":"#FEBF8F"}],"leftForeArm":[{"width":1,"colour":"#FEBF8F"},{"width":1,"colour":"blue","start":1}],"rightThigh":[{"width":1,"colour":"#ffd300"}],"rightLeg":[{"width":1,"colour":"#ffd300"},{"width":1,"colour":"blue","start":1}],"leftThigh":[{"width":1,"colour":"#ffd300"}],"leftLeg":[{"width":1,"colour":"#ffd300"},{"width":1,"colour":"blue","start":1}]},"wonderwoman":{"torso":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1},{"width":1,"colour":"yellow","start":4}],"rightArm":[{"width":1,"colour":"#F8C28A"}],"rightForeArm":[{"width":1,"colour":"#F8C28A"}],"leftArm":[{"width":1,"colour":"#F8C28A"}],"leftForeArm":[{"width":1,"colour":"#F8C28A"}],"rightThigh":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"blue","end":1,"lineCap":"butt"}],"rightLeg":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1}],"leftThigh":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"blue","end":1,"lineCap":"butt"}],"leftLeg":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1}]},"batman":{"torso":[{"width":1,"colour":"grey"}],"rightArm":[{"width":1,"colour":"grey"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"grey"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"grey"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"grey"}],"leftLeg":[{"width":1,"colour":"black"}]},"catwoman":{"torso":[{"width":1,"colour":"black"}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"black"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"ironman":{"torso":[{"width":1,"colour":"#C4421B"}],"rightArm":[{"width":1,"colour":"#E7CE13"}],"rightForeArm":[{"width":1,"colour":"#C4421B"}],"leftArm":[{"width":1,"colour":"#E7CE13"}],"leftForeArm":[{"width":1,"colour":"#C4421B"}],"rightThigh":[{"width":1,"colour":"#E7CE13"}],"rightLeg":[{"width":1,"colour":"#C4421B"}],"leftThigh":[{"width":1,"colour":"#E7CE13"}],"leftLeg":[{"width":1,"colour":"#C4421B"}]},"hulk":{"torso":[{"width":1,"colour":"#428B37"}],"rightArm":[{"width":1,"colour":"#428B37"}],"rightForeArm":[{"width":1,"colour":"#428B37"}],"leftArm":[{"width":1,"colour":"#428B37"}],"leftForeArm":[{"width":1,"colour":"#428B37"}],"rightThigh":[{"width":1,"colour":"#753AA6"}],"rightLeg":[{"width":1,"colour":"#428B37"}],"leftThigh":[{"width":1,"colour":"#753AA6"}],"leftLeg":[{"width":1,"colour":"#428B37"}]},"superman":{"torso":[{"width":1,"colour":"#2B366A"}],"rightArm":[{"width":1,"colour":"#2B366A"}],"rightForeArm":[{"width":1,"colour":"#2B366A"}],"leftArm":[{"width":1,"colour":"#2B366A"}],"leftForeArm":[{"width":1,"colour":"#2B366A"}],"rightThigh":[{"width":1,"colour":"#2B366A"}],"rightLeg":[{"width":1,"colour":"#DE0C43"}],"leftThigh":[{"width":1,"colour":"#2B366A"}],"leftLeg":[{"width":1,"colour":"#DE0C43"}]},"flash":{"torso":[{"width":1,"colour":"#E01913"}],"rightArm":[{"width":1,"colour":"#E01913"}],"rightForeArm":[{"width":1,"colour":"#FFD300"}],"leftArm":[{"width":1,"colour":"#E01913"}],"leftForeArm":[{"width":1,"colour":"#FFD300"}],"rightThigh":[{"width":1,"colour":"#E01913"}],"rightLeg":[{"width":1,"colour":"#FFD300"}],"leftThigh":[{"width":1,"colour":"#E01913"}],"leftLeg":[{"width":1,"colour":"#FFD300"}]},"magneto":{"torso":[{"width":1,"colour":"#BF383D"}],"rightArm":[{"width":1,"colour":"#BF383D"}],"rightForeArm":[{"width":1,"colour":"#765686"}],"leftArm":[{"width":1,"colour":"#BF383D"}],"leftForeArm":[{"width":1,"colour":"#765686"}],"rightThigh":[{"width":1,"colour":"#BF383D"}],"rightLeg":[{"width":1,"colour":"#765686"}],"leftThigh":[{"width":1,"colour":"#BF383D"}],"leftLeg":[{"width":1,"colour":"#765686"}]},"blackwidow":{"torso":[{"width":1,"colour":"black"},{"width":1,"colour":"#F8C28A","end":1,"reduction":0.5}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"black"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"mystique":{"torso":[{"width":1,"colour":"#434E94"}],"rightArm":[{"width":1,"colour":"#434E94"}],"rightForeArm":[{"width":1,"colour":"#434E94"}],"leftArm":[{"width":1,"colour":"#434E94"}],"leftForeArm":[{"width":1,"colour":"#434E94"}],"rightThigh":[{"width":1,"colour":"#434E94"}],"rightLeg":[{"width":1,"colour":"#434E94"}],"leftThigh":[{"width":1,"colour":"#434E94"}],"leftLeg":[{"width":1,"colour":"#434E94"}]},"captainamerica":{"torso":[{"width":1,"colour":"#009CC4"}],"rightArm":[{"width":1,"colour":"#009CC4"}],"rightForeArm":[{"width":1,"colour":"#8F2625"}],"leftArm":[{"width":1,"colour":"#009CC4"}],"leftForeArm":[{"width":1,"colour":"#8F2625"}],"rightThigh":[{"width":1,"colour":"#009CC4"}],"rightLeg":[{"width":1,"colour":"#8F2625"}],"leftThigh":[{"width":1,"colour":"#009CC4"}],"leftLeg":[{"width":1,"colour":"#8F2625"}]}},"anime":{"vegeta":{"torso":[{"width":1,"colour":"#3A4D8D","start":0,"end":4},{"width":0.4,"colour":"#F8B991","start":0,"end":1}],"rightArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#3A4D8D","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"3A4D8D","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"#3A4D8D","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"3A4D8D","start":0,"end":3}]},"goku":{"torso":[{"width":1,"colour":"#EE5931","start":0,"end":4}],"rightArm":[{"width":1,"colour":"#EE5931","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#F8B990","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#EE5931","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#F8B990","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#EE5931","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"#EE5931"},{"width":1,"colour":"#025090","start":1}],"leftThigh":[{"width":1,"colour":"#EE5931","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"#EE5931"},{"width":1,"colour":"#025090","start":1}]},"naruto":{"torso":[{"width":1,"colour":"orange"},{"width":1,"colour":"black","end":1,"lineCap":"butt"},{"width":0.5,"colour":"black","start":1,"lineCap":"square"}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"orange"}],"rightLeg":[{"width":1,"colour":"orange"}],"leftThigh":[{"width":1,"colour":"orange"}],"leftLeg":[{"width":1,"colour":"orange"}]},"rocklee":{"torso":[{"width":1,"colour":"#3D6F50"}],"rightArm":[{"width":1,"colour":"#3D6F50"}],"rightForeArm":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#E9E7DC","start":1}],"leftArm":[{"width":1,"colour":"#3D6F50"}],"leftForeArm":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#E9E7DC","start":1}],"rightThigh":[{"width":1,"colour":"#3D6F50"}],"rightLeg":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#DD9A5C","start":1}],"leftThigh":[{"width":1,"colour":"#3D6F50"}],"leftLeg":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#DD9A5C","start":1}]},"aang":{"torso":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#D63E1F","end":3}],"rightArm":[{"width":1,"colour":"#D63E1F"}],"rightForeArm":[{"width":1,"colour":"#D63E1F"},{"width":1,"colour":"#fefd7f","start":1}],"leftArm":[{"width":1,"colour":"#D63E1F"}],"leftForeArm":[{"width":1,"colour":"#D63E1F"},{"width":1,"colour":"#fefd7f","start":1}],"rightThigh":[{"width":1,"colour":"#fefd7f"}],"rightLeg":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#B1644F","start":1}],"leftThigh":[{"width":1,"colour":"#fefd7f"}],"leftLeg":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#B1644F","start":1}]},"saitama":{"torso":[{"width":1,"colour":"#DEB36C"}],"rightArm":[{"width":1,"colour":"#DEB36C"}],"rightForeArm":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"leftArm":[{"width":1,"colour":"#DEB36C"}],"leftForeArm":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"rightThigh":[{"width":1,"colour":"#DEB36C"}],"rightLeg":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"leftThigh":[{"width":1,"colour":"#DEB36C"}],"leftLeg":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}]},"luffy":{"torso":[{"width":1,"colour":"red"},{"width":0.5,"colour":"#F8B990","end":1}],"rightArm":[{"width":1,"colour":"#F8B990"}],"rightForeArm":[{"width":1,"colour":"#F8B990"}],"leftArm":[{"width":1,"colour":"#F8B990"}],"leftForeArm":[{"width":1,"colour":"#F8B990"}],"rightThigh":[{"width":1,"colour":"#506CAF"}],"rightLeg":[{"width":1,"colour":"#F8B990"}],"leftThigh":[{"width":1,"colour":"#506CAF"}],"leftLeg":[{"width":1,"colour":"#F8B990"}]},"kaneki":{"torso":[{"width":1,"colour":"#363A3D"}],"rightArm":[{"width":1,"colour":"#363A3D"}],"rightForeArm":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"leftArm":[{"width":1,"colour":"#363A3D"}],"leftForeArm":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"rightThigh":[{"width":1,"colour":"#363A3D"}],"rightLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"leftThigh":[{"width":1,"colour":"#363A3D"}],"leftLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}]}},"movies":{},"tv":{},"games":{},"misc":{}}}}
+
+/***/ }),
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5294,7 +5300,7 @@ module.exports = exports['default'];
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactErrorUtils = __webpack_require__(40);
+var ReactErrorUtils = __webpack_require__(41);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -5508,7 +5514,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5590,7 +5596,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5630,7 +5636,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5695,7 +5701,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5743,7 +5749,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5764,7 +5770,7 @@ var Danger = __webpack_require__(132);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(10);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(46);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(47);
 var setInnerHTML = __webpack_require__(33);
 var setTextContent = __webpack_require__(73);
 
@@ -5975,7 +5981,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6000,7 +6006,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6037,7 +6043,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6181,7 +6187,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6202,7 +6208,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6273,7 +6279,7 @@ module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6323,7 +6329,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6396,7 +6402,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6443,7 +6449,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6507,7 +6513,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6747,7 +6753,7 @@ module.exports = ReactUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7124,7 +7130,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7179,7 +7185,7 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7252,7 +7258,7 @@ exports.default = StyleKeeper;
 module.exports = exports['default'];
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7275,7 +7281,7 @@ var _mapObject = __webpack_require__(99);
 
 var _mapObject2 = _interopRequireDefault(_mapObject);
 
-var _prefixer = __webpack_require__(59);
+var _prefixer = __webpack_require__(60);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7302,7 +7308,7 @@ function cssRuleSetToString(selector, rules, userAgent) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7387,7 +7393,7 @@ function getPrefixedStyle(style, userAgent) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(216), __webpack_require__(0)))
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7405,7 +7411,7 @@ exports.default = function (str) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7422,12 +7428,6 @@ exports.default = function (value) {
 };
 
 module.exports = exports['default'];
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports) {
-
-module.exports = {"gameModes":{"FFA":{"gameHeight":10000,"gameWidth":10000,"maxPlayers":30,"available":true},"1 V 1":{"gameHeight":700,"gameWidth":1000,"maxPlayers":2,"available":false},"BATTLE ROYALE":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30,"available":false},"TDM":{"gameHeight":700,"gameWidth":1000,"maxPlayers":12,"available":false},"INFECTED":{"gameHeight":700,"gameWidth":1000,"maxPlayers":30,"available":false},"SANDBOX":{"gameHeight":700,"gameWidth":1000,"maxPlayers":1,"available":false}},"playerTypes":{"basic":{"initialHealth":200,"damageDealt":30}},"gameInfo":{"bloodParticles":{"particleNumber":200,"maxParticleSize":5,"maxSpeed":5,"colourVariation":50,"colour":"red","lifeLength":1000},"blowUpForce":0.005,"belts":[{"kills":0,"colour":"White","increaseNum":20},{"kills":5,"colour":"Yellow","increaseNum":20},{"kills":10,"colour":"Orange","increaseNum":20},{"kills":15,"colour":"Green","increaseNum":20},{"kills":20,"colour":"Blue","increaseNum":20},{"kills":25,"colour":"Purple","increaseNum":20},{"kills":30,"colour":"Red","increaseNum":20},{"kills":35,"colour":"Brown","increaseNum":20},{"kills":40,"colour":"Black","increaseNum":20}],"skins":{"basic":{"yellow":{"torso":[{"width":1,"colour":"#f1c40f"}],"rightArm":[{"width":1,"colour":"#f1c40f"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"#f1c40f"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"#f1c40f"}],"rightLeg":[{"width":1,"colour":"#f1c40f"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"darkblue":{"torso":[{"width":1,"colour":"#34495E"}],"rightArm":[{"width":1,"colour":"#34495E"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"#34495E"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"#34495E"}],"rightLeg":[{"width":1,"colour":"#34495E"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"lightblue":{"torso":[{"width":1,"colour":"#59ABE3"}],"rightArm":[{"width":1,"colour":"#59ABE3"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"#59ABE3"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"#59ABE3"}],"rightLeg":[{"width":1,"colour":"#59ABE3"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"red":{"torso":[{"width":1,"colour":"#D24D57"}],"rightArm":[{"width":1,"colour":"#D24D57"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"#D24D57"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"#D24D57"}],"rightLeg":[{"width":1,"colour":"#D24D57"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]}},"comics":{"spiderman":{"torso":[{"width":1,"colour":"#072A7F","start":0,"end":4},{"width":0.5,"colour":"#C7271B","start":0,"end":4}],"rightArm":[{"width":1,"colour":"#C7271B","start":0,"end":2},{"width":0.75,"colour":"#072A7F","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#C7271B","start":0,"end":2},{"width":0.75,"colour":"#072A7F","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#072A7F","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"#C7271B","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"#C7271B","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"#ED1C24","start":0,"end":3}]},"deadpool":{"torso":[{"width":1,"colour":"black","start":0,"end":4},{"width":0.4,"colour":"red","start":0,"end":4}],"rightArm":[{"width":1,"colour":"black","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"red","start":0,"end":2}],"leftArm":[{"width":1,"colour":"black","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"red","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"red","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"black","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"red","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"black","start":0,"end":3}]},"wolverine":{"torso":[{"width":1,"colour":"#ffd300"}],"rightArm":[{"width":1,"colour":"#FEBF8F"}],"rightForeArm":[{"width":1,"colour":"#FEBF8F"},{"width":1,"colour":"blue","start":1}],"leftArm":[{"width":1,"colour":"#FEBF8F"}],"leftForeArm":[{"width":1,"colour":"#FEBF8F"},{"width":1,"colour":"blue","start":1}],"rightThigh":[{"width":1,"colour":"#ffd300"}],"rightLeg":[{"width":1,"colour":"#ffd300"},{"width":1,"colour":"blue","start":1}],"leftThigh":[{"width":1,"colour":"#ffd300"}],"leftLeg":[{"width":1,"colour":"#ffd300"},{"width":1,"colour":"blue","start":1}]},"wonderwoman":{"torso":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1},{"width":1,"colour":"yellow","start":4}],"rightArm":[{"width":1,"colour":"#F8C28A"}],"rightForeArm":[{"width":1,"colour":"#F8C28A"}],"leftArm":[{"width":1,"colour":"#F8C28A"}],"leftForeArm":[{"width":1,"colour":"#F8C28A"}],"rightThigh":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"blue","end":1,"lineCap":"butt"}],"rightLeg":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1}],"leftThigh":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"blue","end":1,"lineCap":"butt"}],"leftLeg":[{"width":1,"colour":"#F8C28A"},{"width":1,"colour":"red","start":1}]},"batman":{"torso":[{"width":1,"colour":"grey"}],"rightArm":[{"width":1,"colour":"grey"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"grey"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"grey"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"grey"}],"leftLeg":[{"width":1,"colour":"black"}]},"catwoman":{"torso":[{"width":1,"colour":"black"}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"black"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"ironman":{"torso":[{"width":1,"colour":"#C4421B"}],"rightArm":[{"width":1,"colour":"#E7CE13"}],"rightForeArm":[{"width":1,"colour":"#C4421B"}],"leftArm":[{"width":1,"colour":"#E7CE13"}],"leftForeArm":[{"width":1,"colour":"#C4421B"}],"rightThigh":[{"width":1,"colour":"#E7CE13"}],"rightLeg":[{"width":1,"colour":"#C4421B"}],"leftThigh":[{"width":1,"colour":"#E7CE13"}],"leftLeg":[{"width":1,"colour":"#C4421B"}]},"hulk":{"torso":[{"width":1,"colour":"#428B37"}],"rightArm":[{"width":1,"colour":"#428B37"}],"rightForeArm":[{"width":1,"colour":"#428B37"}],"leftArm":[{"width":1,"colour":"#428B37"}],"leftForeArm":[{"width":1,"colour":"#428B37"}],"rightThigh":[{"width":1,"colour":"#753AA6"}],"rightLeg":[{"width":1,"colour":"#428B37"}],"leftThigh":[{"width":1,"colour":"#753AA6"}],"leftLeg":[{"width":1,"colour":"#428B37"}]},"superman":{"torso":[{"width":1,"colour":"#2B366A"}],"rightArm":[{"width":1,"colour":"#2B366A"}],"rightForeArm":[{"width":1,"colour":"#2B366A"}],"leftArm":[{"width":1,"colour":"#2B366A"}],"leftForeArm":[{"width":1,"colour":"#2B366A"}],"rightThigh":[{"width":1,"colour":"#2B366A"}],"rightLeg":[{"width":1,"colour":"#DE0C43"}],"leftThigh":[{"width":1,"colour":"#2B366A"}],"leftLeg":[{"width":1,"colour":"#DE0C43"}]},"flash":{"torso":[{"width":1,"colour":"#E01913"}],"rightArm":[{"width":1,"colour":"#E01913"}],"rightForeArm":[{"width":1,"colour":"#FFD300"}],"leftArm":[{"width":1,"colour":"#E01913"}],"leftForeArm":[{"width":1,"colour":"#FFD300"}],"rightThigh":[{"width":1,"colour":"#E01913"}],"rightLeg":[{"width":1,"colour":"#FFD300"}],"leftThigh":[{"width":1,"colour":"#E01913"}],"leftLeg":[{"width":1,"colour":"#FFD300"}]},"magneto":{"torso":[{"width":1,"colour":"#BF383D"}],"rightArm":[{"width":1,"colour":"#BF383D"}],"rightForeArm":[{"width":1,"colour":"#765686"}],"leftArm":[{"width":1,"colour":"#BF383D"}],"leftForeArm":[{"width":1,"colour":"#765686"}],"rightThigh":[{"width":1,"colour":"#BF383D"}],"rightLeg":[{"width":1,"colour":"#765686"}],"leftThigh":[{"width":1,"colour":"#BF383D"}],"leftLeg":[{"width":1,"colour":"#765686"}]},"blackwidow":{"torso":[{"width":1,"colour":"black"},{"width":1,"colour":"#F8C28A","end":1,"reduction":0.5}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"black"}],"rightLeg":[{"width":1,"colour":"black"}],"leftThigh":[{"width":1,"colour":"black"}],"leftLeg":[{"width":1,"colour":"black"}]},"mystique":{"torso":[{"width":1,"colour":"#434E94"}],"rightArm":[{"width":1,"colour":"#434E94"}],"rightForeArm":[{"width":1,"colour":"#434E94"}],"leftArm":[{"width":1,"colour":"#434E94"}],"leftForeArm":[{"width":1,"colour":"#434E94"}],"rightThigh":[{"width":1,"colour":"#434E94"}],"rightLeg":[{"width":1,"colour":"#434E94"}],"leftThigh":[{"width":1,"colour":"#434E94"}],"leftLeg":[{"width":1,"colour":"#434E94"}]},"captainamerica":{"torso":[{"width":1,"colour":"#009CC4"}],"rightArm":[{"width":1,"colour":"#009CC4"}],"rightForeArm":[{"width":1,"colour":"#8F2625"}],"leftArm":[{"width":1,"colour":"#009CC4"}],"leftForeArm":[{"width":1,"colour":"#8F2625"}],"rightThigh":[{"width":1,"colour":"#009CC4"}],"rightLeg":[{"width":1,"colour":"#8F2625"}],"leftThigh":[{"width":1,"colour":"#009CC4"}],"leftLeg":[{"width":1,"colour":"#8F2625"}]}},"anime":{"vegeta":{"torso":[{"width":1,"colour":"#3A4D8D","start":0,"end":4},{"width":0.4,"colour":"#F8B991","start":0,"end":1}],"rightArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#F8B991","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#3A4D8D","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"3A4D8D","start":0,"end":3}],"leftThigh":[{"width":1,"colour":"#3A4D8D","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"3A4D8D","start":0,"end":3}]},"goku":{"torso":[{"width":1,"colour":"#EE5931","start":0,"end":4}],"rightArm":[{"width":1,"colour":"#EE5931","start":0,"end":2}],"rightForeArm":[{"width":1,"colour":"#F8B990","start":0,"end":2}],"leftArm":[{"width":1,"colour":"#EE5931","start":0,"end":2}],"leftForeArm":[{"width":1,"colour":"#F8B990","start":0,"end":2}],"rightThigh":[{"width":1,"colour":"#EE5931","start":0,"end":3}],"rightLeg":[{"width":1,"colour":"#EE5931"},{"width":1,"colour":"#025090","start":1}],"leftThigh":[{"width":1,"colour":"#EE5931","start":0,"end":3}],"leftLeg":[{"width":1,"colour":"#EE5931"},{"width":1,"colour":"#025090","start":1}]},"naruto":{"torso":[{"width":1,"colour":"orange"},{"width":1,"colour":"black","end":1,"lineCap":"butt"},{"width":0.5,"colour":"black","start":1,"lineCap":"square"}],"rightArm":[{"width":1,"colour":"black"}],"rightForeArm":[{"width":1,"colour":"black"}],"leftArm":[{"width":1,"colour":"black"}],"leftForeArm":[{"width":1,"colour":"black"}],"rightThigh":[{"width":1,"colour":"orange"}],"rightLeg":[{"width":1,"colour":"orange"}],"leftThigh":[{"width":1,"colour":"orange"}],"leftLeg":[{"width":1,"colour":"orange"}]},"rocklee":{"torso":[{"width":1,"colour":"#3D6F50"}],"rightArm":[{"width":1,"colour":"#3D6F50"}],"rightForeArm":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#E9E7DC","start":1}],"leftArm":[{"width":1,"colour":"#3D6F50"}],"leftForeArm":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#E9E7DC","start":1}],"rightThigh":[{"width":1,"colour":"#3D6F50"}],"rightLeg":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#DD9A5C","start":1}],"leftThigh":[{"width":1,"colour":"#3D6F50"}],"leftLeg":[{"width":1,"colour":"#3D6F50"},{"width":1,"colour":"#DD9A5C","start":1}]},"aang":{"torso":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#D63E1F","end":3}],"rightArm":[{"width":1,"colour":"#D63E1F"}],"rightForeArm":[{"width":1,"colour":"#D63E1F"},{"width":1,"colour":"#fefd7f","start":1}],"leftArm":[{"width":1,"colour":"#D63E1F"}],"leftForeArm":[{"width":1,"colour":"#D63E1F"},{"width":1,"colour":"#fefd7f","start":1}],"rightThigh":[{"width":1,"colour":"#fefd7f"}],"rightLeg":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#B1644F","start":1}],"leftThigh":[{"width":1,"colour":"#fefd7f"}],"leftLeg":[{"width":1,"colour":"#fefd7f"},{"width":1,"colour":"#B1644F","start":1}]},"saitama":{"torso":[{"width":1,"colour":"#DEB36C"}],"rightArm":[{"width":1,"colour":"#DEB36C"}],"rightForeArm":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"leftArm":[{"width":1,"colour":"#DEB36C"}],"leftForeArm":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"rightThigh":[{"width":1,"colour":"#DEB36C"}],"rightLeg":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}],"leftThigh":[{"width":1,"colour":"#DEB36C"}],"leftLeg":[{"width":1,"colour":"#DEB36C"},{"width":1,"colour":"#993C31","start":1}]},"luffy":{"torso":[{"width":1,"colour":"red"},{"width":0.5,"colour":"#F8B990","end":1}],"rightArm":[{"width":1,"colour":"#F8B990"}],"rightForeArm":[{"width":1,"colour":"#F8B990"}],"leftArm":[{"width":1,"colour":"#F8B990"}],"leftForeArm":[{"width":1,"colour":"#F8B990"}],"rightThigh":[{"width":1,"colour":"#506CAF"}],"rightLeg":[{"width":1,"colour":"#F8B990"}],"leftThigh":[{"width":1,"colour":"#506CAF"}],"leftLeg":[{"width":1,"colour":"#F8B990"}]},"kaneki":{"torso":[{"width":1,"colour":"#363A3D"}],"rightArm":[{"width":1,"colour":"#363A3D"}],"rightForeArm":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"leftArm":[{"width":1,"colour":"#363A3D"}],"leftForeArm":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"rightThigh":[{"width":1,"colour":"#363A3D"}],"rightLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}],"leftThigh":[{"width":1,"colour":"#363A3D"}],"leftLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}]}},"movies":{},"tv":{},"games":{},"misc":{}}}}
 
 /***/ }),
 /* 63 */
@@ -8525,7 +8525,7 @@ var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 
-var ReactPropTypesSecret = __webpack_require__(48);
+var ReactPropTypesSecret = __webpack_require__(49);
 var checkPropTypes = __webpack_require__(150);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
@@ -9050,7 +9050,7 @@ var ReactNoopUpdateQueue = __webpack_require__(81);
 var canDefineProperty = __webpack_require__(36);
 var emptyObject = __webpack_require__(37);
 var invariant = __webpack_require__(1);
-var lowPriorityWarning = __webpack_require__(49);
+var lowPriorityWarning = __webpack_require__(50);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -9379,7 +9379,7 @@ var checkReactTypeSpec = __webpack_require__(156);
 var canDefineProperty = __webpack_require__(36);
 var getIteratorFn = __webpack_require__(83);
 var warning = __webpack_require__(2);
-var lowPriorityWarning = __webpack_require__(49);
+var lowPriorityWarning = __webpack_require__(50);
 
 function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
@@ -9626,7 +9626,7 @@ module.exports = ReactElementValidator;
 
 var _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(47);
+var LinkedValueUtils = __webpack_require__(48);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(11);
 
@@ -10127,7 +10127,7 @@ var REACT_ELEMENT_TYPE = __webpack_require__(172);
 
 var getIteratorFn = __webpack_require__(173);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(53);
+var KeyEscapeUtils = __webpack_require__(54);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -10572,14 +10572,14 @@ var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactMarkupChecksum = __webpack_require__(204);
 var ReactReconciler = __webpack_require__(20);
-var ReactUpdateQueue = __webpack_require__(54);
+var ReactUpdateQueue = __webpack_require__(55);
 var ReactUpdates = __webpack_require__(11);
 
 var emptyObject = __webpack_require__(37);
 var instantiateReactComponent = __webpack_require__(86);
 var invariant = __webpack_require__(1);
 var setInnerHTML = __webpack_require__(33);
-var shouldUpdateReactComponent = __webpack_require__(52);
+var shouldUpdateReactComponent = __webpack_require__(53);
 var warning = __webpack_require__(2);
 
 var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
@@ -11140,7 +11140,7 @@ var _propTypes = __webpack_require__(17);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _styleKeeper = __webpack_require__(57);
+var _styleKeeper = __webpack_require__(58);
 
 var _styleKeeper2 = _interopRequireDefault(_styleKeeper);
 
@@ -11324,7 +11324,7 @@ var _appendImportantToEachValue = __webpack_require__(214);
 
 var _appendImportantToEachValue2 = _interopRequireDefault(_appendImportantToEachValue);
 
-var _cssRuleSetToString = __webpack_require__(58);
+var _cssRuleSetToString = __webpack_require__(59);
 
 var _cssRuleSetToString2 = _interopRequireDefault(_cssRuleSetToString);
 
@@ -13332,8 +13332,8 @@ var ReactUpdates = __webpack_require__(11);
 var SyntheticEvent = __webpack_require__(13);
 
 var inputValueTracking = __webpack_require__(70);
-var getEventTarget = __webpack_require__(41);
-var isEventSupported = __webpack_require__(42);
+var getEventTarget = __webpack_require__(42);
+var isEventSupported = __webpack_require__(43);
 var isTextInputElement = __webpack_require__(71);
 
 var eventTypes = {
@@ -14725,7 +14725,7 @@ module.exports = HTMLDOMPropertyConfig;
 
 
 
-var DOMChildrenOperations = __webpack_require__(44);
+var DOMChildrenOperations = __webpack_require__(45);
 var ReactDOMIDOperations = __webpack_require__(136);
 
 /**
@@ -15134,7 +15134,7 @@ module.exports = getMarkupWrap;
 
 
 
-var DOMChildrenOperations = __webpack_require__(44);
+var DOMChildrenOperations = __webpack_require__(45);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 /**
@@ -15180,7 +15180,7 @@ var _prodInvariant = __webpack_require__(3),
 var AutoFocusUtils = __webpack_require__(138);
 var CSSPropertyOperations = __webpack_require__(139);
 var DOMLazyTree = __webpack_require__(22);
-var DOMNamespaces = __webpack_require__(45);
+var DOMNamespaces = __webpack_require__(46);
 var DOMProperty = __webpack_require__(15);
 var DOMPropertyOperations = __webpack_require__(76);
 var EventPluginHub = __webpack_require__(25);
@@ -15199,10 +15199,10 @@ var ReactServerRenderingTransaction = __webpack_require__(175);
 var emptyFunction = __webpack_require__(9);
 var escapeTextContentForBrowser = __webpack_require__(34);
 var invariant = __webpack_require__(1);
-var isEventSupported = __webpack_require__(42);
-var shallowEqual = __webpack_require__(51);
+var isEventSupported = __webpack_require__(43);
+var shallowEqual = __webpack_require__(52);
 var inputValueTracking = __webpack_require__(70);
-var validateDOMNesting = __webpack_require__(55);
+var validateDOMNesting = __webpack_require__(56);
 var warning = __webpack_require__(2);
 
 var Flags = ReactDOMComponentFlags;
@@ -16900,7 +16900,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
 var DOMPropertyOperations = __webpack_require__(76);
-var LinkedValueUtils = __webpack_require__(47);
+var LinkedValueUtils = __webpack_require__(48);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(11);
 
@@ -17191,7 +17191,7 @@ module.exports = ReactDOMInput;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(1);
   var warning = __webpack_require__(2);
-  var ReactPropTypesSecret = __webpack_require__(48);
+  var ReactPropTypesSecret = __webpack_require__(49);
   var loggedTypeFailures = {};
 }
 
@@ -19265,7 +19265,7 @@ module.exports = ReactDOMOption;
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var LinkedValueUtils = __webpack_require__(47);
+var LinkedValueUtils = __webpack_require__(48);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(11);
 
@@ -19430,7 +19430,7 @@ module.exports = ReactDOMTextarea;
 
 var _prodInvariant = __webpack_require__(3);
 
-var ReactComponentEnvironment = __webpack_require__(50);
+var ReactComponentEnvironment = __webpack_require__(51);
 var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
 
@@ -19883,8 +19883,8 @@ module.exports = ReactMultiChild;
 var ReactReconciler = __webpack_require__(20);
 
 var instantiateReactComponent = __webpack_require__(86);
-var KeyEscapeUtils = __webpack_require__(53);
-var shouldUpdateReactComponent = __webpack_require__(52);
+var KeyEscapeUtils = __webpack_require__(54);
+var shouldUpdateReactComponent = __webpack_require__(53);
 var traverseAllChildren = __webpack_require__(90);
 var warning = __webpack_require__(2);
 
@@ -20043,9 +20043,9 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
 var React = __webpack_require__(23);
-var ReactComponentEnvironment = __webpack_require__(50);
+var ReactComponentEnvironment = __webpack_require__(51);
 var ReactCurrentOwner = __webpack_require__(12);
-var ReactErrorUtils = __webpack_require__(40);
+var ReactErrorUtils = __webpack_require__(41);
 var ReactInstanceMap = __webpack_require__(27);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactNodeTypes = __webpack_require__(87);
@@ -20057,8 +20057,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 var emptyObject = __webpack_require__(37);
 var invariant = __webpack_require__(1);
-var shallowEqual = __webpack_require__(51);
-var shouldUpdateReactComponent = __webpack_require__(52);
+var shallowEqual = __webpack_require__(52);
+var shouldUpdateReactComponent = __webpack_require__(53);
 var warning = __webpack_require__(2);
 
 var CompositeTypes = {
@@ -21167,7 +21167,7 @@ module.exports = getIteratorFn;
 
 
 
-var KeyEscapeUtils = __webpack_require__(53);
+var KeyEscapeUtils = __webpack_require__(54);
 var traverseAllChildren = __webpack_require__(90);
 var warning = __webpack_require__(2);
 
@@ -21347,7 +21347,7 @@ module.exports = ReactServerRenderingTransaction;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ReactUpdateQueue = __webpack_require__(54);
+var ReactUpdateQueue = __webpack_require__(55);
 
 var warning = __webpack_require__(2);
 
@@ -21699,13 +21699,13 @@ module.exports = {
 var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
-var DOMChildrenOperations = __webpack_require__(44);
+var DOMChildrenOperations = __webpack_require__(45);
 var DOMLazyTree = __webpack_require__(22);
 var ReactDOMComponentTree = __webpack_require__(6);
 
 var escapeTextContentForBrowser = __webpack_require__(34);
 var invariant = __webpack_require__(1);
-var validateDOMNesting = __webpack_require__(55);
+var validateDOMNesting = __webpack_require__(56);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -21945,7 +21945,7 @@ var PooledClass = __webpack_require__(18);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactUpdates = __webpack_require__(11);
 
-var getEventTarget = __webpack_require__(41);
+var getEventTarget = __webpack_require__(42);
 var getUnboundedScrollPosition = __webpack_require__(182);
 
 /**
@@ -22143,8 +22143,8 @@ module.exports = getUnboundedScrollPosition;
 
 var DOMProperty = __webpack_require__(15);
 var EventPluginHub = __webpack_require__(25);
-var EventPluginUtils = __webpack_require__(39);
-var ReactComponentEnvironment = __webpack_require__(50);
+var EventPluginUtils = __webpack_require__(40);
+var ReactComponentEnvironment = __webpack_require__(51);
 var ReactEmptyComponent = __webpack_require__(88);
 var ReactBrowserEventEmitter = __webpack_require__(35);
 var ReactHostComponent = __webpack_require__(89);
@@ -22188,7 +22188,7 @@ var ReactBrowserEventEmitter = __webpack_require__(35);
 var ReactInputSelection = __webpack_require__(92);
 var ReactInstrumentation = __webpack_require__(10);
 var Transaction = __webpack_require__(31);
-var ReactUpdateQueue = __webpack_require__(54);
+var ReactUpdateQueue = __webpack_require__(55);
 
 /**
  * Ensures that, when possible, the selection range (currently selected text
@@ -23080,7 +23080,7 @@ var SyntheticEvent = __webpack_require__(13);
 
 var getActiveElement = __webpack_require__(93);
 var isTextInputElement = __webpack_require__(71);
-var shallowEqual = __webpack_require__(51);
+var shallowEqual = __webpack_require__(52);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
 
@@ -23284,7 +23284,7 @@ var SyntheticUIEvent = __webpack_require__(26);
 var SyntheticWheelEvent = __webpack_require__(201);
 
 var emptyFunction = __webpack_require__(9);
-var getEventCharCode = __webpack_require__(56);
+var getEventCharCode = __webpack_require__(57);
 var invariant = __webpack_require__(1);
 
 /**
@@ -23627,9 +23627,9 @@ module.exports = SyntheticFocusEvent;
 
 var SyntheticUIEvent = __webpack_require__(26);
 
-var getEventCharCode = __webpack_require__(56);
+var getEventCharCode = __webpack_require__(57);
 var getEventKey = __webpack_require__(197);
-var getEventModifierState = __webpack_require__(43);
+var getEventModifierState = __webpack_require__(44);
 
 /**
  * @interface KeyboardEvent
@@ -23714,7 +23714,7 @@ module.exports = SyntheticKeyboardEvent;
 
 
 
-var getEventCharCode = __webpack_require__(56);
+var getEventCharCode = __webpack_require__(57);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -23874,7 +23874,7 @@ module.exports = SyntheticDragEvent;
 
 var SyntheticUIEvent = __webpack_require__(26);
 
-var getEventModifierState = __webpack_require__(43);
+var getEventModifierState = __webpack_require__(44);
 
 /**
  * @interface TouchEvent
@@ -24022,7 +24022,7 @@ module.exports = SyntheticWheelEvent;
 
 
 
-var validateDOMNesting = __webpack_require__(55);
+var validateDOMNesting = __webpack_require__(56);
 
 var DOC_NODE_TYPE = 9;
 
@@ -24603,10 +24603,16 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (MainComp.__proto__ || Object.getPrototypeOf(MainComp)).call(this));
 
-    _this.startGame = function (name, gameType, character, skin, soundOn) {
+    _this.startGame = function (name, gameType, character, skinGroupName, skinName, soundOn) {
 
-      _io2.default.emit('startGame', { name: name, gameType: gameType, character: character, skin: skin, soundOn: soundOn });
-      var newGameInfo = { name: name, gameType: gameType, character: character, skin: skin };
+      _io2.default.emit('startGame', { name: name, gameType: gameType, character: character, skinGroupName: skinGroupName, skinName: skinName, soundOn: soundOn });
+      var newGameInfo = {
+        name: name,
+        gameType: gameType,
+        character: character,
+        skinGroupName: skinGroupName,
+        skinName: skinName
+      };
       _this.setState({ showStartupMenu: false, gameInfo: newGameInfo });
     };
 
@@ -24688,7 +24694,7 @@ exports.default = MainComp;
 
 var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(1);
-var ReactPropTypesSecret = __webpack_require__(48);
+var ReactPropTypesSecret = __webpack_require__(49);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -24858,7 +24864,7 @@ var _getPrefixedKeyframes = __webpack_require__(232);
 
 var _getPrefixedKeyframes2 = _interopRequireDefault(_getPrefixedKeyframes);
 
-var _capitalizeString = __webpack_require__(60);
+var _capitalizeString = __webpack_require__(61);
 
 var _capitalizeString2 = _interopRequireDefault(_capitalizeString);
 
@@ -25082,7 +25088,7 @@ var _prefixProps = __webpack_require__(100);
 
 var _prefixProps2 = _interopRequireDefault(_prefixProps);
 
-var _capitalizeString = __webpack_require__(60);
+var _capitalizeString = __webpack_require__(61);
 
 var _capitalizeString2 = _interopRequireDefault(_capitalizeString);
 
@@ -25238,7 +25244,7 @@ var _joinPrefixedValue = __webpack_require__(38);
 
 var _joinPrefixedValue2 = _interopRequireDefault(_joinPrefixedValue);
 
-var _isPrefixedValue = __webpack_require__(61);
+var _isPrefixedValue = __webpack_require__(62);
 
 var _isPrefixedValue2 = _interopRequireDefault(_isPrefixedValue);
 
@@ -25365,7 +25371,7 @@ var _joinPrefixedValue = __webpack_require__(38);
 
 var _joinPrefixedValue2 = _interopRequireDefault(_joinPrefixedValue);
 
-var _isPrefixedValue = __webpack_require__(61);
+var _isPrefixedValue = __webpack_require__(62);
 
 var _isPrefixedValue2 = _interopRequireDefault(_isPrefixedValue);
 
@@ -25396,11 +25402,11 @@ var _hyphenateStyleName = __webpack_require__(102);
 
 var _hyphenateStyleName2 = _interopRequireDefault(_hyphenateStyleName);
 
-var _capitalizeString = __webpack_require__(60);
+var _capitalizeString = __webpack_require__(61);
 
 var _capitalizeString2 = _interopRequireDefault(_capitalizeString);
 
-var _isPrefixedValue = __webpack_require__(61);
+var _isPrefixedValue = __webpack_require__(62);
 
 var _isPrefixedValue2 = _interopRequireDefault(_isPrefixedValue);
 
@@ -27010,7 +27016,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = prefixPlugin;
 
-var _prefixer = __webpack_require__(59);
+var _prefixer = __webpack_require__(60);
 
 function prefixPlugin(_ref) {
   var config = _ref.config,
@@ -27519,7 +27525,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _class, _temp;
 
-var _cssRuleSetToString = __webpack_require__(58);
+var _cssRuleSetToString = __webpack_require__(59);
 
 var _cssRuleSetToString2 = _interopRequireDefault(_cssRuleSetToString);
 
@@ -27639,7 +27645,7 @@ var _enhancer = __webpack_require__(96);
 
 var _enhancer2 = _interopRequireDefault(_enhancer);
 
-var _styleKeeper = __webpack_require__(57);
+var _styleKeeper = __webpack_require__(58);
 
 var _styleKeeper2 = _interopRequireDefault(_styleKeeper);
 
@@ -27737,7 +27743,7 @@ var _propTypes = __webpack_require__(17);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _styleKeeper = __webpack_require__(57);
+var _styleKeeper = __webpack_require__(58);
 
 var _styleKeeper2 = _interopRequireDefault(_styleKeeper);
 
@@ -27807,7 +27813,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = keyframes;
 
-var _cssRuleSetToString = __webpack_require__(58);
+var _cssRuleSetToString = __webpack_require__(59);
 
 var _cssRuleSetToString2 = _interopRequireDefault(_cssRuleSetToString);
 
@@ -27815,7 +27821,7 @@ var _hash = __webpack_require__(105);
 
 var _hash2 = _interopRequireDefault(_hash);
 
-var _prefixer = __webpack_require__(59);
+var _prefixer = __webpack_require__(60);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28541,7 +28547,7 @@ var _GameModes = __webpack_require__(269);
 
 var _GameModes2 = _interopRequireDefault(_GameModes);
 
-var _config = __webpack_require__(62);
+var _config = __webpack_require__(39);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -28554,6 +28560,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var gameModes = _config2.default.gameModes;
+var skins = _config2.default.gameInfo.skins;
 
 var LandingPage = function (_React$Component) {
   _inherits(LandingPage, _React$Component);
@@ -28580,7 +28587,7 @@ var LandingPage = function (_React$Component) {
         var gameMode = _this.state.gameModes[_this.state.currentGameModeIndex];
         if (!gameMode.available) return;
         window.removeEventListener('keydown', _this.playGame);
-        _this.props.startGame(_this.state.name.toUpperCase(), gameMode.name, _this.state.currentCharacter, _this.state.currentSkin, _this.state.soundOn);
+        _this.props.startGame(_this.state.name.toUpperCase(), gameMode.name, _this.state.currentCharacter, _this.state.skinGroupName, _this.state.skinName, _this.state.soundOn);
       }
     };
 
@@ -28588,8 +28595,14 @@ var LandingPage = function (_React$Component) {
       _this.setState({ name: evt.target.value });
     };
 
-    _this.updateSkinInfo = function (skinIndex, skinColourSelected, pageIndex) {
-      _this.setState({ skinIndex: skinIndex, currentSkin: skinColourSelected, pageIndex: pageIndex });
+    _this.updateSkinInfo = function (skinIndex, skinColourSelected, pageIndex, skinGroupName, skinName) {
+      _this.setState({
+        skinIndex: skinIndex,
+        currentSkin: skinColourSelected,
+        pageIndex: pageIndex,
+        skinGroupName: skinGroupName,
+        skinName: skinName
+      });
     };
 
     _this.updateGameModeIndex = function (newIndex) {
@@ -28606,8 +28619,10 @@ var LandingPage = function (_React$Component) {
       bg: undefined,
       gameModes: [],
       musicOn: true,
-      soundOn: true,
+      soundOn: false,
 
+      skinGroupName: Object.keys(skins)[0],
+      skinName: Object.keys(skins[Object.keys(skins)[0]])[0],
       skinIndex: 0,
       pageIndex: 0
     };
@@ -28692,13 +28707,20 @@ var LandingPage = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { id: 'socialIcons' },
-          _react2.default.createElement('img', { className: 'social', id: 'twitterIcon', src: '../../assets/images/twitter.png' }),
-          _react2.default.createElement('img', { className: 'social', id: 'facebookIcon', src: '../../assets/images/facebook.png' }),
-          _react2.default.createElement('img', { className: 'social', id: 'redditIcon', src: '../../assets/images/reddit.png' }),
-          _react2.default.createElement('img', { className: 'social', id: 'discordIcon', src: '../../assets/images/discord.png' }),
-          _react2.default.createElement('img', { className: 'social', id: 'youtubeIcon', src: '../../assets/images/youtube.png' })
+          _react2.default.createElement('img', { className: 'social', id: 'twitterIcon', src: '../../assets/images/icons/twitter.png' }),
+          _react2.default.createElement('img', { className: 'social', id: 'facebookIcon', src: '../../assets/images/icons/facebook.png' }),
+          _react2.default.createElement('img', { className: 'social', id: 'redditIcon', src: '../../assets/images/icons/reddit.png' }),
+          _react2.default.createElement('img', { className: 'social', id: 'discordIcon', src: '../../assets/images/icons/discord.png' }),
+          _react2.default.createElement('img', { className: 'social', id: 'youtubeIcon', src: '../../assets/images/icons/youtube.png' })
         ),
-        this.state.showSkinModal && _react2.default.createElement(_SkinModal2.default, { showAmount: 4, currentSelected: this.state.skinIndex, currentPage: this.state.pageIndex, updateSkinInfo: this.updateSkinInfo })
+        this.state.showSkinModal && _react2.default.createElement(_SkinModal2.default, {
+          showAmount: 4,
+          currentSelected: this.state.skinIndex,
+          currentPage: this.state.pageIndex,
+          updateSkinInfo: this.updateSkinInfo,
+          skinGroupName: this.state.skinGroupName,
+          skinName: this.state.skinName
+        })
       );
     }
   }]);
@@ -28867,6 +28889,10 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(267);
 
+var _config = __webpack_require__(39);
+
+var _config2 = _interopRequireDefault(_config);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28874,6 +28900,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var skins = _config2.default.gameInfo.skins;
 
 var SkinModal = function (_React$Component) {
   _inherits(SkinModal, _React$Component);
@@ -28883,16 +28911,106 @@ var SkinModal = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SkinModal.__proto__ || Object.getPrototypeOf(SkinModal)).call(this));
 
+    _this.genList = function (skins, num) {
+      var finalArr = [];
+      // e.g basic, comics
+      for (var skinGroup in skins) {
+        var tempArr = [];
+        // e.g yellow, blue
+        var skinsInGroup = skins[skinGroup];
+        var skinList = Object.keys(skinsInGroup).map(function (e) {
+          return { name: e, src: '../../assets/images/skinFaces/' + e + '.png' };
+        });
+        var count = 0,
+            arrToAdd = [];
+        for (var i = 0; i < skinList.length; i++) {
+          if (count === num) {
+            tempArr.push(arrToAdd);
+            arrToAdd = [];
+            count = 0;
+          }
+          arrToAdd.push(skinList[i]);
+          count++;
+        }
+        tempArr.push(arrToAdd);
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = tempArr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var _skins = _step.value;
+            finalArr.push({ groupName: skinGroup, skins: _skins });
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      }
+      console.log(finalArr);
+      return finalArr;
+    };
+
+    _this.isFirstPage = function () {
+      return _this.state.currentPage === 0;
+    };
+
+    _this.isLastPage = function () {
+      return _this.state.currentPage === _this.state.coloursArr.length / _this.state.showAmount - 1;
+    };
+
+    _this.moveLeftPage = function () {
+      if (!_this.isFirstPage()) _this.setState({
+        currentPage: _this.state.currentPage - 1,
+        skinGroupIndex: _this.state.skinGroupIndex - 1,
+        currentSkinGroup: _this.state.skinList[_this.state.skinGroupIndex - 1]
+      });
+    };
+
+    _this.moveRightPage = function () {
+      if (!_this.isLastPage()) _this.setState({
+        currentPage: _this.state.currentPage + 1,
+        skinGroupIndex: _this.state.skinGroupIndex + 1,
+        currentSkinGroup: _this.state.skinList[_this.state.skinGroupIndex + 1]
+      });
+    };
+
+    _this.selectSkin = function (actualIndex, skinIndex) {
+      var selectedGroup = _this.state.skinList[_this.state.currentPage];
+      console.log(selectedGroup);
+      _this.setState({
+        currentSelected: actualIndex,
+        skinIndex: skinIndex,
+        skinGroupName: selectedGroup.groupName,
+        skinName: selectedGroup.skins[skinIndex].name
+      });
+    };
+
     _this.state = {
+      skinList: [],
+      currentSkinGroup: {},
+      currentSkin: {},
+      skinGroupIndex: 0,
+      skinIndex: 0,
+      skinGroupName: '',
+      skinName: '',
+
       showAmount: 0,
       arrToMap: [],
       currentPage: 0,
       currentSelected: 0,
-      coloursArr: ["#f1c40f", "#34495E", "#59ABE3", "#D24D57", "#00B16A", "#F62459", "#e67e22", "#9b59b6"]
+      coloursArr: ["#f1c40f", "#34495E", "#59ABE3", "#D24D57", "#00B16A", "#F62459", "#e67e22", "#9b59b6", "#f1c40f", "#34495E", "#59ABE3", "#D24D57", "#00B16A", "#F62459", "#e67e22", "#9b59b6", "#f1c40f", "#34495E", "#59ABE3", "#D24D57", "#00B16A", "#F62459", "#e67e22", "#9b59b6", "#f1c40f", "#34495E", "#59ABE3", "#D24D57", "#00B16A", "#F62459", "#e67e22", "#9b59b6"]
     };
-    _this.moveRightPage = _this.moveRightPage.bind(_this);
-    _this.moveLeftPage = _this.moveLeftPage.bind(_this);
-    _this.selectSkin = _this.selectSkin.bind(_this);
     return _this;
   }
 
@@ -28900,43 +29018,26 @@ var SkinModal = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var amount = this.props.showAmount;
+      var skinList = this.genList(skins, amount);
       this.setState({
         showAmount: amount,
         arrToMap: new Array(amount).fill(""),
         currentSelected: this.props.currentSelected,
-        currentPage: this.props.currentPage
+        currentPage: this.props.currentPage,
+
+        skinList: skinList,
+        currentSkinGroup: skinList[this.props.currentPage],
+        skinGroupIndex: this.props.currentPage,
+        skinIndex: this.props.currentSelected,
+        skinGroupName: this.props.skinGroupName,
+        skinName: this.props.skinName
       });
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       var s = this.state;
-      this.props.updateSkinInfo(s.currentSelected, s.coloursArr[s.currentSelected], s.currentPage);
-    }
-  }, {
-    key: 'isFirstPage',
-    value: function isFirstPage() {
-      return this.state.currentPage === 0;
-    }
-  }, {
-    key: 'isLastPage',
-    value: function isLastPage() {
-      return this.state.currentPage === this.state.coloursArr.length / this.state.showAmount - 1;
-    }
-  }, {
-    key: 'moveLeftPage',
-    value: function moveLeftPage() {
-      if (!this.isFirstPage()) this.setState({ currentPage: this.state.currentPage - 1 });
-    }
-  }, {
-    key: 'moveRightPage',
-    value: function moveRightPage() {
-      if (!this.isLastPage()) this.setState({ currentPage: this.state.currentPage + 1 });
-    }
-  }, {
-    key: 'selectSkin',
-    value: function selectSkin(actualIndex) {
-      this.setState({ currentSelected: actualIndex });
+      this.props.updateSkinInfo(s.currentSelected, s.coloursArr[s.currentSelected], s.currentPage, s.skinGroupName, s.skinName);
     }
   }, {
     key: 'render',
@@ -28949,43 +29050,48 @@ var SkinModal = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { id: 'skinDisplay' },
-          _react2.default.createElement('div', {
-            className: 'skinBackground',
-            style: { backgroundImage: 'url("../../assets/images/' + this.state.coloursArr[this.state.currentSelected].slice(1) + '.png")' }
-          })
+          _react2.default.createElement('div', { className: 'newSkinBackground' })
         ),
         _react2.default.createElement(
           'div',
           { id: 'skinsCarousal' },
           _react2.default.createElement(
             'div',
-            { id: 'buttons' },
-            _react2.default.createElement(
-              'div',
-              { id: 'leftButton', className: this.isFirstPage() ? "button disabled" : "button", onClick: this.moveLeftPage },
-              _react2.default.createElement('i', { className: 'fa fa-arrow-left' })
-            ),
-            _react2.default.createElement(
-              'div',
-              { id: 'rightButton', className: this.isLastPage() ? "button disabled" : "button", onClick: this.moveRightPage },
-              _react2.default.createElement('i', { className: 'fa fa-arrow-right' })
-            )
+            { id: 'skinsText' },
+            this.state.currentSkinGroup.groupName
           ),
           _react2.default.createElement(
             'div',
-            { id: 'skinsContainer' },
-            this.state.arrToMap.map(function (element, idx) {
-              var actualIndex = _this2.state.currentPage * _this2.state.showAmount + idx;
-              var isSelected = _this2.state.currentSelected === actualIndex;
-              return _react2.default.createElement('div', {
-                key: idx,
-                className: isSelected ? "skinOption skinSelected" : "skinOption",
-                style: { backgroundColor: _this2.state.coloursArr[actualIndex] },
-                onClick: function onClick() {
-                  return _this2.selectSkin(actualIndex);
-                }
-              });
-            })
+            { id: 'restSkins' },
+            _react2.default.createElement(
+              'div',
+              { id: 'buttons' },
+              _react2.default.createElement(
+                'div',
+                { id: 'leftButton', className: this.isFirstPage() ? "button disabled" : "button", onClick: this.moveLeftPage },
+                _react2.default.createElement('i', { className: 'fa fa-arrow-left' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { id: 'rightButton', className: this.isLastPage() ? "button disabled" : "button", onClick: this.moveRightPage },
+                _react2.default.createElement('i', { className: 'fa fa-arrow-right' })
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { id: 'skinsContainer' },
+              this.state.currentSkinGroup.skins && this.state.currentSkinGroup.skins.map(function (element, idx) {
+                var actualIndex = _this2.state.currentPage * _this2.state.showAmount + idx;
+                var isSelected = _this2.state.currentSelected === actualIndex;
+                return _react2.default.createElement(
+                  'div',
+                  { key: actualIndex, className: isSelected ? "newSkinOption selected" : "newSkinOption", onClick: function onClick() {
+                      return _this2.selectSkin(actualIndex, idx);
+                    } },
+                  _react2.default.createElement('img', { src: element.src, className: 'newSkinOptionImage' })
+                );
+              })
+            )
           )
         )
       );
@@ -29037,7 +29143,7 @@ exports = module.exports = __webpack_require__(28)(undefined);
 
 
 // module
-exports.push([module.i, "#skinModal {\n  position: fixed;\n  width: 400px;\n  height: 450px;\n  top: 50%;\n  left: 50%;\n  margin-left: -200px;\n  margin-top: -225px;\n  background-color: red;\n  border-radius: 30px;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n#skinDisplay {\n  background-color: #4fcbd3;\n  height: 80%;\n  width: 100%;\n  border-radius: 20px 20px 0px 0px;\n  text-align: center;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.skinBackground {\n  border-radius: 20px 20px 0px 0px;\n  height: calc(90px * 2.5);\n  width: calc(75px * 2.5);\n  background-size: 100% 100%; }\n\n#skinsCarousal {\n  background-color: #3F3F3F;\n  height: 20%;\n  width: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative; }\n\n#skinsContainer {\n  height: 80%;\n  width: 80%;\n  display: flex;\n  justify-content: space-between;\n  align-items: center; }\n\n.skinOption {\n  height: 70px;\n  width: 70px;\n  border-radius: 100%;\n  z-index: 1;\n  cursor: pointer; }\n\n#yellowSkin {\n  background-color: #f1c40f; }\n\n#blueSkin {\n  background-color: #2980b9; }\n\n#redSkin {\n  background-color: #e74c3c; }\n\n#greenSkin {\n  background-color: #27ae60; }\n\n.skinOption.skinSelected {\n  border: 2px solid #ecf0f1; }\n\n#buttons {\n  position: absolute;\n  width: 95%;\n  height: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.fa-arrow-left, .fa-arrow-right {\n  font-size: 20px; }\n\n.button {\n  width: 20px;\n  height: 20px;\n  color: white;\n  cursor: pointer; }\n\n.button.disabled {\n  cursor: not-allowed;\n  color: grey; }\n", ""]);
+exports.push([module.i, "#skinModal {\n  position: fixed;\n  width: 400px;\n  height: 450px;\n  top: 50%;\n  left: 50%;\n  margin-left: -200px;\n  margin-top: -225px;\n  background-color: red;\n  border-radius: 30px;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n#skinDisplay {\n  background-color: #4fcbd3;\n  height: 80%;\n  width: 100%;\n  border-radius: 20px 20px 0px 0px;\n  text-align: center;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.skinBackground {\n  border-radius: 20px 20px 0px 0px;\n  height: calc(90px * 2.5);\n  width: calc(75px * 2.5);\n  background-size: 100% 100%; }\n\n#skinsCarousal {\n  background-color: #3F3F3F;\n  height: 25%;\n  width: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative;\n  flex-direction: column; }\n\n#skinsContainer {\n  height: 80%;\n  width: 80%;\n  display: flex;\n  justify-content: space-between;\n  align-items: center; }\n\n.skinOption {\n  height: 70px;\n  width: 70px;\n  border-radius: 100%;\n  z-index: 1;\n  cursor: pointer; }\n\n.newSkinOption {\n  height: 70px;\n  width: 70px;\n  z-index: 1;\n  cursor: pointer; }\n\n.newSkinOptionImage {\n  height: 95%;\n  width: 95%;\n  user-select: none; }\n\n.newSkinOption.selected {\n  border-bottom: 5px solid #f1c40f; }\n\n#skinsText {\n  width: 100%;\n  height: 25%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: white;\n  font-size: 25px;\n  font-family: Quicksand;\n  text-transform: uppercase; }\n\n#restSkins {\n  width: 100%;\n  height: 75%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative; }\n\n#yellowSkin {\n  background-color: #f1c40f; }\n\n#blueSkin {\n  background-color: #2980b9; }\n\n#redSkin {\n  background-color: #e74c3c; }\n\n#greenSkin {\n  background-color: #27ae60; }\n\n.newSkinBackground {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#skinBackgroundImage {\n  width: 80%;\n  height: 80%; }\n\n.skinOption.skinSelected {\n  border: 2px solid #ecf0f1; }\n\n#buttons {\n  position: absolute;\n  width: 95%;\n  height: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.fa-arrow-left, .fa-arrow-right {\n  font-size: 20px; }\n\n.button {\n  width: 20px;\n  height: 20px;\n  color: white;\n  cursor: pointer; }\n\n.button.disabled {\n  cursor: not-allowed;\n  color: grey; }\n", ""]);
 
 // exports
 
@@ -29230,7 +29336,7 @@ var _KillFeed = __webpack_require__(278);
 
 var _KillFeed2 = _interopRequireDefault(_KillFeed);
 
-var _config = __webpack_require__(62);
+var _config = __webpack_require__(39);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -29261,10 +29367,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var bloodConfig = _config2.default.gameInfo.bloodParticles;
 var skins = _config2.default.gameInfo.skins;
 var count = 0;
-var headURL = '../../assets/images/ironman.png';
+var headURL = '../../assets/images/skinFaces/spiderman.png';
 var head = new Image(25, 25);
 head.src = headURL;
-var beltURL = '../../assets/images/belt.png';
+var head2 = new Image(50, 50);
+head2.src = "../../assets/images/skinFaces/vegeta2.png";
+
+var beltURL = '../../assets/images/belts/belt.png';
 var belt = new Image(20, 20);
 belt.src = beltURL;
 
@@ -29296,7 +29405,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         killStreak: 0,
         beltColour: "",
         beltProgress: 0
-      }
+      },
+      skinObj: {}
+
     };
     _this.keyDown = {
       up: false,
@@ -29315,7 +29426,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('cvs: ', this.refs);
-      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas });
+      var skinObj = this.generateSkinImages(skins);
+      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas, skinObj: skinObj });
       this.addListeners();
       this.setUpSockets();
     }
@@ -29325,7 +29437,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var _this2 = this;
 
       console.log('socket id: ', _io2.default.id);
-      console.log('skins: ', Object.keys(skins));
       // Emit playerList, healthList, wallList
       var self = this;
       _io2.default.on('setUpWorld', function (worldWidth, worldHeight) {
@@ -29399,6 +29510,65 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         var r = Math.ceil(Math.random() * hitLength) - 1;
         if (soundType === 'hit') _this2.props.audio[soundType][r].play();else _this2.props.audio[soundType].play();
       });
+    }
+  }, {
+    key: 'generateSkinImages',
+    value: function generateSkinImages(skins) {
+      var skinList = [];
+      var skinObj = {};
+      var skinGroups = Object.keys(skins);
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = skinGroups[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var skin = _step.value;
+          skinList = skinList.concat(Object.keys(skins[skin]));
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = skinList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var _skin = _step2.value;
+
+          var img = new Image(50, 50);
+          img.src = '../../assets/images/skinFaces/' + _skin + '.png';
+          skinObj[_skin] = img;
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      return skinObj;
     }
 
     /*  HANDLE CODE   */
@@ -29509,6 +29679,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           this.newDrawBody(player, xPos, yPos, context);
           // this.drawCircles(player, xPos, yPos, context)
           // this.drawHead(player, xPos, yPos, context)
+          // this.drawHead(player, xPos, yPos, context)
           this.newDrawHead(player, xPos, yPos, context);
           // this.newDrawBelt(player, xPos, yPos, context)
           this.drawArmBands(player, xPos, yPos, context);
@@ -29522,13 +29693,13 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'drawBody',
     value: function drawBody(player, xPos, yPos, ctx) {
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator = player.pointsList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var list = _step.value;
+        for (var _iterator3 = player.pointsList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var list = _step3.value;
 
           var colour = '#272727';
           var skinType = player.skinType;
@@ -29538,80 +29709,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           ctx.beginPath();
           ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
           for (var i = 1; i < list.length; i++) {
-            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
-          }
-          ctx.stroke();
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-    }
-  }, {
-    key: 'newDrawBody',
-    value: function newDrawBody(player, xPos, yPos, ctx) {
-      var torso = void 0;
-      var layers = skins[player.skinCategory][player.skinName];
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = player.pointsList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var list = _step2.value;
-
-          if (list[0].label === "head") continue;
-          if (list[0].label === "torso") torso = list;
-          this.drawBodyPart(list, layers, ctx, 20, xPos, yPos);
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
-      this.drawBodyPart(torso, layers, ctx, 20, xPos, yPos);
-    }
-  }, {
-    key: 'drawBodyPart',
-    value: function drawBodyPart(list, layers, ctx, lineWidth, xPos, yPos) {
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
-
-      try {
-        for (var _iterator3 = layers[list[0].label][Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var layer = _step3.value;
-
-          var width = layer.width;
-          var colour = layer.colour;
-          ctx.lineWidth = lineWidth * width;
-          ctx.beginPath();
-          ctx.lineCap = layer.lineCap ? layer.lineCap : "round";
-          var start = layer.start ? layer.start : 0;
-          var end = layer.end ? layer.end : list.length - 1;
-          ctx.moveTo(list[start].x - xPos, list[start].y - yPos);
-          ctx.strokeStyle = colour;
-          for (var i = start + 1; i <= end; i++) {
             ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
           }
           ctx.stroke();
@@ -29632,21 +29729,21 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       }
     }
   }, {
-    key: 'drawCircles',
-    value: function drawCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = '#2F3B40';
-      var list = player.circleList;
+    key: 'newDrawBody',
+    value: function newDrawBody(player, xPos, yPos, ctx) {
+      var torso = void 0;
+      var layers = skins[player.skinCategory][player.skinName];
       var _iteratorNormalCompletion4 = true;
       var _didIteratorError4 = false;
       var _iteratorError4 = undefined;
 
       try {
-        for (var _iterator4 = list[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var elem = _step4.value;
+        for (var _iterator4 = player.pointsList[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var list = _step4.value;
 
-          ctx.beginPath();
-          ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false);
-          ctx.fill();
+          if (list[0].label === "head") continue;
+          if (list[0].label === "torso") torso = list;
+          this.drawBodyPart(list, layers, ctx, 20, xPos, yPos);
         }
       } catch (err) {
         _didIteratorError4 = true;
@@ -29659,6 +29756,80 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         } finally {
           if (_didIteratorError4) {
             throw _iteratorError4;
+          }
+        }
+      }
+
+      this.drawBodyPart(torso, layers, ctx, 20, xPos, yPos);
+    }
+  }, {
+    key: 'drawBodyPart',
+    value: function drawBodyPart(list, layers, ctx, lineWidth, xPos, yPos) {
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = layers[list[0].label][Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var layer = _step5.value;
+
+          var width = layer.width;
+          var colour = layer.colour;
+          ctx.lineWidth = lineWidth * width;
+          ctx.beginPath();
+          ctx.lineCap = layer.lineCap ? layer.lineCap : "round";
+          var start = layer.start ? layer.start : 0;
+          var end = layer.end ? layer.end : list.length - 1;
+          ctx.moveTo(list[start].x - xPos, list[start].y - yPos);
+          ctx.strokeStyle = colour;
+          for (var i = start + 1; i <= end; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
+        }
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'drawCircles',
+    value: function drawCircles(player, xPos, yPos, ctx) {
+      ctx.fillStyle = '#2F3B40';
+      var list = player.circleList;
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = list[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var elem = _step6.value;
+
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, 10, 0, 2 * Math.PI, false);
+          ctx.fill();
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
           }
         }
       }
@@ -29675,13 +29846,18 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'newDrawHead',
     value: function newDrawHead(player, xPos, yPos, ctx) {
+      if (player.skinCategory === "basic") {
+        this.drawHead(player, xPos, yPos, ctx);
+        return;
+      }
       var width = player.headPosition.x - xPos;
       var height = player.headPosition.y - yPos;
-      var imageWidth = 50;
-      var imageHeight = 50;
+      var imageWidth = 100;
+      var imageHeight = 100;
+      var img = this.state.skinObj[player.skinName];
       ctx.translate(width, height);
       ctx.rotate(player.headPosition.angle);
-      ctx.drawImage(head, -imageWidth / 2, -imageHeight / 2, imageWidth, imageHeight);
+      ctx.drawImage(img, -imageWidth / 2, -imageHeight / 2 - 12.5, imageWidth, imageHeight);
       ctx.rotate(-player.headPosition.angle);
       ctx.translate(-width, -height);
     }
@@ -29745,83 +29921,18 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var totalList = [].concat(pointsList.reduce(function (a, b) {
         return a.concat(b);
       })).concat(circleList);
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
-
-      try {
-        for (var _iterator5 = totalList[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var elem = _step5.value;
-
-          ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40';
-          ctx.beginPath();
-          ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
-          ctx.fill();
-        }
-      } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
-          }
-        } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
-          }
-        }
-      }
-    }
-  }, {
-    key: 'createBloodParticles',
-    value: function createBloodParticles(x, y, particleNumber) {
-      for (var i = 0; i < particleNumber; i++) {
-        var newParticle = new _BloodParticle2.default(x, y);
-        this.bloodParticles.push(newParticle);
-      }
-    }
-  }, {
-    key: 'drawBloodParticles',
-    value: function drawBloodParticles() {
-      var ctx = this.state.canvas.getContext('2d');
-      var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
-
-      try {
-        for (var _iterator6 = this.bloodParticles[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-          var particle = _step6.value;
-          particle.updateTime();
-        }
-      } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion6 && _iterator6.return) {
-            _iterator6.return();
-          }
-        } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
-          }
-        }
-      }
-
-      this.bloodParticles = this.bloodParticles.filter(function (particle) {
-        return !particle.dead;
-      });
       var _iteratorNormalCompletion7 = true;
       var _didIteratorError7 = false;
       var _iteratorError7 = undefined;
 
       try {
-        for (var _iterator7 = this.bloodParticles[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var _particle = _step7.value;
+        for (var _iterator7 = totalList[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var elem = _step7.value;
 
-          _particle.updatePosition();
-          _particle.drawParticle(ctx);
+          ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40';
+          ctx.beginPath();
+          ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false);
+          ctx.fill();
         }
       } catch (err) {
         _didIteratorError7 = true;
@@ -29839,25 +29950,25 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       }
     }
   }, {
-    key: 'drawArmBands',
-    value: function drawArmBands(player, xPos, yPos, ctx) {
+    key: 'createBloodParticles',
+    value: function createBloodParticles(x, y, particleNumber) {
+      for (var i = 0; i < particleNumber; i++) {
+        var newParticle = new _BloodParticle2.default(x, y);
+        this.bloodParticles.push(newParticle);
+      }
+    }
+  }, {
+    key: 'drawBloodParticles',
+    value: function drawBloodParticles() {
+      var ctx = this.state.canvas.getContext('2d');
       var _iteratorNormalCompletion8 = true;
       var _didIteratorError8 = false;
       var _iteratorError8 = undefined;
 
       try {
-        for (var _iterator8 = player.armBandList[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-          var list = _step8.value;
-
-          var percent = player.health / player.initialHealth;
-          ctx.lineCap = "butt";
-          ctx.beginPath();
-          ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - percent);
-          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
-          for (var i = 1; i < list.length; i++) {
-            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
-          }
-          ctx.stroke();
+        for (var _iterator8 = this.bloodParticles[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+          var particle = _step8.value;
+          particle.updateTime();
         }
       } catch (err) {
         _didIteratorError8 = true;
@@ -29870,6 +29981,71 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         } finally {
           if (_didIteratorError8) {
             throw _iteratorError8;
+          }
+        }
+      }
+
+      this.bloodParticles = this.bloodParticles.filter(function (particle) {
+        return !particle.dead;
+      });
+      var _iteratorNormalCompletion9 = true;
+      var _didIteratorError9 = false;
+      var _iteratorError9 = undefined;
+
+      try {
+        for (var _iterator9 = this.bloodParticles[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+          var _particle = _step9.value;
+
+          _particle.updatePosition();
+          _particle.drawParticle(ctx);
+        }
+      } catch (err) {
+        _didIteratorError9 = true;
+        _iteratorError9 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion9 && _iterator9.return) {
+            _iterator9.return();
+          }
+        } finally {
+          if (_didIteratorError9) {
+            throw _iteratorError9;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'drawArmBands',
+    value: function drawArmBands(player, xPos, yPos, ctx) {
+      var _iteratorNormalCompletion10 = true;
+      var _didIteratorError10 = false;
+      var _iteratorError10 = undefined;
+
+      try {
+        for (var _iterator10 = player.armBandList[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
+          var list = _step10.value;
+
+          var percent = player.health / player.initialHealth;
+          ctx.lineCap = "butt";
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - percent);
+          ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
+          for (var i = 1; i < list.length; i++) {
+            ctx.lineTo(list[i].x - xPos, list[i].y - yPos);
+          }
+          ctx.stroke();
+        }
+      } catch (err) {
+        _didIteratorError10 = true;
+        _iteratorError10 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion10 && _iterator10.return) {
+            _iterator10.return();
+          }
+        } finally {
+          if (_didIteratorError10) {
+            throw _iteratorError10;
           }
         }
       }
@@ -30631,7 +30807,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var bloodConfig = __webpack_require__(62).gameInfo.bloodParticles;
+var bloodConfig = __webpack_require__(39).gameInfo.bloodParticles;
 
 function BloodParticle(x, y) {
   this.x = x;

@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
-import bodyShotImage from '../../assets/images/BodyShotIcon.png'
-import headShotImage from '../../assets/images/HeadShotIcon.png'
+import bodyShotImage from '../../assets/images/icons/BodyShotIcon.png'
+import headShotImage from '../../assets/images/icons/HeadShotIcon.png'
 
 @Radium
 class KillFeed extends React.Component {

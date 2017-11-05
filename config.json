@@ -69,46 +69,46 @@
         "yellow": {
           "torso":[{"width":1,"colour":"#f1c40f"}],
           "rightArm":[{"width":1,"colour":"#f1c40f"}],
-          "rightForeArm":[{"width":1,"colour":"black"}],
+          "rightForeArm":[{"width":1,"colour":"#2F3B40"}],
           "leftArm":[{"width":1,"colour":"#f1c40f"}],
-          "leftForeArm":[{"width":1,"colour":"black"}],
+          "leftForeArm":[{"width":1,"colour":"#2F3B40"}],
           "rightThigh":[{"width":1,"colour":"#f1c40f"}],
-          "rightLeg":[{"width":1,"colour":"#f1c40f"}],
-          "leftThigh":[{"width":1,"colour":"black"}],
-          "leftLeg":[{"width":1,"colour":"black"}]
+          "rightLeg":[{"width":1,"colour":"#2F3B40"}],
+          "leftThigh":[{"width":1,"colour":"#f1c40f"}],
+          "leftLeg":[{"width":1,"colour":"#2F3B40"}]
         },
         "darkblue": {
           "torso":[{"width":1,"colour":"#34495E"}],
           "rightArm":[{"width":1,"colour":"#34495E"}],
-          "rightForeArm":[{"width":1,"colour":"black"}],
+          "rightForeArm":[{"width":1,"colour":"#2F3B40"}],
           "leftArm":[{"width":1,"colour":"#34495E"}],
-          "leftForeArm":[{"width":1,"colour":"black"}],
+          "leftForeArm":[{"width":1,"colour":"#2F3B40"}],
           "rightThigh":[{"width":1,"colour":"#34495E"}],
-          "rightLeg":[{"width":1,"colour":"#34495E"}],
-          "leftThigh":[{"width":1,"colour":"black"}],
-          "leftLeg":[{"width":1,"colour":"black"}]
+          "rightLeg":[{"width":1,"colour":"#2F3B40"}],
+          "leftThigh":[{"width":1,"colour":"#34495E"}],
+          "leftLeg":[{"width":1,"colour":"#2F3B40"}]
         },
         "lightblue": {
           "torso":[{"width":1,"colour":"#59ABE3"}],
           "rightArm":[{"width":1,"colour":"#59ABE3"}],
-          "rightForeArm":[{"width":1,"colour":"black"}],
+          "rightForeArm":[{"width":1,"colour":"#2F3B40"}],
           "leftArm":[{"width":1,"colour":"#59ABE3"}],
-          "leftForeArm":[{"width":1,"colour":"black"}],
+          "leftForeArm":[{"width":1,"colour":"#2F3B40"}],
           "rightThigh":[{"width":1,"colour":"#59ABE3"}],
-          "rightLeg":[{"width":1,"colour":"#59ABE3"}],
-          "leftThigh":[{"width":1,"colour":"black"}],
-          "leftLeg":[{"width":1,"colour":"black"}]
+          "rightLeg":[{"width":1,"colour":"#2F3B40"}],
+          "leftThigh":[{"width":1,"colour":"#59ABE3"}],
+          "leftLeg":[{"width":1,"colour":"#2F3B40"}]
         },
         "red": {
           "torso":[{"width":1,"colour":"#D24D57"}],
           "rightArm":[{"width":1,"colour":"#D24D57"}],
-          "rightForeArm":[{"width":1,"colour":"black"}],
+          "rightForeArm":[{"width":1,"colour":"#2F3B40"}],
           "leftArm":[{"width":1,"colour":"#D24D57"}],
-          "leftForeArm":[{"width":1,"colour":"black"}],
+          "leftForeArm":[{"width":1,"colour":"#2F3B40"}],
           "rightThigh":[{"width":1,"colour":"#D24D57"}],
-          "rightLeg":[{"width":1,"colour":"#D24D57"}],
-          "leftThigh":[{"width":1,"colour":"black"}],
-          "leftLeg":[{"width":1,"colour":"black"}]
+          "rightLeg":[{"width":1,"colour":"#2F3B40"}],
+          "leftThigh":[{"width":1,"colour":"#D24D57"}],
+          "leftLeg":[{"width":1,"colour":"#2F3B40"}]
         }
       },
       "comics": {

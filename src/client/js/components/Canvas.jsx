@@ -13,10 +13,13 @@ import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
 let skins = config.gameInfo.skins
 let count = 0
-let headURL = '../../assets/images/ironman.png'
+let headURL = '../../assets/images/skinFaces/spiderman.png'
 let head = new Image(25, 25)
 head.src = headURL
-let beltURL = '../../assets/images/belt.png'
+let head2 = new Image(50, 50)
+head2.src = "../../assets/images/skinFaces/vegeta2.png"
+
+let beltURL = '../../assets/images/belts/belt.png'
 let belt = new Image(20, 20)
 belt.src = beltURL
 
@@ -45,6 +48,8 @@ class Canvas extends React.Component {
           beltColour: "",
           beltProgress: 0,
         },
+        skinObj: {}
+
       }
       this.keyDown = {
         up: false,
@@ -60,14 +65,14 @@ class Canvas extends React.Component {
 
     componentDidMount() {
       console.log('cvs: ', this.refs)
-      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas })
+      let skinObj = this.generateSkinImages(skins)
+      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas, skinObj: skinObj })
       this.addListeners()
       this.setUpSockets()
     }
 
     setUpSockets() {
       console.log('socket id: ', socket.id)
-      console.log('skins: ', Object.keys(skins))
       // Emit playerList, healthList, wallList
       let self = this
       socket.on('setUpWorld', (worldWidth, worldHeight) => {
@@ -144,6 +149,18 @@ class Canvas extends React.Component {
 
     }
 
+    generateSkinImages(skins) {
+      let skinList = []
+      let skinObj = {}
+      let skinGroups = Object.keys(skins)
+      for(let skin of skinGroups) skinList = skinList.concat(Object.keys(skins[skin]))
+      for(let skin of skinList) {
+        let img = new Image(50, 50)
+        img.src = `../../assets/images/skinFaces/${skin}.png`
+        skinObj[skin] = img
+      }
+      return skinObj
+    }
 
 
 /*  HANDLE CODE   */
@@ -250,6 +267,7 @@ class Canvas extends React.Component {
           this.newDrawBody(player, xPos, yPos, context)
           // this.drawCircles(player, xPos, yPos, context)
           // this.drawHead(player, xPos, yPos, context)
+          // this.drawHead(player, xPos, yPos, context)
           this.newDrawHead(player, xPos, yPos, context)
           // this.newDrawBelt(player, xPos, yPos, context)
           this.drawArmBands(player, xPos, yPos, context)
@@ -329,13 +347,18 @@ class Canvas extends React.Component {
     }
 
     newDrawHead(player, xPos, yPos, ctx) {
+      if(player.skinCategory === "basic") {
+        this.drawHead(player, xPos, yPos, ctx)
+        return
+      }
       let width = player.headPosition.x - xPos
       let height = player.headPosition.y - yPos
-      let imageWidth = 50
-      let imageHeight = 50
+      let imageWidth = 100
+      let imageHeight = 100
+      let img = this.state.skinObj[player.skinName]
       ctx.translate(width, height)
       ctx.rotate(player.headPosition.angle)
-      ctx.drawImage(head, (-imageWidth / 2) , (-imageHeight / 2), imageWidth, imageHeight)
+      ctx.drawImage(img, (-imageWidth / 2) , (-imageHeight / 2) - 12.5, imageWidth, imageHeight)
       ctx.rotate(-player.headPosition.angle)
       ctx.translate(- width, - height)
     }

@@ -1,11 +1,10 @@
 let c = require('../../config.json')
 let randColour = require('./helper.js').randColour
 
-function Player(name, id, characterType, skinType) {
+function Player(name, id, characterType, skinGroupName, skinName) {
   this.name = name ? name : 'PLAYER'
   this.id = id
   this.characterType = characterType
-  this.skinType = skinType
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.initialHealth
   this.killStreak = 0
@@ -23,8 +22,8 @@ function Player(name, id, characterType, skinType) {
   this.isDead = false
   this.isBlownUp = false
   this.colour = randColour()
-  this.skinCategory = "comics"
-  this.skinName = "ironman"
+  this.skinCategory = skinGroupName
+  this.skinName = skinName
 }
 
 Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initialY, radius) {

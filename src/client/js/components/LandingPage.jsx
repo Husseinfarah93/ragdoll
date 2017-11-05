@@ -4,6 +4,7 @@ import SkinModal from './SkinModal.jsx'
 import GameModes from './GameModes.jsx'
 import config from '../../../../config.json'
 let gameModes = config.gameModes
+let skins = config.gameInfo.skins
 
 
 class LandingPage extends React.Component {
@@ -19,8 +20,10 @@ class LandingPage extends React.Component {
       bg: undefined,
       gameModes: [],
       musicOn: true,
-      soundOn: true,
+      soundOn: false,
 
+      skinGroupName: Object.keys(skins)[0],
+      skinName: Object.keys(skins[Object.keys(skins)[0]])[0],
       skinIndex: 0,
       pageIndex: 0
     }
@@ -55,7 +58,8 @@ class LandingPage extends React.Component {
         this.state.name.toUpperCase(),
         gameMode.name,
         this.state.currentCharacter,
-        this.state.currentSkin,
+        this.state.skinGroupName,
+        this.state.skinName,
         this.state.soundOn
       )
     }
@@ -65,8 +69,14 @@ class LandingPage extends React.Component {
     this.setState({ name: evt.target.value })
   }
 
-  updateSkinInfo = (skinIndex, skinColourSelected, pageIndex) => {
-    this.setState({ skinIndex: skinIndex, currentSkin: skinColourSelected, pageIndex: pageIndex })
+  updateSkinInfo = (skinIndex, skinColourSelected, pageIndex, skinGroupName, skinName) => {
+    this.setState({
+      skinIndex: skinIndex,
+      currentSkin: skinColourSelected,
+      pageIndex: pageIndex,
+      skinGroupName: skinGroupName,
+      skinName: skinName
+    })
   }
 
   updateGameModeIndex = (newIndex) => {
@@ -116,13 +126,22 @@ class LandingPage extends React.Component {
         {/* <img className="icon controller" src="https://maxcdn.icons8.com/Share/icon/p1em/Gaming//controller1600.png" /> */}
         <img className="icon skin" id="skinIcon" src="https://i.imgur.com/dEPAF5R.png" ref="skinIcon" onClick={this.toggleSkinModal}/>
         <div id="socialIcons">
-          <img className="social" id="twitterIcon" src="../../assets/images/twitter.png" />
-          <img className="social" id="facebookIcon" src="../../assets/images/facebook.png" />
-          <img className="social" id="redditIcon" src="../../assets/images/reddit.png" />
-          <img className="social" id="discordIcon" src="../../assets/images/discord.png" />
-          <img className="social" id="youtubeIcon" src="../../assets/images/youtube.png" />
+          <img className="social" id="twitterIcon" src="../../assets/images/icons/twitter.png" />
+          <img className="social" id="facebookIcon" src="../../assets/images/icons/facebook.png" />
+          <img className="social" id="redditIcon" src="../../assets/images/icons/reddit.png" />
+          <img className="social" id="discordIcon" src="../../assets/images/icons/discord.png" />
+          <img className="social" id="youtubeIcon" src="../../assets/images/icons/youtube.png" />
         </div>
-        {this.state.showSkinModal && <SkinModal showAmount={4} currentSelected={this.state.skinIndex} currentPage={this.state.pageIndex} updateSkinInfo={this.updateSkinInfo}/>}
+        {this.state.showSkinModal &&
+          <SkinModal
+            showAmount={4}
+            currentSelected={this.state.skinIndex}
+            currentPage={this.state.pageIndex}
+            updateSkinInfo={this.updateSkinInfo}
+            skinGroupName={this.state.skinGroupName}
+            skinName={this.state.skinName}
+          />
+        }
       </div>
     )
   }
