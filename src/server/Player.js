@@ -6,18 +6,17 @@ function Player(name, id, characterType, skinGroupName, skinName) {
   this.id = id
   this.characterType = characterType
   this.initialHealth = c.playerTypes[characterType].initialHealth
-  this.health = this.initialHealth
+  this.health = this.maxHealth = this.initialHealth
   this.killStreak = 0
   this.beltNumber = 0
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
   this.skillPointValues = {
-    maxHealth: {val: 0, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 10},
-    maxSpeed: {val: 0, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 10},
-    damageDealt: {val: 0, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 10},
-    damageReceived: {val: 0, colour: '#5A3662', text: 'Damage Received', name: 'damageReceived', updateAmount: 10},
-    healthRegen: {val: 0, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: 10}
+    maxHealth: {val: 0, initialVal: 200, curVal: 200, maxVal: 400, nUA: 20, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 10},
+    maxSpeed: {val: 0, initialVal: 1, curVal: 1, maxVal: 3, nUA: 0.2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 10},
+    damageDealt: {val: 0, initialVal: 1, curVal: 1, maxVal: 2, nUA: 0.1, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 10},
+    healthRegen: {val: 0, initialVal: 10000, curVal: 10000, maxVal: 5000, nUA: -50, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: 10}
   }
   this.isDead = false
   this.isBlownUp = false
@@ -1113,5 +1112,9 @@ Player.prototype.resetPlayer = function() {
   this.isDead = false
   this.isBlownUp = false
 }
+
+////////////////////////////// SKILL POINTS /////////////////////////////
+
+
 
 module.exports = Player

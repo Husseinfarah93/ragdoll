@@ -23,7 +23,22 @@ class SkillPoints extends React.Component {
           <span style={Style.skillPointNumber}> {this.props.skillPoints} </span>
         </div>
         {progressBarList.length > 0 && progressBarList.map(progressBarElem => (
-          <ProgressBar containerWidth="200px" containerHeight="15px" borderRadius="15px" progress={`${progressBarElem.val}%`} progressVal={progressBarElem.val} name={progressBarElem.name} progressColour={progressBarElem.colour} text={progressBarElem.text} textColour="#FFFFFF" plusIcon="inline" plusColour="#FFFFFF" plusIconRight="10px" handleSkillPointsClick={this.props.handleSkillPointsClick} fontSize="12px"/>
+          <ProgressBar
+            containerWidth="200px"
+            containerHeight="15px"
+            borderRadius="15px"
+            progress={`${progressBarElem.val}%`}
+            progressVal={progressBarElem.val}
+            name={progressBarElem.name}
+            progressColour={progressBarElem.colour}
+            text={progressBarElem.text}
+            textColour="#FFFFFF"
+            plusIcon="inline"
+            plusColour="#FFFFFF"
+            plusIconRight="10px"
+            handleSkillPointsClick={this.props.handleSkillPointsClick}
+            fontSize="12px"
+          />
           )
         )}
       </div>
