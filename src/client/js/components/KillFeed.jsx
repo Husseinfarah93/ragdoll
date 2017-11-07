@@ -68,8 +68,8 @@ const Style = {
   killFeedContainer: {
     width: '200px',
     position: 'fixed',
-    top: '20px',
-    left: '20px'
+    top: '50px',
+    left: '10px'
   },
   killFeedList: {
     listStyle: 'none',
