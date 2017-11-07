@@ -141,14 +141,8 @@ class SkinModal extends React.Component {
   render() {
     return (
       <div id="skinModal">
-        <div id="skinDisplay">
-          {/* <div
-            className="skinBackground"
-            style={{backgroundImage: `url("../../assets/images/${this.state.coloursArr[this.state.currentSelected].slice(1)}.png")`}}
-          /> */}
-          <div className="newSkinBackground">
-            <img id="skinBackgroundImage" src={`../../assets/images/skinBodies/${this.state.skinName}.png`}/>
-          </div>
+        <div id="skinCrossIcon" onClick={this.props.closeSkinModal}>
+          <i className="fa fa-times" />
         </div>
         <div id="skinsCarousal">
           <div id="skinsText">{this.state.currentSkinGroup.groupName}</div>

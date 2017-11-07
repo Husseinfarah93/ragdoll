@@ -35,6 +35,10 @@ class LandingPage extends React.Component {
     this.setState({ musicOn: !this.state.musicOn  })
   }
 
+  closeSkinModal = () => {
+    this.setState({ showSkinModal: false  })
+  }
+
   componentDidMount() {
     window.addEventListener('keydown', this.playGame)
     let gameModesArr = Object.keys(gameModes).map(e => {
@@ -131,6 +135,7 @@ class LandingPage extends React.Component {
             updateSkinInfo={this.updateSkinInfo}
             skinGroupName={this.state.skinGroupName}
             skinName={this.state.skinName}
+            closeSkinModal={this.closeSkinModal}
           />
         }
       </div>

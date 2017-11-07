@@ -28600,6 +28600,10 @@ var LandingPage = function (_React$Component) {
       _this.setState({ musicOn: !_this.state.musicOn });
     };
 
+    _this.closeSkinModal = function () {
+      _this.setState({ showSkinModal: false });
+    };
+
     _this.toggleSkinModal = function () {
       _this.setState({ showSkinModal: !_this.state.showSkinModal });
     };
@@ -28730,7 +28734,8 @@ var LandingPage = function (_React$Component) {
           currentPage: this.state.pageIndex,
           updateSkinInfo: this.updateSkinInfo,
           skinGroupName: this.state.skinGroupName,
-          skinName: this.state.skinName
+          skinName: this.state.skinName,
+          closeSkinModal: this.closeSkinModal
         })
       );
     }
@@ -29058,12 +29063,8 @@ var SkinModal = function (_React$Component) {
         { id: 'skinModal' },
         _react2.default.createElement(
           'div',
-          { id: 'skinDisplay' },
-          _react2.default.createElement(
-            'div',
-            { className: 'newSkinBackground' },
-            _react2.default.createElement('img', { id: 'skinBackgroundImage', src: '../../assets/images/skinBodies/' + this.state.skinName + '.png' })
-          )
+          { id: 'skinCrossIcon', onClick: this.props.closeSkinModal },
+          _react2.default.createElement('i', { className: 'fa fa-times' })
         ),
         _react2.default.createElement(
           'div',
@@ -29156,7 +29157,7 @@ exports = module.exports = __webpack_require__(24)(undefined);
 
 
 // module
-exports.push([module.i, "#skinModal {\n  position: fixed;\n  width: 400px;\n  height: 450px;\n  top: 50%;\n  left: 50%;\n  margin-left: -200px;\n  margin-top: -225px;\n  background-color: red;\n  border-radius: 30px;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n#skinDisplay {\n  background-color: #4fcbd3;\n  height: 80%;\n  width: 100%;\n  border-radius: 20px 20px 0px 0px;\n  text-align: center;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.skinBackground {\n  border-radius: 20px 20px 0px 0px;\n  height: calc(90px * 2.5);\n  width: calc(75px * 2.5);\n  background-size: 100% 100%; }\n\n#skinsCarousal {\n  background-color: #3F3F3F;\n  height: 25%;\n  width: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative;\n  flex-direction: column; }\n\n#skinsContainer {\n  height: 80%;\n  width: 80%;\n  display: flex;\n  justify-content: space-between;\n  align-items: center; }\n\n.skinOption {\n  height: 70px;\n  width: 70px;\n  border-radius: 100%;\n  z-index: 1;\n  cursor: pointer; }\n\n.newSkinOption {\n  height: 70px;\n  width: 70px;\n  z-index: 1;\n  cursor: pointer; }\n\n.newSkinOptionImage {\n  height: 95%;\n  width: 95%;\n  user-select: none; }\n\n.newSkinOption.selected {\n  border-bottom: 5px solid #f1c40f; }\n\n#skinsText {\n  width: 100%;\n  height: 25%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: white;\n  font-size: 25px;\n  font-family: Quicksand;\n  text-transform: uppercase; }\n\n#restSkins {\n  width: 100%;\n  height: 75%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative; }\n\n#yellowSkin {\n  background-color: #f1c40f; }\n\n#blueSkin {\n  background-color: #2980b9; }\n\n#redSkin {\n  background-color: #e74c3c; }\n\n#greenSkin {\n  background-color: #27ae60; }\n\n.newSkinBackground {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#skinBackgroundImage {\n  width: 60%;\n  height: 60%; }\n\n.skinOption.skinSelected {\n  border: 2px solid #ecf0f1; }\n\n#buttons {\n  position: absolute;\n  width: 95%;\n  height: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.fa-arrow-left, .fa-arrow-right {\n  font-size: 20px; }\n\n.button {\n  width: 20px;\n  height: 20px;\n  color: white;\n  cursor: pointer; }\n\n.button.disabled {\n  cursor: not-allowed;\n  color: grey; }\n", ""]);
+exports.push([module.i, "#skinModal {\n  position: fixed;\n  width: 400px;\n  height: 200px;\n  top: 50%;\n  left: 50%;\n  margin-left: -200px;\n  margin-top: -100px;\n  background-color: red;\n  border-radius: 30px;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n#skinDisplay {\n  background-color: #4fcbd3;\n  height: 80%;\n  width: 100%;\n  border-radius: 20px 20px 0px 0px;\n  text-align: center;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.skinBackground {\n  border-radius: 20px 20px 0px 0px;\n  height: calc(90px * 2.5);\n  width: calc(75px * 2.5);\n  background-size: 100% 100%; }\n\n#skinsCarousal {\n  background-color: #3F3F3F;\n  height: 100%;\n  width: 100%;\n  border-radius: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative;\n  flex-direction: column; }\n\n#skinsContainer {\n  height: 80%;\n  width: 80%;\n  display: flex;\n  justify-content: space-between;\n  align-items: center; }\n\n.skinOption {\n  height: 70px;\n  width: 70px;\n  border-radius: 100%;\n  z-index: 1;\n  cursor: pointer; }\n\n.newSkinOption {\n  height: 70px;\n  width: 70px;\n  z-index: 1;\n  cursor: pointer; }\n\n.newSkinOptionImage {\n  height: 95%;\n  width: 95%;\n  user-select: none; }\n\n.newSkinOption.selected {\n  border-bottom: 5px solid #f1c40f; }\n\n#skinsText {\n  width: 100%;\n  height: 25%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: white;\n  font-size: 25px;\n  font-family: Quicksand;\n  text-transform: uppercase; }\n\n#restSkins {\n  width: 100%;\n  height: 75%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative; }\n\n#yellowSkin {\n  background-color: #f1c40f; }\n\n#blueSkin {\n  background-color: #2980b9; }\n\n#redSkin {\n  background-color: #e74c3c; }\n\n#greenSkin {\n  background-color: #27ae60; }\n\n.newSkinBackground {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#skinBackgroundImage {\n  width: 60%;\n  height: 60%; }\n\n.skinOption.skinSelected {\n  border: 2px solid #ecf0f1; }\n\n#buttons {\n  position: absolute;\n  width: 95%;\n  height: 100%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.fa-arrow-left, .fa-arrow-right {\n  font-size: 20px; }\n\n.button {\n  width: 20px;\n  height: 20px;\n  color: white;\n  cursor: pointer; }\n\n.button.disabled {\n  cursor: not-allowed;\n  color: grey; }\n\n#skinCrossIcon {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  color: red;\n  font-size: 20px;\n  cursor: pointer;\n  z-index: 1; }\n", ""]);
 
 // exports
 
@@ -29380,10 +29381,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var bloodConfig = _config2.default.gameInfo.bloodParticles;
 var skins = _config2.default.gameInfo.skins;
 var count = 0;
-
-var beltURL = '../../assets/images/belts/belt.png';
-var belt = new Image(20, 20);
-belt.src = beltURL;
 
 var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   _inherits(Canvas, _React$Component);

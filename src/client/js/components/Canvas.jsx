@@ -14,9 +14,7 @@ let bloodConfig = config.gameInfo.bloodParticles
 let skins = config.gameInfo.skins
 let count = 0
 
-let beltURL = '../../assets/images/belts/belt.png'
-let belt = new Image(20, 20)
-belt.src = beltURL
+
 
 @Radium
 class Canvas extends React.Component {
