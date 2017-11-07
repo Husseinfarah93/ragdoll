@@ -13,10 +13,10 @@ function Player(name, id, characterType, skinGroupName, skinName) {
   this.beltProgress = 0
   this.skillPoints = 0
   this.skillPointValues = {
-    maxHealth: {val: 0, initialVal: 200, curVal: 200, maxVal: 400, nUA: 20, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 10},
-    maxSpeed: {val: 0, initialVal: 1, curVal: 1, maxVal: 3, nUA: 0.2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 10},
-    damageDealt: {val: 0, initialVal: 1, curVal: 1, maxVal: 2, nUA: 0.1, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 10},
-    healthRegen: {val: 0, initialVal: 10000, curVal: 10000, maxVal: 5000, nUA: -50, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: 10}
+    maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
+    maxSpeed: {initialVal: 1, curVal: 1, maxVal: 3, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.2},
+    damageDealt: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 0.1},
+    healthRegen: {initialVal: 10000, curVal: 10000, maxVal: 5000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -50}
   }
   this.isDead = false
   this.isBlownUp = false
@@ -1073,7 +1073,7 @@ Player.prototype.decreaseSkillPoints = function() {
 }
 
 Player.prototype.updatePlayerSkillPoints = function(skillPoint) {
-  this.skillPointValues[skillPoint].val += this.skillPointValues[skillPoint].updateAmount
+  this.skillPointValues[skillPoint].curVal += this.skillPointValues[skillPoint].updateAmount
 }
 
 // Returns True / False for if player should move belt group

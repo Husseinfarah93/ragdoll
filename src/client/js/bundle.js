@@ -29676,11 +29676,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       //for player of players
       for (var i = 0; i < players.length; i++) {
         var player = players[i];
-        if (count < 3) {
-          console.log(player);
-          count++;
-        }
-
         if (player.isDead || !player.pointsList || !player.headPosition) continue;
         if (player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context);
@@ -31838,7 +31833,27 @@ var SkillPoints = (0, _radium2.default)(_class = function (_React$Component) {
           )
         ),
         progressBarList.length > 0 && progressBarList.map(function (progressBarElem) {
-          return _react2.default.createElement(_ProgressBar2.default, { containerWidth: '200px', containerHeight: '15px', borderRadius: '15px', progress: progressBarElem.val + '%', progressVal: progressBarElem.val, name: progressBarElem.name, progressColour: progressBarElem.colour, text: progressBarElem.text, textColour: '#FFFFFF', plusIcon: 'inline', plusColour: '#FFFFFF', plusIconRight: '10px', handleSkillPointsClick: _this2.props.handleSkillPointsClick, fontSize: '12px' });
+          var curVal = progressBarElem.curVal;
+          var initialVal = progressBarElem.initialVal;
+          var maxVal = progressBarElem.maxVal;
+          var newPercent = Math.round(Math.abs(100 * (curVal - initialVal) / (maxVal - initialVal)));
+          // console.log(`Percent ${progressBarElem.text}: ${newPercent}%`)
+          return _react2.default.createElement(_ProgressBar2.default, {
+            containerWidth: '200px',
+            containerHeight: '15px',
+            borderRadius: '15px',
+            progress: newPercent + '%',
+            progressVal: newPercent,
+            name: progressBarElem.name,
+            progressColour: progressBarElem.colour,
+            text: progressBarElem.text,
+            textColour: '#FFFFFF',
+            plusIcon: 'inline',
+            plusColour: '#FFFFFF',
+            plusIconRight: '10px',
+            handleSkillPointsClick: _this2.props.handleSkillPointsClick,
+            fontSize: '12px'
+          });
         })
       );
     }

@@ -251,12 +251,6 @@ class Canvas extends React.Component {
       //for player of players
       for(let i = 0; i < players.length; i++) {
         let player = players[i]
-        if(count < 3) {
-          console.log(player)
-          count++
-        }
-
-
         if(player.isDead || !player.pointsList || !player.headPosition) continue
         if(player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context)

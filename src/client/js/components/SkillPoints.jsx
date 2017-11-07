@@ -22,24 +22,31 @@ class SkillPoints extends React.Component {
         <div id="skillPointsCircle" style={Style.skillPointsCircle}>
           <span style={Style.skillPointNumber}> {this.props.skillPoints} </span>
         </div>
-        {progressBarList.length > 0 && progressBarList.map(progressBarElem => (
-          <ProgressBar
-            containerWidth="200px"
-            containerHeight="15px"
-            borderRadius="15px"
-            progress={`${progressBarElem.val}%`}
-            progressVal={progressBarElem.val}
-            name={progressBarElem.name}
-            progressColour={progressBarElem.colour}
-            text={progressBarElem.text}
-            textColour="#FFFFFF"
-            plusIcon="inline"
-            plusColour="#FFFFFF"
-            plusIconRight="10px"
-            handleSkillPointsClick={this.props.handleSkillPointsClick}
-            fontSize="12px"
-          />
+        {progressBarList.length > 0 && progressBarList.map(progressBarElem => {
+          let curVal = progressBarElem.curVal
+          let initialVal = progressBarElem.initialVal
+          let maxVal = progressBarElem.maxVal
+          let newPercent = Math.round(Math.abs(100 * (curVal - initialVal) / (maxVal - initialVal)))
+          // console.log(`Percent ${progressBarElem.text}: ${newPercent}%`)
+          return (
+            <ProgressBar
+              containerWidth="200px"
+              containerHeight="15px"
+              borderRadius="15px"
+              progress={`${newPercent}%`}
+              progressVal={newPercent}
+              name={progressBarElem.name}
+              progressColour={progressBarElem.colour}
+              text={progressBarElem.text}
+              textColour="#FFFFFF"
+              plusIcon="inline"
+              plusColour="#FFFFFF"
+              plusIconRight="10px"
+              handleSkillPointsClick={this.props.handleSkillPointsClick}
+              fontSize="12px"
+            />
           )
+        }
         )}
       </div>
     )
