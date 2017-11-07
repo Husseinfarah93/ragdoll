@@ -29688,18 +29688,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         if (player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context);
         } else {
-          // this.drawBody(player, xPos, yPos, context)
           this.newDrawBody(player, xPos, yPos, context);
-          // this.drawCircles(player, xPos, yPos, context)
-          // this.drawHead(player, xPos, yPos, context)
-          // this.drawHead(player, xPos, yPos, context)
-          // this.newDrawBelt(player, xPos, yPos, context)
           this.newDrawHead(player, xPos, yPos, context);
           this.drawArmBands(player, xPos, yPos, context);
           this.drawHitPart(player, xPos, yPos, context);
-
-          this.newNewDrawBelt(player, xPos, yPos, context, 10, "black");
-          this.newNewDrawBelt(player, xPos, yPos, context, 7, player.belt.colour);
+          this.drawBelt(player, xPos, yPos, context, 10, "black");
+          this.drawBelt(player, xPos, yPos, context, 7, player.belt.colour);
         }
         var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
         var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
@@ -29878,21 +29872,8 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       ctx.translate(-width, -height);
     }
   }, {
-    key: 'newDrawBelt',
-    value: function newDrawBelt(player, xPos, yPos, ctx) {
-      var width = player.pelvis.x - xPos;
-      var height = player.pelvis.y - yPos;
-      var imageWidth = 20;
-      var imageHeight = 36;
-      ctx.translate(width, height);
-      ctx.rotate(player.pelvis.angle);
-      ctx.drawImage(belt, -imageWidth / 2, -imageHeight / 2 + 15, imageWidth, imageHeight);
-      ctx.rotate(-player.pelvis.angle);
-      ctx.translate(-width, -height);
-    }
-  }, {
-    key: 'newNewDrawBelt',
-    value: function newNewDrawBelt(player, xPos, yPos, ctx, lineWidth, colour) {
+    key: 'drawBelt',
+    value: function drawBelt(player, xPos, yPos, ctx, lineWidth, colour) {
       var angle = player.belt.rectangle.angle;
       var rect = player.belt.rectangle;
       var rightBelt = player.belt.circles[0];
@@ -29920,16 +29901,6 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       ctx.beginPath();
       ctx.moveTo(rect.x - xDiff - xPos, rect.y - yDiff - yPos);
       ctx.lineTo(rect.x + xDiff - xPos, rect.y + yDiff - yPos);
-      ctx.stroke();
-    }
-  }, {
-    key: 'drawBelt',
-    value: function drawBelt(player, xPos, yPos, ctx) {
-      var belt = player.beltList;
-      ctx.strokeStyle = "black";
-      ctx.beginPath();
-      ctx.moveTo(belt[0].x - xPos, belt[0].y - yPos);
-      ctx.lineTo(belt[1].x - xPos, belt[1].y - yPos);
       ctx.stroke();
     }
   }, {

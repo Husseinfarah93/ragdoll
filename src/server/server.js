@@ -408,7 +408,6 @@ function updateCentrePoints() {
       let pointsList = []
       let circleList = []
       let armBandList = []
-      let beltList = []
       let actualBeltList = {rectangle: {}, circles: []}
       let headPosition = {}
       let composites = player.PlayerComposite.composites
@@ -442,17 +441,6 @@ function updateCentrePoints() {
             thingToPush.push({  x: (body2.position.x), y: (body2.position.y)  })
             armBandList.push(thingToPush)
           }
-          // Belt
-          if(body.beltStart) {
-            let position1 = body.position
-            let theta = body.angle + Math.PI / 2
-            let position2 = {
-              x: position1.x + (body.circleRadius * Math.cos(theta)),
-              y: position1.y + (body.circleRadius * Math.sin(theta))
-            }
-            beltList.push(position1)
-            beltList.push(position2)
-          }
         }
         if(!composite.isBelt)  pointsList.push(bodyList)
         if(tempBeltList.length) actualBeltList.circles.push(tempBeltList)
@@ -461,7 +449,6 @@ function updateCentrePoints() {
       player.circleList = circleList
       player.headPosition = headPosition
       player.armBandList = armBandList
-      player.beltList = beltList
       player.actualBeltList = {
         rectangle: actualBeltList.rectangle,
         circles: actualBeltList.circles,

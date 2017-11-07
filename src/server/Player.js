@@ -990,8 +990,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   rightForeArmCircles[rightForeArmCircles.length - 2].isArmBand = true
   leftForeArmCircles[leftForeArmCircles.length - 1].isArmBand = true
   leftForeArmCircles[leftForeArmCircles.length - 2].isArmBand = true
-  // Belt
-  torsoCircles[torsoCircles.length - 2].beltStart = true
+
 
   for(circle of Composite.allBodies(player)) {
     circle.playerId = playerId
