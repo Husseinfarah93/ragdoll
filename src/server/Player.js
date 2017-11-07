@@ -775,10 +775,113 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	leftLegConstraints.unshift(sensorCircleConstraint2)
 	leftLegConstraints.unshift(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
+  // BELT
+  let torsoElem = torsoCircles[torsoCircles.length - 1]
+  let beltX = beltOriginalX = torsoElem.position.x
+  let beltY = beltOriginalY = torsoElem.position.y
+  let beltRadius = 5
+  let rightBeltBodies = []
+  let leftBeltBodies = []
+  let rightBeltConstraints = []
+  let leftBeltConstraints = []
+  let circleNum = 4
+  let beltAngle = 70
+  let beltTheta = beltAngle * Math.PI / 180
+  let beltXDiff = 2 * beltRadius * Math.cos(beltTheta)
+  let beltYDiff = 2 * beltRadius * Math.sin(beltTheta)
+  let beltOptions = {
+    collisionFilter: {
+  		category: 0x0002,
+  		mask: 0x0002
+  	},
+    // frictionAir: 0.05
+  }
+  let beltOptions2 = {isSensor: true}
+  let connectingCircle = Bodies.circle(beltX, beltY, beltRadius, beltOptions2)
+  let beltRectangle = Bodies.rectangle(beltX, beltY, radius * 2, radius, beltOptions2)
+  rightBeltBodies.push(connectingCircle)
+  leftBeltBodies.push(connectingCircle)
+  beltRectangle.isBelt = true
+  beltRectangle.isRectangle = true
 
+  // Right Circles
+  for(let i = 0; i < circleNum; i++) {
+    beltX += beltXDiff
+    beltY += beltYDiff
+    let newCircle = Bodies.circle(beltX, beltY, beltRadius, beltOptions)
+    newCircle.isBelt = true
+    rightBeltBodies.push(newCircle)
+  }
+  beltX = beltOriginalX
+  beltY = beltOriginalY
+  // Left Circles
+  for(let i = 0; i < circleNum; i++) {
+    beltX -= beltXDiff
+    beltY += beltYDiff
+    let newCircle = Bodies.circle(beltX, beltY, beltRadius, beltOptions)
+    newCircle.isBelt = true
+    leftBeltBodies.push(newCircle)
+  }
+  beltX = beltOriginalX
+  beltY = beltOriginalY
+  // Constraints
+  for(let i = 0; i < circleNum; i++) {
+    let bodyRightA = rightBeltBodies[i]
+    let bodyRightB = rightBeltBodies[i + 1]
 
+    let bodyLeftA = leftBeltBodies[i]
+    let bodyLeftB = leftBeltBodies[i + 1]
+    let constraintRight = Constraint.create({
+      bodyA: bodyRightA,
+      bodyB: bodyRightB,
+      pointA: { x: beltXDiff / 2, y: beltYDiff / 2},
+      pointB: { x: -beltXDiff / 2, y: -beltYDiff / 2},
+    })
+    let constraintLeft = Constraint.create({
+      bodyA: bodyLeftA,
+      bodyB: bodyLeftB,
+      pointA: { x: -beltXDiff / 2, y: beltYDiff / 2},
+      pointB: { x: beltXDiff / 2, y: -beltYDiff / 2},
+    })
 
-
+    rightBeltConstraints.push(constraintRight)
+    leftBeltConstraints.push(constraintLeft)
+  }
+  // Extra Constraints
+  // Rectangle Connecting Circle Constraint
+  let beltRectangleConnectingConstraint = Constraint.create({
+    bodyA: beltRectangle,
+    bodyB: connectingCircle
+  })
+  // Rectangle Torso Constraints
+  let leftBeltTorsoConstraint = Constraint.create({
+    bodyA: beltRectangle,
+    bodyB: torsoElem,
+    pointA: {x: -radius / 2, y: 0},
+    pointB: {x: -radius / 2, y: 0}
+  })
+  let rightBeltTorsoConstraint = Constraint.create({
+    bodyA: beltRectangle,
+    bodyB: torsoElem,
+    pointA: {x: radius / 2, y: 0},
+    pointB: {x: radius / 2, y: 0}
+  })
+  // Composites
+  let rightBeltComposite = Composite.create({
+    bodies: rightBeltBodies,
+    constraints: rightBeltConstraints
+  })
+  let leftBeltComposite = Composite.create({
+    bodies: leftBeltBodies,
+    constraints: leftBeltConstraints
+  })
+  let rectangleBeltComposite = Composite.create({
+    bodies: [beltRectangle],
+    constraints: [beltRectangleConnectingConstraint, rightBeltTorsoConstraint, leftBeltTorsoConstraint]
+  })
+  rightBeltComposite.isBelt = true
+  leftBeltComposite.isBelt = true
+  rectangleBeltComposite.isBelt = true
 
 	///////////////////////////////////////////////////////////////////////////////
 	// Head
@@ -806,8 +909,24 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	})
 	headCircles[0].label = 'head'
 	let player = Composite.create({
-		composites: [head, torso, rightArm, rightForeArm, leftArm, leftForeArm, rightThigh, rightLeg, leftThigh, leftLeg]
+		composites: [
+      head,
+      torso,
+      rightArm,
+      rightForeArm,
+      leftArm,
+      leftForeArm,
+      rightThigh,
+      rightLeg,
+      leftThigh,
+      leftLeg,
+      rightBeltComposite,
+      leftBeltComposite,
+      rectangleBeltComposite
+    ]
 	})
+
+
   // World.add(world, player)
 	// Labels and dealDamage
 	// head
@@ -879,7 +998,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
     circle.hitInfo = null
   }
   this.head = headCircles[0]
-  this.pelvis = torsoCircles[torsoCircles.length - 2]
+  this.pelvis = torsoCircles[torsoCircles.length - 1]
   this.PlayerComposite = player
   this.force = radius / 5500
   World.add(Matter.engine.world, player)

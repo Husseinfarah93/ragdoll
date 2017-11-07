@@ -253,7 +253,13 @@ class Canvas extends React.Component {
       //for player of players
       for(let i = 0; i < players.length; i++) {
         let player = players[i]
-        if(player.isDead) continue
+        if(count < 3) {
+          console.log(player)
+          count++
+        }
+
+
+        if(player.isDead || !player.pointsList || !player.headPosition) continue
         if(player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context)
         }
@@ -263,10 +269,14 @@ class Canvas extends React.Component {
           // this.drawCircles(player, xPos, yPos, context)
           // this.drawHead(player, xPos, yPos, context)
           // this.drawHead(player, xPos, yPos, context)
-          this.newDrawHead(player, xPos, yPos, context)
           // this.newDrawBelt(player, xPos, yPos, context)
+          this.newDrawHead(player, xPos, yPos, context)
           this.drawArmBands(player, xPos, yPos, context)
           this.drawHitPart(player, xPos, yPos, context)
+
+
+          this.newNewDrawBelt(player, xPos, yPos, context, 10, "black")
+          this.newNewDrawBelt(player, xPos, yPos, context, 7, player.belt.colour)
         }
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
@@ -359,16 +369,47 @@ class Canvas extends React.Component {
     }
 
     newDrawBelt(player, xPos, yPos, ctx) {
-      // return
       let width = player.pelvis.x - xPos
       let height = player.pelvis.y - yPos
-      let imageWidth = 40
-      let imageHeight = 40
+      let imageWidth = 20
+      let imageHeight = 36
       ctx.translate(width, height)
       ctx.rotate(player.pelvis.angle)
-      ctx.drawImage(belt, (-imageWidth / 2) , (-imageHeight / 2), imageWidth, imageHeight)
+      ctx.drawImage(belt, (-imageWidth / 2), (-imageHeight / 2) + 15, imageWidth, imageHeight)
       ctx.rotate(-player.pelvis.angle)
       ctx.translate(- width, - height)
+    }
+
+    newNewDrawBelt(player, xPos, yPos, ctx, lineWidth, colour) {
+      let angle = player.belt.rectangle.angle
+      let rect = player.belt.rectangle
+      let rightBelt = player.belt.circles[0]
+      let leftBelt = player.belt.circles[1]
+
+      ctx.lineWidth = lineWidth
+      ctx.lineCap = "round"
+      ctx.strokeStyle = colour
+      let xDiff = 10 * Math.cos(angle)
+      let yDiff = 10 * Math.sin(angle)
+
+
+      ctx.beginPath()
+      ctx.moveTo(rect.x - xPos, rect.y - yPos)
+      for(let i = 0; i < rightBelt.length; i++) {
+        ctx.lineTo(rightBelt[i].x - xPos, rightBelt[i].y - yPos)
+      }
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(rect.x - xPos, rect.y - yPos)
+      for(let i = 0; i < leftBelt.length; i++) {
+        ctx.lineTo(leftBelt[i].x - xPos, leftBelt[i].y - yPos)
+      }
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(rect.x - xDiff - xPos, rect.y - yDiff - yPos)
+      ctx.lineTo(rect.x + xDiff - xPos, rect.y + yDiff - yPos)
+      ctx.stroke()
     }
 
     drawBelt(player, xPos, yPos, ctx) {

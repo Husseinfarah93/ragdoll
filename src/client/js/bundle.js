@@ -28781,7 +28781,7 @@ exports = module.exports = __webpack_require__(24)(undefined);
 
 
 // module
-exports.push([module.i, "html, body, #landingPageContainer {\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n  margin: 0; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.container.normal {\n  background-color: #4fcbd3; }\n\n.container.blurred {\n  filter: blur(4px);\n  background-color: #37a1a3; }\n\n#title {\n  padding: 0px;\n  margin: 0px;\n  color: white;\n  font-family: \"Quicksand\", sans-serif;\n  font-size: 120px;\n  color: #ecf0f1;\n  margin-bottom: 80px;\n  text-shadow: 5px 5px #336E7B;\n  user-select: none;\n  cursor: default; }\n\n#nameInput {\n  border: none;\n  outline: none;\n  background: transparent;\n  border-bottom: 3px solid #336E7B;\n  text-align: center;\n  caret-color: #336E7B;\n  width: 30%;\n  color: #336E7B;\n  font-size: 35px;\n  text-transform: uppercase;\n  font-family: \"Quicksand\", sans-serif;\n  font-weight: bold;\n  box-shadow: 0px 0px 1px;\n  border-radius: 10px;\n  user-select: none; }\n\ninput::placeholder {\n  color: #336E7B; }\n\n#enterMessage {\n  padding: 0px;\n  margin: 0px;\n  font-family: \"Quicksand\";\n  color: #34495e;\n  user-select: none;\n  cursor: default;\n  margin-bottom: 30px; }\n\n.icon {\n  position: fixed;\n  cursor: pointer;\n  user-select: none; }\n\n.icon.settings {\n  top: 0px;\n  right: 5px;\n  margin: 0px;\n  padding: 0px;\n  font-size: 40px;\n  color: #2c3e50; }\n\n.icon.controller {\n  position: fixed;\n  bottom: 3px;\n  left: 60px;\n  width: 40px;\n  height: 40px; }\n\n#bottomBanner {\n  position: fixed;\n  width: 100%;\n  bottom: 10px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: \"Quicksand\", sans-serif;\n  font-size: 20px; }\n\nspan {\n  cursor: pointer; }\n\n.icon.leaderboard {\n  right: 10px;\n  top: 2px;\n  width: 40px;\n  height: 40px; }\n\n.icon.skin {\n  left: 10px;\n  bottom: 5px;\n  width: 40px;\n  height: 40px; }\n\n#socialIcons {\n  position: fixed;\n  bottom: 5px;\n  right: 5px; }\n\n.social {\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  margin: 0px 3px; }\n", ""]);
+exports.push([module.i, "html, body, #landingPageContainer {\n  overflow: hidden;\n  width: 100%;\n  height: 100%;\n  margin: 0; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.container.normal {\n  background-color: #4fcbd3; }\n\n.container.blurred {\n  filter: blur(4px);\n  background-color: #37a1a3; }\n\n#title {\n  padding: 0px;\n  margin: 0px;\n  color: white;\n  font-family: \"Quicksand\", sans-serif;\n  font-size: 120px;\n  color: #ecf0f1;\n  margin-bottom: 80px;\n  text-shadow: 5px 5px #336E7B;\n  user-select: none;\n  cursor: default; }\n\n#nameInput {\n  border: none;\n  outline: none;\n  background: transparent;\n  border-bottom: 3px solid #336E7B;\n  text-align: center;\n  caret-color: #336E7B;\n  width: 30%;\n  color: #336E7B;\n  font-size: 35px;\n  text-transform: uppercase;\n  font-family: \"Quicksand\", sans-serif;\n  font-weight: bold;\n  box-shadow: 0px 0px 1px;\n  border-radius: 10px;\n  user-select: none; }\n\ninput::placeholder {\n  color: #336E7B; }\n\n#enterMessage {\n  padding: 0px;\n  margin: 0px;\n  font-family: \"Quicksand\";\n  color: #34495e;\n  user-select: none;\n  cursor: default;\n  margin-bottom: 30px; }\n\n.icon {\n  position: fixed;\n  cursor: pointer;\n  user-select: none; }\n\n.icon.settings {\n  top: 0px;\n  right: 5px;\n  margin: 0px;\n  padding: 0px;\n  font-size: 40px;\n  color: #2c3e50; }\n\n.icon.controller {\n  position: fixed;\n  bottom: 3px;\n  left: 60px;\n  width: 40px;\n  height: 40px; }\n\n#bottomBanner {\n  position: fixed;\n  width: 100%;\n  bottom: 10px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: \"Quicksand\", sans-serif;\n  font-size: 20px; }\n\nspan {\n  cursor: pointer; }\n\n.icon.leaderboard {\n  right: 10px;\n  top: 2px;\n  width: 40px;\n  height: 40px;\n  display: none; }\n\n.icon.skin {\n  left: 10px;\n  bottom: 5px;\n  width: 40px;\n  height: 40px; }\n\n#socialIcons {\n  position: fixed;\n  bottom: 5px;\n  right: 5px; }\n\n.social {\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  margin: 0px 3px; }\n", ""]);
 
 // exports
 
@@ -29679,7 +29679,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       //for player of players
       for (var i = 0; i < players.length; i++) {
         var player = players[i];
-        if (player.isDead) continue;
+        if (count < 3) {
+          console.log(player);
+          count++;
+        }
+
+        if (player.isDead || !player.pointsList || !player.headPosition) continue;
         if (player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context);
         } else {
@@ -29688,10 +29693,13 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           // this.drawCircles(player, xPos, yPos, context)
           // this.drawHead(player, xPos, yPos, context)
           // this.drawHead(player, xPos, yPos, context)
-          this.newDrawHead(player, xPos, yPos, context);
           // this.newDrawBelt(player, xPos, yPos, context)
+          this.newDrawHead(player, xPos, yPos, context);
           this.drawArmBands(player, xPos, yPos, context);
           this.drawHitPart(player, xPos, yPos, context);
+
+          this.newNewDrawBelt(player, xPos, yPos, context, 10, "black");
+          this.newNewDrawBelt(player, xPos, yPos, context, 7, player.belt.colour);
         }
         var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
         var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
@@ -29872,16 +29880,47 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'newDrawBelt',
     value: function newDrawBelt(player, xPos, yPos, ctx) {
-      // return
       var width = player.pelvis.x - xPos;
       var height = player.pelvis.y - yPos;
-      var imageWidth = 40;
-      var imageHeight = 40;
+      var imageWidth = 20;
+      var imageHeight = 36;
       ctx.translate(width, height);
       ctx.rotate(player.pelvis.angle);
-      ctx.drawImage(belt, -imageWidth / 2, -imageHeight / 2, imageWidth, imageHeight);
+      ctx.drawImage(belt, -imageWidth / 2, -imageHeight / 2 + 15, imageWidth, imageHeight);
       ctx.rotate(-player.pelvis.angle);
       ctx.translate(-width, -height);
+    }
+  }, {
+    key: 'newNewDrawBelt',
+    value: function newNewDrawBelt(player, xPos, yPos, ctx, lineWidth, colour) {
+      var angle = player.belt.rectangle.angle;
+      var rect = player.belt.rectangle;
+      var rightBelt = player.belt.circles[0];
+      var leftBelt = player.belt.circles[1];
+
+      ctx.lineWidth = lineWidth;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = colour;
+      var xDiff = 10 * Math.cos(angle);
+      var yDiff = 10 * Math.sin(angle);
+
+      ctx.beginPath();
+      ctx.moveTo(rect.x - xPos, rect.y - yPos);
+      for (var i = 0; i < rightBelt.length; i++) {
+        ctx.lineTo(rightBelt[i].x - xPos, rightBelt[i].y - yPos);
+      }
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(rect.x - xPos, rect.y - yPos);
+      for (var _i = 0; _i < leftBelt.length; _i++) {
+        ctx.lineTo(leftBelt[_i].x - xPos, leftBelt[_i].y - yPos);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(rect.x - xDiff - xPos, rect.y - yDiff - yPos);
+      ctx.lineTo(rect.x + xDiff - xPos, rect.y + yDiff - yPos);
+      ctx.stroke();
     }
   }, {
     key: 'drawBelt',

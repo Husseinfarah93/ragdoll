@@ -5,7 +5,7 @@ let http = require('http').Server(app)
 let io = require('socket.io')(http)
 let c = require('../../config.json')
 let Player = require('./Player.js')
-
+let count = 0
 
 app.use(express.static(path.resolve(__dirname + '/../client')));
 let port = 4000;
@@ -350,6 +350,7 @@ function getPlayerVertices(room) {
       pushItem.skinType = players[player].skinType
       pushItem.skinCategory = players[player].skinCategory
       pushItem.skinName = players[player].skinName
+      pushItem.belt = players[player].actualBeltList
       list.push(pushItem)
     }
     return list
@@ -398,6 +399,7 @@ function getFrontEndInfo(room) {
     return item
 }
 
+let mm = 0
 function updateCentrePoints() {
   for(room in rooms) {
     let players = rooms[room].players
@@ -407,14 +409,25 @@ function updateCentrePoints() {
       let circleList = []
       let armBandList = []
       let beltList = []
+      let actualBeltList = {rectangle: {}, circles: []}
       let headPosition = {}
       let composites = player.PlayerComposite.composites
       for(composite of composites) {
         let bodies = composite.bodies
         let bodyList = []
+        let tempBeltList = []
         for(let i = 0; i < bodies.length; i++) {
           let body = bodies[i]
           // End Circles
+          if(body.isBelt) {
+            if(body.isRectangle) {
+              actualBeltList.rectangle = {x: body.position.x, y: body.position.y, width: 10, angle: body.angle}
+            }
+            else {
+              tempBeltList.push({x: body.position.x, y: body.position.y, radius: body.circleRadius})
+            }
+            continue
+          }
           if(body.isEnd) circleList.push({ x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius })
           // Head Position
           if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius, angle: body.angle }
@@ -441,13 +454,19 @@ function updateCentrePoints() {
             beltList.push(position2)
           }
         }
-        pointsList.push(bodyList)
+        if(!composite.isBelt)  pointsList.push(bodyList)
+        if(tempBeltList.length) actualBeltList.circles.push(tempBeltList)
       }
       player.pointsList = pointsList
       player.circleList = circleList
       player.headPosition = headPosition
       player.armBandList = armBandList
       player.beltList = beltList
+      player.actualBeltList = {
+        rectangle: actualBeltList.rectangle,
+        circles: actualBeltList.circles,
+        colour: player.beltColour.toLowerCase()
+      }
     }
   }
 }
