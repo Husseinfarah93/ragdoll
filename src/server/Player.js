@@ -12,17 +12,20 @@ function Player(name, id, characterType, skinGroupName, skinName) {
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
-  this.skillPointValues = {
+  this.initialSkillPointValues = {
     maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
-    maxSpeed: {initialVal: 1, curVal: 1, maxVal: 3, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.2},
+    maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
     damageDealt: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 0.1},
-    healthRegen: {initialVal: 10000, curVal: 10000, maxVal: 5000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -50}
+    healthRegen: {initialVal: 30000, curVal: 30000, maxVal: 20000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -100}
   }
+  this.skillPointValues = Object.assign({}, this.initialSkillPointValues)
   this.isDead = false
   this.isBlownUp = false
   this.colour = randColour()
   this.skinCategory = skinGroupName
   this.skinName = skinName
+  this.healthRegenInterval = null
+  this.startHealthRegenInterval()
 }
 
 Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initialY, radius) {
@@ -998,7 +1001,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   this.head = headCircles[0]
   this.pelvis = torsoCircles[torsoCircles.length - 1]
   this.PlayerComposite = player
-  this.force = radius / 5500
+  this.force = this.initialForce = radius / 5500
   World.add(Matter.engine.world, player)
 }
 
@@ -1074,6 +1077,41 @@ Player.prototype.decreaseSkillPoints = function() {
 
 Player.prototype.updatePlayerSkillPoints = function(skillPoint) {
   this.skillPointValues[skillPoint].curVal += this.skillPointValues[skillPoint].updateAmount
+  switch(skillPoint) {
+    case "maxHealth":
+      this.updateMaxHealth();
+      break;
+    case "healthRegen":
+      this.stopHealthRegenInterval();
+      this.startHealthRegenInterval();
+      break;
+    case "maxSpeed":
+      this.updateMaxSpeed();
+      break;
+  }
+}
+
+Player.prototype.updateMaxHealth = function() {
+  this.maxHealth = this.skillPointValues.maxHealth.curVal
+}
+
+Player.prototype.startHealthRegenInterval = function() {
+  let health = this.initialHealth
+  let regenSeconds = this.skillPointValues.healthRegen.curVal / 1000
+  let updateAmount = 1
+  let regenRate = (health / regenSeconds) * (updateAmount)
+  let ths = this
+  this.healthRegenInterval = setInterval(() => {
+    ths.health = ths.health + regenRate > ths.maxHealth ? ths.maxHealth : ths.health + regenRate
+  }, 1000 * updateAmount)
+}
+
+Player.prototype.stopHealthRegenInterval = function() {
+  if(this.healthRegenInterval)  clearInterval(this.healthRegenInterval)
+}
+
+Player.prototype.updateMaxSpeed = function() {
+  this.force = this.initialForce * this.skillPointValues.maxSpeed.curVal
 }
 
 // Returns True / False for if player should move belt group
@@ -1102,15 +1140,11 @@ Player.prototype.resetPlayer = function() {
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
-  this.skillPointValues = {
-    maxHealth: {val: 0, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 10},
-    maxSpeed: {val: 0, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 10},
-    damageDealt: {val: 0, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 10},
-    damageReceived: {val: 0, colour: '#5A3662', text: 'Damage Received', name: 'damageReceived', updateAmount: 10},
-    healthRegen: {val: 0, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: 10}
-  }
+  this.force = this.initialForce
+  this.skillPointValues = Object.assign({}, this.initialSkillPointValues)
   this.isDead = false
   this.isBlownUp = false
+  this.startHealthRegenInterval()
 }
 
 ////////////////////////////// SKILL POINTS /////////////////////////////

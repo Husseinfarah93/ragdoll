@@ -27,7 +27,6 @@ class SkillPoints extends React.Component {
           let initialVal = progressBarElem.initialVal
           let maxVal = progressBarElem.maxVal
           let newPercent = Math.round(Math.abs(100 * (curVal - initialVal) / (maxVal - initialVal)))
-          // console.log(`Percent ${progressBarElem.text}: ${newPercent}%`)
           return (
             <ProgressBar
               containerWidth="200px"

@@ -399,7 +399,6 @@ function getFrontEndInfo(room) {
     return item
 }
 
-let mm = 0
 function updateCentrePoints() {
   for(room in rooms) {
     let players = rooms[room].players
@@ -520,6 +519,8 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     // Remove player
     hitPlayer.health = 0
     hitterPlayer.killStreak += 1
+    // Stop Health Regen
+    hitterPlayer.stopHealthRegenInterval()
     let Matter = io.sockets.adapter.rooms[roomName].Matter
     // Update Leaderboard
     leaderBoardChange(roomName)
@@ -564,7 +565,8 @@ function isPlayerDead (hitPlayer, bodyPartHit, hitterPlayer) {
 }
 
 function damageAmount (hitterPlayer, bodyPartHit) {
-  let damageDoneByHitter = c.playerTypes[hitterPlayer.characterType].damageDealt
+  let damageMultiplier = hitterPlayer.skillPointValues.damageDealt.curVal
+  let damageDoneByHitter = c.playerTypes[hitterPlayer.characterType].damageDealt * damageMultiplier
   if(bodyPartHit === 'head') damageDoneByHitter *= 1.2
   return damageDoneByHitter
 }
