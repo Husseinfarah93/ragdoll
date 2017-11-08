@@ -12,6 +12,7 @@ function Player(name, id, characterType, skinGroupName, skinName) {
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
+  this.force = this.initialForce = (25 / 5500)
   this.initialSkillPointValues = {
     maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
     maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
@@ -1001,7 +1002,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   this.head = headCircles[0]
   this.pelvis = torsoCircles[torsoCircles.length - 1]
   this.PlayerComposite = player
-  this.force = this.initialForce = radius / 5500
+  // this.force = this.initialForce = radius / 5500
   World.add(Matter.engine.world, player)
 }
 
