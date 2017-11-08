@@ -167,6 +167,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
       if(rooms[room].players[player.id]) {
         Matter.Composite.clear(player.PlayerComposite)
+        player.stopHealthRegenInterval()
         delete rooms[room].players[player.id]
         leaderBoardChange(room)
       }
@@ -520,7 +521,7 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     hitPlayer.health = 0
     hitterPlayer.killStreak += 1
     // Stop Health Regen
-    hitterPlayer.stopHealthRegenInterval()
+    hitPlayer.stopHealthRegenInterval()
     let Matter = io.sockets.adapter.rooms[roomName].Matter
     // Update Leaderboard
     leaderBoardChange(roomName)

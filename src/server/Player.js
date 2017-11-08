@@ -1107,7 +1107,11 @@ Player.prototype.startHealthRegenInterval = function() {
 }
 
 Player.prototype.stopHealthRegenInterval = function() {
-  if(this.healthRegenInterval)  clearInterval(this.healthRegenInterval)
+  // console.log('STOPPING: ', this.healthRegenInterval)
+  if(this.healthRegenInterval) {
+    clearInterval(this.healthRegenInterval)
+    this.healthRegenInterval = null
+  }
 }
 
 Player.prototype.updateMaxSpeed = function() {
