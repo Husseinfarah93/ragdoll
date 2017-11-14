@@ -47,6 +47,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	let sensorCircleConstraint3;
 	let sensorCircles = []
   let sensorConstraints = []
+  let offBy = 1
 	///////////////////////////////////////////////////////////////////////////////
 	// Torso
 	let torsoCircles = []
@@ -68,8 +69,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: 0, y: radius},
-			pointB: {x: 0, y: -radius},
+			pointA: {x: 0, y: radius * offBy},
+			pointB: {x: 0, y: -radius * offBy},
 			render: {visible: false}
 		})
 		torsoConstraints.push(constraint)
@@ -111,8 +112,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	let torsoRightArmConstraint = Constraint.create({
 		bodyA: torsoCircles[1],
 		bodyB: rightArmCircles[0],
-		pointA: {x: radius, y: 0},
-		pointB: {x: -radius, y: 0},
+		pointA: {x: radius * offBy, y: 0},
+		pointB: {x: -radius * offBy, y: 0},
 		render: {visible: false}
 	})
 	rightArmConstraints.push(torsoRightArmConstraint);
@@ -122,8 +123,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: radius, y: 0},
-			pointB: {x: -radius, y: 0},
+			pointA: {x: radius * offBy, y: 0},
+			pointB: {x: -radius * offBy, y: 0},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -146,15 +147,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: torsoCircles[0],
 		bodyB: sensorCircle,
-			pointA: {x: 0, y: radius},
-			pointB: {x: 0, y: -radius},
+			pointA: {x: 0, y: radius * offBy},
+			pointB: {x: 0, y: -radius * offBy},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: rightArmCircles[0],
-		pointA: {x: radius, y: 0},
-		pointB: {x: -radius, y: 0},
+		pointA: {x: radius * offBy, y: 0},
+		pointB: {x: -radius * offBy, y: 0},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -163,9 +164,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	rightArmCircles.unshift(sensorCircle)
-	rightArmConstraints.unshift(sensorCircleInitialConstraint)
-	rightArmConstraints.unshift(sensorCircleConstraint2)
-	rightArmConstraints.unshift(sensorCircleConstraint3)
+	rightArmConstraints.push(sensorCircleInitialConstraint)
+	rightArmConstraints.push(sensorCircleConstraint2)
+	rightArmConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -194,8 +195,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	let initialConstraint = Constraint.create({
 		bodyA: rightArmCircles[rightArmCircles.length - 1],
 		bodyB: rightForeArmCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	rightForeArmConstraints.push(initialConstraint)
@@ -205,8 +206,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff / 2, y: yDiff / 2},
-			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -229,15 +230,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: rightArmCircles[rightArmCircles.length - 2],
 		bodyB: sensorCircle,
-		pointA: {x: radius, y: 0},
-		pointB: {x: -radius, y: 0},
+		pointA: {x: radius * offBy, y: 0},
+		pointB: {x: -radius * offBy, y: 0},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: rightForeArmCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -246,9 +247,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	rightForeArmCircles.unshift(sensorCircle)
-	rightForeArmConstraints.unshift(sensorCircleInitialConstraint)
-	rightForeArmConstraints.unshift(sensorCircleConstraint2)
-	rightForeArmConstraints.unshift(sensorCircleConstraint3)
+	rightForeArmConstraints.push(sensorCircleInitialConstraint)
+	rightForeArmConstraints.push(sensorCircleConstraint2)
+	rightForeArmConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -271,8 +272,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	let torsoLeftArmConstraint = Constraint.create({
 		bodyA: torsoCircles[1],
 		bodyB: leftArmCircles[0],
-		pointA: {x: -radius, y: 0},
-		pointB: {x: radius, y: 0},
+		pointA: {x: -radius * offBy, y: 0},
+		pointB: {x: radius * offBy, y: 0},
 		render: {visible: false}
 	})
 	leftArmConstraints.push(torsoLeftArmConstraint)
@@ -282,8 +283,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: -radius, y: 0},
-			pointB: {x: radius, y: 0},
+			pointA: {x: -radius * offBy, y: 0},
+			pointB: {x: radius * offBy, y: 0},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -308,15 +309,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: torsoCircles[0],
 		bodyB: sensorCircle,
-			pointA: {x: 0, y: radius},
-			pointB: {x: 0, y: -radius},
+			pointA: {x: 0, y: radius * offBy},
+			pointB: {x: 0, y: -radius * offBy},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: leftArmCircles[0],
-		pointA: {x: -radius, y: 0},
-		pointB: {x: radius, y: 0},
+		pointA: {x: -radius * offBy, y: 0},
+		pointB: {x: radius * offBy, y: 0},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -325,9 +326,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	leftArmCircles.unshift(sensorCircle)
-	leftArmConstraints.unshift(sensorCircleInitialConstraint)
-	leftArmConstraints.unshift(sensorCircleConstraint2)
-	leftArmConstraints.unshift(sensorCircleConstraint3)
+	leftArmConstraints.push(sensorCircleInitialConstraint)
+	leftArmConstraints.push(sensorCircleConstraint2)
+	leftArmConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -355,8 +356,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	initialConstraint = Constraint.create({
 		bodyA: leftArmCircles[leftArmCircles.length - 1],
 		bodyB: leftForeArmCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	leftForeArmConstraints.push(initialConstraint)
@@ -366,8 +367,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff / 2, y: yDiff / 2},
-			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -391,15 +392,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: leftArmCircles[leftArmCircles.length - 2],
 		bodyB: sensorCircle,
-		pointA: {x: -radius, y: 0},
-		pointB: {x: radius, y: 0},
+		pointA: {x: -radius * offBy, y: 0},
+		pointB: {x: radius * offBy, y: 0},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: leftForeArmCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -408,9 +409,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	leftForeArmCircles.unshift(sensorCircle)
-	leftForeArmConstraints.unshift(sensorCircleInitialConstraint)
-	leftForeArmConstraints.unshift(sensorCircleConstraint2)
-	leftForeArmConstraints.unshift(sensorCircleConstraint3)
+	leftForeArmConstraints.push(sensorCircleInitialConstraint)
+	leftForeArmConstraints.push(sensorCircleConstraint2)
+	leftForeArmConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -436,8 +437,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	initialConstraint = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 1],
 		bodyB: rightThighCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	initialConstraint2 = Constraint.create({
@@ -454,8 +455,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff / 2, y: yDiff / 2},
-			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -478,15 +479,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 2],
 		bodyB: sensorCircle,
-			pointA: {x: 0, y: radius},
-			pointB: {x: 0, y: -radius},
+			pointA: {x: 0, y: radius * offBy},
+			pointB: {x: 0, y: -radius * offBy},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: rightThighCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -495,9 +496,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	rightThighCircles.unshift(sensorCircle)
-	rightThighConstraints.unshift(sensorCircleInitialConstraint)
-	rightThighConstraints.unshift(sensorCircleConstraint2)
-	rightThighConstraints.unshift(sensorCircleConstraint3)
+	rightThighConstraints.push(sensorCircleInitialConstraint)
+	rightThighConstraints.push(sensorCircleConstraint2)
+	rightThighConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -530,8 +531,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	initialConstraint = Constraint.create({
 		bodyA: rightThighCircles[rightThighCircles.length - 1],
 		bodyB: rightLegCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	initialConstraint2 = Constraint.create({
@@ -547,8 +548,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff / 2, y: yDiff / 2},
-			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -573,15 +574,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: rightThighCircles[rightThighCircles.length - 2],
 		bodyB: sensorCircle,
-			pointA: {x: oldXDiff / 2, y: oldYDiff / 2},
-			pointB: {x: -oldXDiff / 2, y: -oldYDiff / 2},
+			pointA: {x: oldXDiff * offBy / 2, y: oldYDiff * offBy / 2},
+			pointB: {x: -oldXDiff * offBy / 2, y: -oldYDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: rightLegCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -590,9 +591,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	rightLegCircles.unshift(sensorCircle)
-	rightLegConstraints.unshift(sensorCircleInitialConstraint)
-	rightLegConstraints.unshift(sensorCircleConstraint2)
-	rightLegConstraints.unshift(sensorCircleConstraint3)
+	rightLegConstraints.push(sensorCircleInitialConstraint)
+	rightLegConstraints.push(sensorCircleConstraint2)
+	rightLegConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -619,8 +620,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	initialConstraint = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 1],
 		bodyB: leftThighCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	initialConstraint2 = Constraint.create({
@@ -637,8 +638,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff / 2, y: yDiff / 2},
-			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -663,15 +664,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 2],
 		bodyB: sensorCircle,
-			pointA: {x: 0, y: radius},
-			pointB: {x: 0, y: -radius},
+			pointA: {x: 0, y: radius * offBy},
+			pointB: {x: 0, y: -radius * offBy},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: leftThighCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -680,9 +681,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	leftThighCircles.unshift(sensorCircle)
-	leftThighConstraints.unshift(sensorCircleInitialConstraint)
-	leftThighConstraints.unshift(sensorCircleConstraint2)
-	leftThighConstraints.unshift(sensorCircleConstraint3)
+	leftThighConstraints.push(sensorCircleInitialConstraint)
+	leftThighConstraints.push(sensorCircleConstraint2)
+	leftThighConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -715,8 +716,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	initialConstraint = Constraint.create({
 		bodyA: leftThighCircles[leftThighCircles.length - 1],
 		bodyB: leftLegCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	initialConstraint2 = Constraint.create({
@@ -732,8 +733,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		let constraint = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff / 2, y: yDiff / 2},
-			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 			render: {visible: false}
 		})
 		let constraint2 = Constraint.create({
@@ -757,15 +758,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	sensorCircleInitialConstraint = Constraint.create({
 		bodyA: leftThighCircles[leftThighCircles.length - 2],
 		bodyB: sensorCircle,
-			pointA: {x: oldXDiff / 2, y: oldYDiff / 2},
-			pointB: {x: -oldXDiff / 2, y: -oldYDiff / 2},
+			pointA: {x: oldXDiff * offBy / 2, y: oldYDiff * offBy / 2},
+			pointB: {x: -oldXDiff * offBy / 2, y: -oldYDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint2 = Constraint.create({
 		bodyA: sensorCircle,
 		bodyB: leftLegCircles[0],
-		pointA: {x: xDiff / 2, y: yDiff / 2},
-		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
+		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
 		render: {visible: false}
 	})
 	sensorCircleConstraint3 = Constraint.create({
@@ -774,9 +775,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	leftLegCircles.unshift(sensorCircle)
-	leftLegConstraints.unshift(sensorCircleInitialConstraint)
-	leftLegConstraints.unshift(sensorCircleConstraint2)
-	leftLegConstraints.unshift(sensorCircleConstraint3)
+	leftLegConstraints.push(sensorCircleInitialConstraint)
+	leftLegConstraints.push(sensorCircleConstraint2)
+	leftLegConstraints.push(sensorCircleConstraint3)
 	///////////////////////////////////////////////////////////////////////////////
   // BELT
   let torsoElem = torsoCircles[torsoCircles.length - 1]
@@ -837,14 +838,14 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
     let constraintRight = Constraint.create({
       bodyA: bodyRightA,
       bodyB: bodyRightB,
-      pointA: { x: beltXDiff / 2, y: beltYDiff / 2},
-      pointB: { x: -beltXDiff / 2, y: -beltYDiff / 2},
+      pointA: { x: beltXDiff * offBy / 2, y: beltYDiff * offBy / 2},
+      pointB: { x: -beltXDiff * offBy / 2, y: -beltYDiff * offBy / 2},
     })
     let constraintLeft = Constraint.create({
       bodyA: bodyLeftA,
       bodyB: bodyLeftB,
-      pointA: { x: -beltXDiff / 2, y: beltYDiff / 2},
-      pointB: { x: beltXDiff / 2, y: -beltYDiff / 2},
+      pointA: { x: -beltXDiff * offBy / 2, y: beltYDiff * offBy / 2},
+      pointB: { x: beltXDiff * offBy / 2, y: -beltYDiff * offBy / 2},
     })
 
     rightBeltConstraints.push(constraintRight)
@@ -860,14 +861,14 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   let leftBeltTorsoConstraint = Constraint.create({
     bodyA: beltRectangle,
     bodyB: torsoElem,
-    pointA: {x: -radius / 2, y: 0},
-    pointB: {x: -radius / 2, y: 0}
+    pointA: {x: -radius * offBy / 2, y: 0},
+    pointB: {x: -radius * offBy / 2, y: 0}
   })
   let rightBeltTorsoConstraint = Constraint.create({
     bodyA: beltRectangle,
     bodyB: torsoElem,
-    pointA: {x: radius / 2, y: 0},
-    pointB: {x: radius / 2, y: 0}
+    pointA: {x: radius * offBy / 2, y: 0},
+    pointB: {x: radius * offBy / 2, y: 0}
   })
   // Composites
   let rightBeltComposite = Composite.create({
@@ -895,7 +896,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	let headConstraint = Constraint.create({
 		bodyA: headCircles[0],
 		bodyB: torsoCircles[0],
-		pointA: {x: 0, y: radius},
+		pointA: {x: 0, y: radius * offBy},
 		pointB: {x: 0, y: 0},
 		render: {visible: false}
 	})
@@ -913,7 +914,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	headCircles[0].label = 'head'
 	let player = Composite.create({
 		composites: [
-      head,
       torso,
       rightArm,
       rightForeArm,
@@ -923,6 +923,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
       rightLeg,
       leftThigh,
       leftLeg,
+      head,
       rightBeltComposite,
       leftBeltComposite,
       rectangleBeltComposite
