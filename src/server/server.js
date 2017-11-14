@@ -5,8 +5,9 @@ let http = require('http').Server(app)
 let io = require('socket.io')(http)
 let c = require('../../config.json')
 let Player = require('./Player.js')
+let count = 0
 
-app.use('/', express.static(path.resolve(__dirname + '/../client')));
+app.use(express.static(path.resolve(__dirname + '/../client')));
 let port = 4000;
 
 http.listen(port, function () {
@@ -15,17 +16,6 @@ http.listen(port, function () {
 
 let rooms = {}
 
-/*
-To do Today
-
-Camera Angle thing
-Player look like ragdoll
-Fill players
-Different players
-
-Tomorrow 
-Homepage
-*/
 
 /* --------------------------------------------- ROOMS AND LOBBY CODE ----------------------------------------------- */
 // If room exists return room. If not return false
@@ -49,8 +39,8 @@ function printRooms() {
 }
 
 function getRooms() {
-    let rooms = io.sockets.adapter.rooms 
-    let list = [] 
+    let rooms = io.sockets.adapter.rooms
+    let list = []
     for(room in rooms) list.push(room)
     return list
 }
@@ -153,42 +143,57 @@ io.on('connection', socket => {
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
       Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
     }
-    // Set up camera front end 
+    // Set up camera front end
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
-    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skin)
-    // player.createMatterPlayerCircles(Matter, 5000, 5000, 10)
+    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skinGroupName, gameInfo.skinName)
+    socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
+    // SEND START BG UPDATE
+    sendBGTextUpdate(socket, 'start')
+    // Turn On/Off Sound
+    socket.soundOn = gameInfo.soundOn
+    sendSoundUpdate(socket, 'bg')
     player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
     // Update leaderboard
     leaderBoardChange(room)
-    // Body 
+    // Body
     socket.on('keydown', (left, up, right, down) => {
       player.movePlayer(left, up, right, down, Matter)
     })
     socket.on('disconnect', () => {
       if(rooms[room].players[player.id]) {
         Matter.Composite.clear(player.PlayerComposite)
+        player.stopHealthRegenInterval()
         delete rooms[room].players[player.id]
         leaderBoardChange(room)
       }
     })
     socket.on('respawn', () => {
-      player.isDead = false
-      player.isBlownUp = false
+      if(!player.isDead) Matter.Composite.clear(player.PlayerComposite)
+      player.resetPlayer()
       player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
-      player.health = player.initialHealth
+      updatePlayerValues(socket, player)
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
       socket.updateInterval = updateInterval
       leaderBoardChange(room)
+      // SEND START BG UPDATE
+      sendBGTextUpdate(socket, 'start')
     })
     socket.on('blowUp', () => {
       player.blowUp(Matter)
     })
+    socket.on('updatePlayerSkillPoints', name => {
+      player.updatePlayerSkillPoints(name)
+      player.decreaseSkillPoints()
+      updatePlayerValues(socket, player)
+    })
+    socket.on('toggleSound', sound => socket.soundOn = sound)
+
     leaderBoardChange(room)
     // Update Code
     setInterval(updateCentrePoints, 16)
@@ -204,7 +209,8 @@ function updateFrontEndInfo(room, socket, player) {
   // Emit playerList, healthList, wallList
   let Pelvis = {
     x: player.pelvis.position.x,
-    y: player.pelvis.position.y
+    y: player.pelvis.position.y,
+    angle: player.pelvis.angle
   }
   socket.emit('draw', frontEndInfo.Players, frontEndInfo.HealthPacks, frontEndInfo.Walls, Pelvis, socket.id)
 }
@@ -325,19 +331,27 @@ function getPlayerVertices(room) {
     for(player in players) {
       if(player.isDead) continue
       let pushItem = {}
-      pushItem.health = players[player].health 
+      pushItem.health = players[player].health
+      pushItem.initialHealth = players[player].initialHealth
       pushItem.name = players[player].name
       pushItem.id = players[player].id
       pushItem.isDead = players[player].isDead
       pushItem.isBlownUp = players[player].isBlownUp
       pushItem.pelvis = {
         x: players[player].pelvis.position.x,
-        y: players[player].pelvis.position.y
+        y: players[player].pelvis.position.y,
+        angle: players[player].pelvis.angle
       }
       pushItem.colour = players[player].colour
       pushItem.pointsList = players[player].pointsList
       pushItem.circleList = players[player].circleList
       pushItem.headPosition = players[player].headPosition
+      pushItem.armBandList = players[player].armBandList
+      pushItem.beltList = players[player].beltList
+      pushItem.skinType = players[player].skinType
+      pushItem.skinCategory = players[player].skinCategory
+      pushItem.skinName = players[player].skinName
+      pushItem.belt = players[player].actualBeltList
       list.push(pushItem)
     }
     return list
@@ -393,22 +407,53 @@ function updateCentrePoints() {
       let player = players[playerName]
       let pointsList = []
       let circleList = []
+      let armBandList = []
+      let actualBeltList = {rectangle: {}, circles: []}
       let headPosition = {}
       let composites = player.PlayerComposite.composites
       for(composite of composites) {
         let bodies = composite.bodies
         let bodyList = []
-        for(body of bodies) {
-          let colour = 'black'
+        let tempBeltList = []
+        for(let i = 0; i < bodies.length; i++) {
+          let body = bodies[i]
+          // End Circles
+          if(body.isBelt) {
+            if(body.isRectangle) {
+              actualBeltList.rectangle = {x: body.position.x, y: body.position.y, width: 10, angle: body.angle}
+            }
+            else {
+              tempBeltList.push({x: body.position.x, y: body.position.y, radius: body.circleRadius})
+            }
+            continue
+          }
           if(body.isEnd) circleList.push({ x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius })
-          if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius }
+          // Head Position
+          if(body.label === 'head') headPosition = { x: body.position.x, y: body.position.y, hitInfo: body.hitInfo, radius: body.circleRadius, angle: body.angle }
+          // Body List
           bodyList.push({ x: body.position.x, y: body.position.y, label: body.label, hitInfo: body.hitInfo, radius: body.circleRadius})
+          // Armbands
+          if(i < bodies.length - 1 && body.isArmBand && bodies[i+1].isArmBand) {
+            let thingToPush = []
+            let body1 = body
+            let body2 = bodies[i+1]
+            thingToPush.push({  x: body.position.x, y: body.position.y })
+            thingToPush.push({  x: (body2.position.x), y: (body2.position.y)  })
+            armBandList.push(thingToPush)
+          }
         }
-        pointsList.push(bodyList)
+        if(!composite.isBelt)  pointsList.push(bodyList)
+        if(tempBeltList.length) actualBeltList.circles.push(tempBeltList)
       }
       player.pointsList = pointsList
       player.circleList = circleList
       player.headPosition = headPosition
+      player.armBandList = armBandList
+      player.actualBeltList = {
+        rectangle: actualBeltList.rectangle,
+        circles: actualBeltList.circles,
+        colour: player.beltColour.toLowerCase()
+      }
     }
   }
 }
@@ -442,6 +487,7 @@ function collisionCheck(event, roomName, id) {
       handleHit(bodyB.playerId, bodyA.playerId, bodyB.label, bodyA.label, roomName)
       bodyPartHit(bodyA, 3000, roomName)
     }
+
   }
 }
 
@@ -460,30 +506,59 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   hitterPlayer = room.players[hitterPlayer]
   hitPlayer = room.players[hitPlayer]
   // Dead
+  let socket = io.sockets.connected[hitPlayer.id]
+  let socket2 = io.sockets.connected[hitterPlayer.id]
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
-    let socket = io.sockets.connected[hitPlayer.id]
+    // SEND KILL BG UPDATE
+    sendBGTextUpdate(socket2, 'kill')
+    sendSoundUpdate(socket2, 'kill')
+    // SEND DEATH BG UPDATE
+    sendBGTextUpdate(socket, 'death')
+    sendSoundUpdate(socket, 'death')
     // clearUpdates(socket.id)
     socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
     hitPlayer.health = 0
     hitterPlayer.killStreak += 1
+    // Stop Health Regen
+    hitPlayer.stopHealthRegenInterval()
     let Matter = io.sockets.adapter.rooms[roomName].Matter
     // Update Leaderboard
     leaderBoardChange(roomName)
     // Update Killfeed
     updateKillFeed(hitPlayer, bodyPartHit, hitterPlayer, roomName)
+    // Update Skill Points
+    hitterPlayer.increaseSkillPoints()
+    hitterPlayer.updateProgress()
+    if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
+    // updatePlayer => skillPoints, skillPointValues, beltColour
+    // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
+    updatePlayerValues(socket2, hitterPlayer)
     hitPlayer.blowUp(Matter, bodiesToMove)
     setTimeout(() => {
-      Matter.Composite.clear(hitPlayer.PlayerComposite)
-      // delete rooms[roomName].players[hitPlayer.id]
-      hitPlayer.isDead = true
-      // hitPlayer.isBlownUp = false
+      if(hitPlayer.isBlownUp) {
+        Matter.Composite.clear(hitPlayer.PlayerComposite)
+        // delete rooms[roomName].players[hitPlayer.id]
+        hitPlayer.isDead = true
+        // hitPlayer.isBlownUp = false
+      }
     }, 5000)
   }
   // Not Dead
   else {
+    let text = bodyPartHit === 'head' ? 'head' : 'body'
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
+    // SEND HITTER BG UPDATE
+    sendBGTextUpdate(socket2, text, true)
+    sendSoundUpdate(socket2, 'hit')
+    // SEND HIT BG UPDATE
+    sendBGTextUpdate(socket, text, false)
+    sendSoundUpdate(socket, 'hit')
   }
+}
+
+function updatePlayerValues(socket, player) {
+  socket.emit('updatePlayer', player.skillPoints, player.skillPointValues, player.beltColour, player.beltProgress, player.killStreak)
 }
 
 function isPlayerDead (hitPlayer, bodyPartHit, hitterPlayer) {
@@ -491,7 +566,8 @@ function isPlayerDead (hitPlayer, bodyPartHit, hitterPlayer) {
 }
 
 function damageAmount (hitterPlayer, bodyPartHit) {
-  let damageDoneByHitter = c.playerTypes[hitterPlayer.characterType].damageDealt
+  let damageMultiplier = hitterPlayer.skillPointValues.damageDealt.curVal
+  let damageDoneByHitter = c.playerTypes[hitterPlayer.characterType].damageDealt * damageMultiplier
   if(bodyPartHit === 'head') damageDoneByHitter *= 1.2
   return damageDoneByHitter
 }
@@ -502,17 +578,16 @@ function clearUpdates(socketId) {
 }
 
 function repel(roomName, bodyA, bodyB) {
-  return;
-  let bodyALeft = bodyA.position.x < bodyB.position.x 
+  let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
   let force = 0.005
   let forceA = {
-    x: bodyALeft ? force * -1 : force, 
-    y: bodyAUp ? force * -1 : force, 
+    x: bodyALeft ? force * -1 : force,
+    y: bodyAUp ? force * -1 : force,
   }
   let forceB = {
-    x: bodyALeft ? force : force * -1, 
-    y: bodyAUp ? force : force * -1, 
+    x: bodyALeft ? force : force * -1,
+    y: bodyAUp ? force : force * -1,
   }
   let elemA = {body: bodyA, force: forceA}
   let elemB = {body: bodyB, force: forceB}
@@ -524,10 +599,10 @@ function executeRepel(Matter, roomName) {
   let Body = Matter.Body
   let bodiesToMove = rooms[roomName].bodiesToRepel
 	for(let item of bodiesToMove) {
-		let body = item.body 
+		let body = item.body
 		let force = item.force
 		Body.applyForce(body, body.position, force)
-	} 
+	}
 	rooms[roomName].bodiesToRepel = []
 }
 
@@ -563,13 +638,39 @@ function bodyPartHit(bodyPart, duration, roomName) {
   sendDisplayBlood(bodyPart, roomName)
 }
 
-/*
-Send Information
-- Player Info
-  - Player Positions
-  - Player Health
-- Health Pack Info
-  - Health Pack Position
-  - Health Pack Status
-- Walls
-*/
+function sendBGTextUpdate(socket, textType, isHitter) {
+  let textToSend;
+  let colour;
+  let blue = "#3498db"
+  let red = "#e74c3c"
+
+  if(textType === "body") {
+    textToSend = "BODY SHOT!"
+    colour = isHitter ? blue : red
+  }
+  else if(textType === "head") {
+    textToSend = "HEAD SHOT!"
+    colour = isHitter ? blue : red
+  }
+  else if(textType === "kill") {
+    textToSend = "NICE KILL!"
+    colour = blue
+  }
+  else if(textType === "death") {
+    textToSend = "DEATH!"
+    colour = red
+  }
+  else if(textType === "levelUp") {
+    textToSend = "L-L-LEVEL UP!"
+    colour = blue
+  }
+  else if(textType === "start") {
+    textToSend = "FIGHT!"
+    colour = blue
+  }
+  socket.emit("updateBGText", textToSend, colour)
+}
+
+function sendSoundUpdate(socket, soundType) {
+  if(socket.soundOn) socket.emit('playSound', soundType)
+}

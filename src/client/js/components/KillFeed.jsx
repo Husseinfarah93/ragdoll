@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
-import bodyShotImage from '../../assets/BodyShotIcon.png'
-import headShotImage from '../../assets/HeadShotIcon.png'
+import bodyShotImage from '../../assets/images/icons/BodyShotIcon.png'
+import headShotImage from '../../assets/images/icons/HeadShotIcon.png'
 
 @Radium
 class KillFeed extends React.Component {
@@ -25,7 +25,7 @@ class KillFeed extends React.Component {
   }
 
   updateKillFeed(props) {
-    let newList = this.state.killfeed 
+    let newList = this.state.killfeed
     newList.push(props.newKill)
     Style.playerNameLeft.color = props.newKill.killerPlayerColour
     Style.playerNameRight.color = props.newKill.killedPlayerColour
@@ -68,8 +68,8 @@ const Style = {
   killFeedContainer: {
     width: '200px',
     position: 'fixed',
-    top: '20px',
-    left: '20px'
+    top: '50px',
+    left: '10px'
   },
   killFeedList: {
     listStyle: 'none',

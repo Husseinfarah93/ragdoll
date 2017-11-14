@@ -8,8 +8,12 @@ import KillFeed from './KillFeed.jsx'
 import config from '../../../../config.json'
 import BloodParticle from '../BloodParticle.js'
 import ProgressBar from './ProgressBar.jsx'
+import TextInfo from './TextInfo.jsx'
 import SkillPoints from './SkillPoints.jsx'
 let bloodConfig = config.gameInfo.bloodParticles
+let skins = config.gameInfo.skins
+let count = 0
+
 
 
 @Radium
@@ -22,7 +26,23 @@ class Canvas extends React.Component {
         leaderBoard: [],
         playerDead: false,
         newKill: undefined,
-        id: socket.id
+        id: socket.id,
+        backgroundText: {
+          text: "",
+          colour: "",
+          idx: 0,
+          show: true
+        },
+        player: {
+          name: "",
+          skillPoints: 0,
+          skillPointValues: {},
+          killStreak: 0,
+          beltColour: "",
+          beltProgress: 0,
+        },
+        skinObj: {}
+
       }
       this.keyDown = {
         up: false,
@@ -32,12 +52,14 @@ class Canvas extends React.Component {
       }
       this.respawnPlayer = this.respawnPlayer.bind(this)
       this.createBloodParticles = this.createBloodParticles.bind(this)
+      this.handleSkillPointsClick = this.handleSkillPointsClick.bind(this)
       this.bloodParticles = []
     }
 
     componentDidMount() {
       console.log('cvs: ', this.refs)
-      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas })
+      let skinObj = this.generateSkinImages(skins)
+      this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas, skinObj: skinObj })
       this.addListeners()
       this.setUpSockets()
     }
@@ -52,6 +74,12 @@ class Canvas extends React.Component {
         this.generateBackground(canvas.width, canvas.height)
         this.drawPlayerGrid()
       })
+
+      socket.on('setUpPlayer', (name, skillPoints, skillPointValues, killStreak, beltColour, beltProgress) => {
+        let newPlayer = {...this.state.player, name: name, skillPoints: skillPoints, skillPointValues: skillPointValues, killStreak: killStreak, beltColour: beltColour, beltProgress: beltProgress}
+        this.setState({ player: newPlayer })
+      })
+
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis, id) => {
         this.camera.update(Pelvis)
         this.drawBackground(this.camera)
@@ -81,6 +109,59 @@ class Canvas extends React.Component {
         let newY = y - camera.yPos
         this.createBloodParticles(newX, newY, bloodConfig.particleNumber)
       })
+
+      socket.on('updatePlayer', (skillPoints, skillPointValues, beltColour, beltProgress, killStreak) => {
+        let newPlayer = {
+          ...this.state.player,
+          skillPoints: skillPoints,
+          skillPointValues: skillPointValues,
+          beltColour: beltColour,
+          beltProgress: beltProgress,
+          killStreak: killStreak
+        }
+        this.setState({ player: newPlayer })
+      })
+
+      socket.on('updateBGText', (text, colour) => {
+        this.setState({ backgroundText: {...this.state.backgroundText, show: false  }})
+        let newBG = {
+          text: text,
+          colour: colour,
+          idx: this.state.backgroundText.idx + 1,
+          show: true
+        }
+        this.setState({ backgroundText: newBG })
+      })
+
+      socket.on('playSound', soundType => {
+        let hitLength = this.props.audio.hit.length
+        let r = Math.ceil(Math.random() * (hitLength)) - 1
+        if(soundType === 'hit') this.props.audio[soundType][r].play()
+        else this.props.audio[soundType].play()
+      })
+
+    }
+
+    generateSkinImages(skins) {
+      let skinList = []
+      let skinObj = {}
+      let skinGroups = Object.keys(skins)
+      for(let skin of skinGroups) skinList = skinList.concat(Object.keys(skins[skin]))
+      for(let skin of skinList) {
+        let img = new Image(50, 50)
+        img.src = `../../assets/images/skinFaces/${skin}.png`
+        skinObj[skin] = img
+      }
+      return skinObj
+    }
+
+
+/*  HANDLE CODE   */
+
+
+    handleSkillPointsClick(progressBarType, currentProgress) {
+      if(currentProgress >= 100 || this.state.player.skillPoints < 1) return
+      socket.emit('updatePlayerSkillPoints', progressBarType)
     }
 
     handleNewKill(killerPlayer, killType, killedPlayer, killerPlayerColour, killedPlayerColour) {
@@ -88,7 +169,7 @@ class Canvas extends React.Component {
         killerPlayer,
         killType,
         killedPlayer,
-        killerPlayerColour, 
+        killerPlayerColour,
         killedPlayerColour,
         idx: this.state.newKill ? this.state.newKill.idx + 1 : 0
       } })
@@ -107,10 +188,14 @@ class Canvas extends React.Component {
       }
     }
 
+
+/*  DRAW CODE   */
+
+
     drawPlayers(players, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       let bandList = []
       for(let k = 0; k < players.length; k++) {
@@ -125,7 +210,7 @@ class Canvas extends React.Component {
           for (var j = 1; j < vertices.length; j += 1) {
               context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
           }
-        
+
           context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
           let label = vertices[0].label
           context.lineWidth = 1;
@@ -161,33 +246,40 @@ class Canvas extends React.Component {
     newDrawPlayers(players, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       //for player of players
       for(let i = 0; i < players.length; i++) {
         let player = players[i]
-        if(player.isDead) continue
+        if(player.isDead || !player.pointsList || !player.headPosition) continue
         if(player.isBlownUp) {
           this.drawBlownUpCircles(player, xPos, yPos, context)
         }
         else {
-          this.drawBody(player, xPos, yPos, context)
-          this.drawCircles(player, xPos, yPos, context)
-          this.drawHead(player, xPos, yPos, context)
+          this.newDrawBody(player, xPos, yPos, context)
+          this.newDrawHead(player, xPos, yPos, context)
+          this.drawArmBands(player, xPos, yPos, context)
           this.drawHitPart(player, xPos, yPos, context)
+          this.drawBelt(player, xPos, yPos, context, 10, "black")
+          this.drawBelt(player, xPos, yPos, context, 7, player.belt.colour)
         }
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
-        // this.drawName(context, xName, yName, player.name)
         if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
     }
 
     drawBody(player, xPos, yPos, ctx) {
       for(let list of player.pointsList) {
-        let colour = 'black'
+        let colour = '#272727'
+        let skinType = player.skinType
         ctx.lineWidth = 20
-        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' || list[0].label === 'thigh' || list[0].label === 'arm' ? '#FAC023' : 'black'
+        ctx.lineCap = "round"
+        ctx.strokeStyle = ctx.fillStyle = list[0].label === 'torso' ||
+        list[0].label === 'rightThigh' ||
+        list[0].label === 'leftThigh' ||
+        list[0].label === 'rightArm' ||
+        list[0].label === 'leftArm' ? skinType : '#2F3B40'
         ctx.beginPath()
         ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
         for(let i = 1; i < list.length; i++) {
@@ -197,8 +289,37 @@ class Canvas extends React.Component {
       }
     }
 
+    newDrawBody(player, xPos, yPos, ctx) {
+      let torso;
+      let layers = skins[player.skinCategory][player.skinName]
+      for(let list of player.pointsList) {
+        if(list[0].label === "head") continue
+        if(list[0].label === "torso") torso = list
+        this.drawBodyPart(list, layers, ctx, 20, xPos, yPos)
+      }
+      this.drawBodyPart(torso, layers, ctx, 20, xPos, yPos)
+    }
+
+    drawBodyPart(list, layers, ctx, lineWidth, xPos, yPos) {
+      for(let layer of layers[list[0].label]) {
+    		let width = layer.width
+    		let colour = layer.colour
+    		ctx.lineWidth = lineWidth * width
+  	    ctx.beginPath()
+  	    ctx.lineCap = layer.lineCap ? layer.lineCap : "round"
+  	    let start = layer.start ? layer.start : 0
+  	    let end = layer.end ? layer.end : list.length - 1
+  	    ctx.moveTo(list[start].x - xPos, list[start].y - yPos)
+  	    ctx.strokeStyle = colour
+  	    for(let i = start + 1; i <= end; i++) {
+  	      ctx.lineTo(list[i].x - xPos, list[i].y - yPos)
+  	    }
+  	    ctx.stroke()
+    	}
+    }
+
     drawCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = 'black'
+      ctx.fillStyle = '#2F3B40'
       let list = player.circleList
       for(let elem of list) {
         ctx.beginPath()
@@ -209,10 +330,59 @@ class Canvas extends React.Component {
 
     drawHead(player, xPos, yPos, ctx) {
       let head = player.headPosition
-      ctx.fillStyle = 'black'
+      ctx.fillStyle = '#2F3B40'
       ctx.beginPath()
       ctx.arc(head.x - xPos, head.y - yPos, 25, 0, 2 * Math.PI, false)
       ctx.fill()
+    }
+
+    newDrawHead(player, xPos, yPos, ctx) {
+      if(player.skinCategory === "basic") {
+        this.drawHead(player, xPos, yPos, ctx)
+        return
+      }
+      let width = player.headPosition.x - xPos
+      let height = player.headPosition.y - yPos
+      let imageWidth = 100
+      let imageHeight = 100
+      let img = this.state.skinObj[player.skinName]
+      ctx.translate(width, height)
+      ctx.rotate(player.headPosition.angle)
+      ctx.drawImage(img, (-imageWidth / 2) , (-imageHeight / 2) - 12.5, imageWidth, imageHeight)
+      ctx.rotate(-player.headPosition.angle)
+      ctx.translate(- width, - height)
+    }
+
+    drawBelt(player, xPos, yPos, ctx, lineWidth, colour) {
+      let angle = player.belt.rectangle.angle
+      let rect = player.belt.rectangle
+      let rightBelt = player.belt.circles[0]
+      let leftBelt = player.belt.circles[1]
+
+      ctx.lineWidth = lineWidth
+      ctx.lineCap = "round"
+      ctx.strokeStyle = colour
+      let xDiff = 10 * Math.cos(angle)
+      let yDiff = 10 * Math.sin(angle)
+
+
+      ctx.beginPath()
+      ctx.moveTo(rect.x - xPos, rect.y - yPos)
+      for(let i = 0; i < rightBelt.length; i++) {
+        ctx.lineTo(rightBelt[i].x - xPos, rightBelt[i].y - yPos)
+      }
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(rect.x - xPos, rect.y - yPos)
+      for(let i = 0; i < leftBelt.length; i++) {
+        ctx.lineTo(leftBelt[i].x - xPos, leftBelt[i].y - yPos)
+      }
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(rect.x - xDiff - xPos, rect.y - yDiff - yPos)
+      ctx.lineTo(rect.x + xDiff - xPos, rect.y + yDiff - yPos)
+      ctx.stroke()
     }
 
     drawHitPart(player, xPos, yPos, ctx) {
@@ -242,11 +412,12 @@ class Canvas extends React.Component {
     }
 
     drawBlownUpCircles(player, xPos, yPos, ctx) {
-      ctx.fillStyle = 'black'
+      let skinType = player.skinType
       let circleList = player.circleList
-      let pointsList = player.pointsList 
+      let pointsList = player.pointsList
       let totalList = [].concat(pointsList.reduce((a, b) => a.concat(b))).concat(circleList)
       for(let elem of totalList) {
+        ctx.fillStyle = elem.label === 'torso' || elem.label === 'thigh' || elem.label === 'arm' ? skinType : '#2F3B40'
         ctx.beginPath()
         ctx.arc(elem.x - xPos, elem.y - yPos, elem.radius, 0, 2 * Math.PI, false)
         ctx.fill()
@@ -270,22 +441,17 @@ class Canvas extends React.Component {
       }
     }
 
-    drawArmBands(xPos, yPos, context, bodies) {
-      for (var i = 0; i < bodies.length; i += 1) {
-        context.beginPath()
-        var vertices = bodies[i].vertices;
-        var health = bodies[i].health
-        var percentage = health / 200
-        context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        for (var j = 1; j < vertices.length; j += 1) {
-            context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
+    drawArmBands(player, xPos, yPos, ctx) {
+      for(let list of player.armBandList) {
+        let percent = player.health / player.initialHealth
+        ctx.lineCap = "butt"
+        ctx.beginPath()
+        ctx.strokeStyle = `rgba(255, 0, 0, ${1 - percent}`
+        ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
+        for(let i = 1; i < list.length; i++) {
+          ctx.lineTo(list[i].x - xPos, list[i].y - yPos)
         }
-        context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        context.lineWidth = 0.5;
-        context.strokeStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
-        context.stroke();
-        context.fillStyle = percentage === 1 ? 'black' : `rgba(255, 0, 0, ${1 - percentage})`;
-        context.fill();
+        ctx.stroke()
       }
     }
 
@@ -299,7 +465,7 @@ class Canvas extends React.Component {
       // Draw Background Health
       context.fillStyle = 'black'
       context.fillRect(x, y, healthBarWidth, healthBarHeight)
-      // Draw Health 
+      // Draw Health
       context.fillStyle = 'red'
       context.fillRect(x, y, healthBarWidth * percent, healthBarHeight)
     }
@@ -329,12 +495,12 @@ class Canvas extends React.Component {
 
     drawHealthPacks() {
       //
-    } 
+    }
 
     drawWalls(bodies, camera) {
       let canvas = this.state.canvas
       let context = this.state.canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       context.fillStyle = 'black';
       context.beginPath();
@@ -346,7 +512,7 @@ class Canvas extends React.Component {
           context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
         }
         context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-        
+
         context.lineWidth = 1;
         context.strokeStyle = '#999';
         context.stroke();
@@ -356,17 +522,17 @@ class Canvas extends React.Component {
     }
 
     drawBackground(camera) {
-      let canvas = this.state.canvas 
+      let canvas = this.state.canvas
       let context = canvas.getContext('2d')
-      let xPos = camera.xPos 
+      let xPos = camera.xPos
       let yPos = camera.yPos
       let img = this.img
       context.clearRect(0, 0, canvas.width, canvas.height)
-      // Draw Shifted Viewport 
-      let newX = (xPos % canvas.width) - this.diff.x 
+      // Draw Shifted Viewport
+      let newX = (xPos % canvas.width) - this.diff.x
       let newY = (yPos % canvas.height) - this.diff.y
 
-      
+
       context.drawImage(img, newX, newY, canvas.width - newX, canvas.height - newY, 0, 0, canvas.width - newX, canvas.height - newY)
       // Right
       if(newX > 0) {
@@ -398,12 +564,16 @@ class Canvas extends React.Component {
       }
     }
 
+
+/*  MISC CODE   */
+
+
     generateBackground(canvasWidth, canvasHeight) {
       let cvs = document.createElement('canvas')
       let ctx = cvs.getContext('2d')
-      cvs.width = canvasWidth 
+      cvs.width = canvasWidth
       cvs.height = canvasHeight
-      let boxSize = 100
+      let boxSize = 50
       ctx.fillStyle = '#404040'
       ctx.fill()
       ctx.strokeStyle = '#E6E6E6'
@@ -417,7 +587,7 @@ class Canvas extends React.Component {
         ctx.lineTo(canvasWidth, j)
         ctx.stroke()
       }
-      let dataUrl = ctx.canvas.toDataURL("image/png");	
+      let dataUrl = ctx.canvas.toDataURL("image/png");
       let img = new Image()
       img.src = dataUrl
       this.img = img
@@ -437,11 +607,11 @@ class Canvas extends React.Component {
     adjustCentre(canvas, Pelvis) {
       let centreX = canvas.width / 2
       let centreY = canvas.height / 2
-      let diffX = Pelvis.x - centreX 
+      let diffX = Pelvis.x - centreX
       let diffY = Pelvis.y - centreY
       return { diffX, diffY }
     }
-    
+
     addListeners() {
       let self = this
       window.addEventListener('keydown', e => {
@@ -461,22 +631,24 @@ class Canvas extends React.Component {
     render() {
       return (
         <div>
-          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth}/>
-          {
-            this.state.newKill && <KillFeed newKill={this.state.newKill}/>
-          }
-          {
-            this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>
-          }
-          { this.state.playerDead && 
-            <RespawnModal respawnPlayer={this.respawnPlayer} />
+          {this.state.backgroundText.show &&
+            <TextInfo
+              text={this.state.backgroundText.text}
+              idx={this.state.backgroundText.idx}
+              colour={this.state.backgroundText.colour} />
+            }
+          <canvas ref="canvas" id="mainCanvas" height={window.innerHeight * 0.98} width={window.innerWidth} />
+          { this.state.newKill && <KillFeed newKill={this.state.newKill}/> }
+          { this.state.leaderBoard.length && <LeaderBoard leaderBoard={this.state.leaderBoard}/>  }
+          { this.state.playerDead &&
+            <RespawnModal respawnPlayer={this.respawnPlayer} killStreak={this.state.player.killStreak} beltColour={this.state.player.beltColour}/>
           }
           <canvas ref="gridCanvas" height="200" width="200" style={Style.gridCanvas}/>
           <div style={Style.ProgressBar} >
-            <h2 style={Style.PlayerName}> Hussein </h2>
-            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress="10%" progressColour="#18C29C" text=" White Belt " textColour="#FFFFFF" plusIcon="none" plusIconRight="20px" fontSize="16px"/>
+            <h2 style={Style.PlayerName}> {this.state.player.name} </h2>
+            <ProgressBar containerWidth="400px" containerHeight="30px" borderRadius="15px" progress={`${this.state.player.beltProgress < 10 ? 10 : this.state.player.beltProgress}%`} progressColour="#18C29C" text={`${this.state.player.beltColour} Belt`} textColour="#FFFFFF" plusIcon="none" plusIconRight="20px" fontSize="16px"/>
           </div>
-          <SkillPoints />
+          <SkillPoints skillPoints={this.state.player.skillPoints} skillPointValues={this.state.player.skillPointValues} handleSkillPointsClick={this.handleSkillPointsClick}/>
         </div>
       )
     }
@@ -511,7 +683,7 @@ export default Canvas
 /*
 Props
 Container Width
-Progress Width 
+Progress Width
 Progress Background Colour
 Text
 PlusIcon

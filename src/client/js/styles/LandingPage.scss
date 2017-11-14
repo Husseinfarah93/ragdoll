@@ -1,0 +1,119 @@
+html, body, #landingPageContainer {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+.container.normal {
+    background-color: #4fcbd3;
+}
+.container.blurred {
+  filter: blur(4px);
+  background-color: #37a1a3;
+}
+#title {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  font-family: "Quicksand", sans-serif;
+  font-size: 120px;
+  color: #ecf0f1;
+  margin-bottom: 80px;
+  text-shadow: 5px 5px #336E7B;
+  user-select: none;
+  cursor: default
+}
+#nameInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 3px solid #336E7B;
+  text-align: center;
+  caret-color: #336E7B;
+  width: 30%;
+  color: #336E7B;
+  font-size: 35px;
+  text-transform: uppercase;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  box-shadow: 0px 0px 1px;
+  border-radius: 10px;
+  user-select: none
+}
+input::placeholder {
+  color: #336E7B;
+}
+#enterMessage {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Quicksand";
+  color: #34495e;
+  user-select: none;
+  cursor: default;
+  margin-bottom: 30px
+}
+.icon {
+  position: fixed;
+  cursor: pointer;
+  user-select: none
+}
+.icon.settings {
+  top: 0px;
+  right: 5px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 40px;
+  color: #2c3e50;
+}
+.icon.controller {
+  position: fixed;
+  bottom: 3px;
+  left: 60px;
+  width: 40px;
+  height: 40px
+}
+#bottomBanner {
+  position: fixed;
+  width: 100%;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Quicksand", sans-serif;
+  font-size: 20px
+}
+span {
+  cursor: pointer;
+}
+.icon.leaderboard {
+  right: 10px;
+  top: 2px;
+  width: 40px;
+  height: 40px;
+  display: none
+}
+.icon.skin {
+ left: 10px;
+ bottom: 5px;
+ width: 40px;
+ height: 40px;
+}
+#socialIcons {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+}
+.social {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin: 0px 3px;
+}

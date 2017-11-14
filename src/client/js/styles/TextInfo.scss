@@ -1,0 +1,20 @@
+#textInfoContainer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1
+}
+#text {
+  font-family: Quicksand;
+  font-size: 12vw;
+  animation: myAnim 4s;
+  animation-fill-mode: forwards
+}
+@keyframes myAnim {
+    100% {opacity: 0;}
+}
