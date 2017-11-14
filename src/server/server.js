@@ -45,6 +45,10 @@ function getRooms() {
     return list
 }
 
+function generateRandomName() {
+  //
+}
+
 /* ------------------------------------------------- WORLD CODE ------------------------------------------------------- */
 
 function createWorld(roomName) {
@@ -104,12 +108,62 @@ function stopEngine(engine) {
   //
 }
 
-function addPlayerToWorld(player, Matter) {
-  //
-}
+function addPlayerToWorld(player, Matter) {}
 
 function removePlayerFromWorld() {
     //
+}
+
+
+function getRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function findSpawnPoint(gameMode, roomName) {
+  let gameWidth = c.gameModes[gameMode].gameWidth
+  let gameHeight = c.gameModes[gameMode].gameHeight
+  let wallThickness = 1100
+  let gap = 200
+  let minX = wallThickness
+  let minY = wallThickness
+  let maxX = gameWidth - wallThickness
+  let maxY = gameHeight - wallThickness
+  let randomX;
+  let randomY;
+  let foundPosition = false
+  let players = rooms[roomName].players
+  players = Object.keys(players).map(e => players[e]).map(e => e.pelvis.position)
+  let returnX;
+  let returnY;
+  while(!foundPosition) {
+    newX = getRandom(minX, maxX)
+    newY = getRandom(minY, maxY)
+    if(players.length === 0) {
+      returnX = newX
+      returnY = newY
+      foundPosition = true
+    }
+    for(let player of players) {
+      let x = player.x
+      let y = player.y
+      let xCondition1 = !(x <= newX && newX <= x + gap)
+      let xCondition2 = !(newX <= x && newX <= x - gap)
+      let yCondition1 = !(y <= newY && newY <= y + gap)
+      let yCondition2 = !(newY <= y && newY <= y - gap)
+      if((xCondition1) && (xCondition2) && (yCondition1) && (yCondition2)){
+         foundPosition = true
+         returnX = newX
+         returnY = newY
+      }
+    }
+  }
+  return {
+    x: returnX,
+    y: returnY
+  }
 }
 
 /* -------------------------------------------------- IO/SOCKET CODE ----------------------------------------------------- */
@@ -155,7 +209,8 @@ io.on('connection', socket => {
     // Turn On/Off Sound
     socket.soundOn = gameInfo.soundOn
     sendSoundUpdate(socket, 'bg')
-    player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
+    let spawnPoints = findSpawnPoint(gameInfo.gameType, room)
+    player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
     // Update leaderboard
