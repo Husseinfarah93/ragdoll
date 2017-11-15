@@ -776,7 +776,15 @@ function generateRandomId() {
 function createBot(Matter, roomName) {
   let randomName = generateRandomName()
   let randomId = generateRandomId()
-  let player = new Player(randomName, randomId, 'basic', 'basic', 'yellow', true)
+  let skinCatsObj = c.gameInfo.skins
+  let randomSkinCatIdx = getRandom(0, Object.keys(skinCatsObj).length - 1)
+  let catName = Object.keys(skinCatsObj)[randomSkinCatIdx]
+
+  let skinsObj = skinCatsObj[catName]
+  let randomSkinIdx = getRandom(0, Object.keys(skinsObj).length - 1)
+  let skinName = Object.keys(skinsObj)[randomSkinIdx]
+
+  let player = new Player(randomName, randomId, 'basic', catName, skinName, true)
   let spawnPoints = findSpawnPoint('FFA', roomName)
   player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
   rooms[roomName].players[randomId] = player

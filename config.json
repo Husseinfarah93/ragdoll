@@ -355,11 +355,7 @@
           "leftThigh":[{"width":1,"colour":"#363A3D"}],
           "leftLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}]
         }
-      },
-      "movies": {},
-      "tv": {},
-      "games": {},
-      "misc": {}
+      }
     }
   }
 }
