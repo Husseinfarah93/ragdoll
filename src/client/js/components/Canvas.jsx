@@ -140,6 +140,10 @@ class Canvas extends React.Component {
         else this.props.audio[soundType].play()
       })
 
+      window.addEventListener('keydown', e => {
+        if(e.keyCode === 80) socket.emit('createBot')
+      })
+
     }
 
     generateSkinImages(skins) {
@@ -156,7 +160,7 @@ class Canvas extends React.Component {
     }
 
 
-/*  HANDLE CODE   */
+    /*  HANDLE CODE   */
 
 
     handleSkillPointsClick(progressBarType, currentProgress) {
@@ -189,7 +193,7 @@ class Canvas extends React.Component {
     }
 
 
-/*  DRAW CODE   */
+    /*  DRAW CODE   */
 
 
     drawPlayers(players, camera) {
@@ -565,7 +569,7 @@ class Canvas extends React.Component {
     }
 
 
-/*  MISC CODE   */
+    /*  MISC CODE   */
 
 
     generateBackground(canvasWidth, canvasHeight) {

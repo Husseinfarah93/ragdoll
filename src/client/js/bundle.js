@@ -29515,6 +29515,10 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         var r = Math.ceil(Math.random() * hitLength) - 1;
         if (soundType === 'hit') _this2.props.audio[soundType][r].play();else _this2.props.audio[soundType].play();
       });
+
+      window.addEventListener('keydown', function (e) {
+        if (e.keyCode === 80) _io2.default.emit('createBot');
+      });
     }
   }, {
     key: 'generateSkinImages',

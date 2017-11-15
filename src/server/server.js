@@ -5,6 +5,7 @@ let http = require('http').Server(app)
 let io = require('socket.io')(http)
 let c = require('../../config.json')
 let Player = require('./Player.js')
+let AI = require('./AI.js')
 let count = 0
 
 app.use(express.static(path.resolve(__dirname + '/../client')));
@@ -43,10 +44,6 @@ function getRooms() {
     let list = []
     for(room in rooms) list.push(room)
     return list
-}
-
-function generateRandomName() {
-  //
 }
 
 /* ------------------------------------------------- WORLD CODE ------------------------------------------------------- */
@@ -114,13 +111,11 @@ function removePlayerFromWorld() {
     //
 }
 
-
 function getRandom(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 function findSpawnPoint(gameMode, roomName) {
   let gameWidth = c.gameModes[gameMode].gameWidth
@@ -202,7 +197,7 @@ io.on('connection', socket => {
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
-    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skinGroupName, gameInfo.skinName)
+    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skinGroupName, gameInfo.skinName, false)
     socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
     // SEND START BG UPDATE
     sendBGTextUpdate(socket, 'start')
@@ -230,7 +225,8 @@ io.on('connection', socket => {
     socket.on('respawn', () => {
       if(!player.isDead) Matter.Composite.clear(player.PlayerComposite)
       player.resetPlayer()
-      player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
+      let spawnPoints = findSpawnPoint(gameInfo.gameType, room)
+      player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
       updatePlayerValues(socket, player)
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
@@ -248,6 +244,8 @@ io.on('connection', socket => {
       updatePlayerValues(socket, player)
     })
     socket.on('toggleSound', sound => socket.soundOn = sound)
+    socket.on('createBot', () => createBot(Matter, room))
+
 
     leaderBoardChange(room)
     // Update Code
@@ -377,8 +375,6 @@ function updatePlayerVertices() {
         }
     }
 }
-
-// returns Array of Player vertices and health e.g. => [{vertices: [], health: 200}]
 
 function getPlayerVertices(room) {
     let list = []
@@ -729,3 +725,33 @@ function sendBGTextUpdate(socket, textType, isHitter) {
 function sendSoundUpdate(socket, soundType) {
   if(socket.soundOn) socket.emit('playSound', soundType)
 }
+
+
+
+/* ---------------------------------------------------- AI CODE -------------------------------------------------------- */
+function generateRandomName() {
+  return 'randomName'
+}
+
+function generateRandomId() {
+  let str = "bxcu"
+  let repeat = Math.floor(Math.random() * 25)
+  return str.repeat(repeat)
+}
+
+function createBot(Matter, roomName) {
+  let randomName = generateRandomName()
+  let randomId = generateRandomId()
+  let player = new Player(randomName, randomId, 'basic', 'basic', 'yellow', true)
+  // let spawnPoints = findSpawnPoint('FFA', roomName)
+  player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
+  rooms[roomName].players[randomId] = player
+  let playersObj = rooms[roomName].players
+  let players = Object.keys(playersObj)
+  players = players.map(e => playersObj[e])
+  let bot = new AI(player)
+  bot.selectTarget(players)
+  bot.update(Matter)
+}
+
+function adjustBotTarget() {}
