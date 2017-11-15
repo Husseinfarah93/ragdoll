@@ -556,18 +556,18 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   let bodiesToMove = rooms[roomName].bodiesToRepel
   hitterPlayer = room.players[hitterPlayer]
   hitPlayer = room.players[hitPlayer]
-  // Dead
   let socket = io.sockets.connected[hitPlayer.id]
   let socket2 = io.sockets.connected[hitterPlayer.id]
+  // Dead
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
     // SEND KILL BG UPDATE
-    sendBGTextUpdate(socket2, 'kill')
-    sendSoundUpdate(socket2, 'kill')
+    if(socket2) sendBGTextUpdate(socket2, 'kill')
+    if(socket2) sendSoundUpdate(socket2, 'kill')
     // SEND DEATH BG UPDATE
-    sendBGTextUpdate(socket, 'death')
-    sendSoundUpdate(socket, 'death')
+    if(socket)  sendBGTextUpdate(socket, 'death')
+    if(socket)  sendSoundUpdate(socket, 'death')
     // clearUpdates(socket.id)
-    socket.emit('playerDeath', hitPlayer.killStreak)
+    if(socket)  socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
     hitPlayer.health = 0
     hitterPlayer.killStreak += 1
@@ -584,8 +584,13 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
     // updatePlayer => skillPoints, skillPointValues, beltColour
     // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
-    updatePlayerValues(socket2, hitterPlayer)
+    if(socket2) updatePlayerValues(socket2, hitterPlayer)
     hitPlayer.blowUp(Matter, bodiesToMove)
+    // If AI stop updates
+    if(hitPlayer.isAI){
+      hitPlayer.AI.dead()
+      setTimeout(() => respawnBot(Matter, hitPlayer.AI, roomName), 5100)
+    }
     setTimeout(() => {
       if(hitPlayer.isBlownUp) {
         Matter.Composite.clear(hitPlayer.PlayerComposite)
@@ -600,11 +605,11 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     let text = bodyPartHit === 'head' ? 'head' : 'body'
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
     // SEND HITTER BG UPDATE
-    sendBGTextUpdate(socket2, text, true)
-    sendSoundUpdate(socket2, 'hit')
+    if(socket2) sendBGTextUpdate(socket2, text, true)
+    if(socket2) sendSoundUpdate(socket2, 'hit')
     // SEND HIT BG UPDATE
-    sendBGTextUpdate(socket, text, false)
-    sendSoundUpdate(socket, 'hit')
+    if(socket)  sendBGTextUpdate(socket, text, false)
+    if(socket)  sendSoundUpdate(socket, 'hit')
   }
 }
 
@@ -752,6 +757,18 @@ function createBot(Matter, roomName) {
   let bot = new AI(player)
   bot.selectTarget(players)
   bot.update(Matter)
+  leaderBoardChange(roomName)
 }
 
 function adjustBotTarget() {}
+
+function respawnBot(Matter, bot, roomName) {
+  let player = bot.player
+  player.resetPlayer()
+  player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
+  let playersObj = rooms[roomName].players
+  let players = Object.keys(playersObj)
+  players = players.map(e => playersObj[e])
+  bot.selectTarget(players)
+  bot.update(Matter)
+}

@@ -1,6 +1,7 @@
 function AI(player) {
   this.player = player
   this.targetPlayer;
+  this.player.AI = this
 }
 
 AI.prototype.selectTarget = function(players) {
@@ -31,7 +32,13 @@ AI.prototype.getDirection = function(Matter) {
 
 AI.prototype.update = function(Matter) {
   let ths = this
-  setInterval(() => ths.getDirection(Matter), 16)
+  this.interval = setInterval(() => ths.getDirection(Matter), 16)
+}
+
+AI.prototype.dead = function() {
+  let ths = this
+  clearInterval(ths.interval)
+  this.targetPlayer = undefined
 }
 
 module.exports = AI
