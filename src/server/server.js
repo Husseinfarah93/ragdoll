@@ -616,6 +616,7 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     // If AI stop updates
     if(hitPlayer.isAI){
       hitPlayer.AI.dead()
+      leaderBoardChange(roomName)
       setTimeout(() => respawnBot(Matter, hitPlayer.AI, roomName), 5100)
     }
     adjustBotTarget(roomName)

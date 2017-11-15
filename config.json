@@ -45,12 +45,12 @@
   },
   "gameInfo": {
     "bloodParticles": {
-      "particleNumber": 200,
+      "particleNumber": 50,
       "maxParticleSize": 5,
       "maxSpeed": 5,
       "colourVariation": 50,
       "colour": "red",
-      "lifeLength": 1000
+      "lifeLength": 500
     },
     "blowUpForce": 0.005,
     "belts": [
