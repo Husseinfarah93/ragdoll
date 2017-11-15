@@ -142,6 +142,7 @@ class Canvas extends React.Component {
 
       window.addEventListener('keydown', e => {
         if(e.keyCode === 80) socket.emit('createBot')
+        if(e.keyCode === 79) socket.emit('logRooms')
       })
 
     }

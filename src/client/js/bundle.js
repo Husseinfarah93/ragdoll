@@ -29518,6 +29518,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
 
       window.addEventListener('keydown', function (e) {
         if (e.keyCode === 80) _io2.default.emit('createBot');
+        if (e.keyCode === 79) _io2.default.emit('logRooms');
       });
     }
   }, {

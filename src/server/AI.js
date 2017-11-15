@@ -30,6 +30,10 @@ AI.prototype.getDirection = function(Matter) {
   this.player.movePlayer(left, up, right, down, Matter)
 }
 
+AI.prototype.rotate = function() {
+  
+}
+
 AI.prototype.update = function(Matter) {
   let ths = this
   this.interval = setInterval(() => ths.getDirection(Matter), 16)
