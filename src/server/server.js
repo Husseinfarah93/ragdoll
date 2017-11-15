@@ -231,7 +231,10 @@ io.on('connection', socket => {
       let playersObj = rooms[room].players
       let players = Object.keys(playersObj).map(e => playersObj[e])
       if(areAllBots(players)) {
-        for(let player of players) removePlayer(Matter, player, room)
+        for(let player of players) {
+          player.AI.gameOver = true
+          removePlayer(Matter, player, room)
+        }
       }
     })
     socket.on('respawn', () => {
@@ -543,7 +546,7 @@ function collisionCheck(event, roomName, id) {
     }
     // bodyA is hitterPlayer
     if(isWinner(bodyA, bodyB)) {
-      handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName)
+      handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName, bodyA, bodyB)
       bodyPartHit(bodyB, 3000, roomName)
     }
     // bodyB is hitterPlayer
@@ -574,13 +577,14 @@ function isWinner(bodyPart1, bodyPart2) {
   return bodyPart1.dealDamage && !bodyPart2.dealDamage
 }
 
-function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomName) {
+function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomName, bodyA, bodyB) {
   let room = rooms[roomName]
   let bodiesToMove = rooms[roomName].bodiesToRepel
   hitterPlayer = room.players[hitterPlayer]
   hitPlayer = room.players[hitPlayer]
   let socket = io.sockets.connected[hitPlayer.id]
   let socket2 = io.sockets.connected[hitterPlayer.id]
+  if(bodyA && bodyB)  repel(roomName, bodyA, bodyB)
   // Dead
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
     // SEND KILL BG UPDATE
@@ -660,7 +664,7 @@ function clearUpdates(socketId) {
 function repel(roomName, bodyA, bodyB) {
   let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
-  let force = 0.005
+  let force = 0.01
   let forceA = {
     x: bodyALeft ? force * -1 : force,
     y: bodyAUp ? force * -1 : force,
@@ -796,6 +800,7 @@ function adjustBotTarget(roomName) {
 }
 
 function respawnBot(Matter, bot, roomName) {
+  if(bot.gameOver) return
   let player = bot.player
   player.resetPlayer()
   let spawnPoints = findSpawnPoint('FFA', roomName)
