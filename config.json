@@ -45,12 +45,12 @@
   },
   "gameInfo": {
     "bloodParticles": {
-      "particleNumber": 200,
+      "particleNumber": 50,
       "maxParticleSize": 5,
       "maxSpeed": 5,
       "colourVariation": 50,
       "colour": "red",
-      "lifeLength": 1000
+      "lifeLength": 500
     },
     "blowUpForce": 0.005,
     "belts": [
@@ -355,11 +355,7 @@
           "leftThigh":[{"width":1,"colour":"#363A3D"}],
           "leftLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}]
         }
-      },
-      "movies": {},
-      "tv": {},
-      "games": {},
-      "misc": {}
+      }
     }
   }
 }

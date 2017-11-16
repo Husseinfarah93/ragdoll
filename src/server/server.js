@@ -5,6 +5,7 @@ let http = require('http').Server(app)
 let io = require('socket.io')(http)
 let c = require('../../config.json')
 let Player = require('./Player.js')
+let AI = require('./AI.js')
 let count = 0
 
 app.use(express.static(path.resolve(__dirname + '/../client')));
@@ -43,6 +44,13 @@ function getRooms() {
     let list = []
     for(room in rooms) list.push(room)
     return list
+}
+
+function areAllBots(players) {
+  for(let player of players) {
+    if(!player.isAI)  return false
+  }
+  return true
 }
 
 /* ------------------------------------------------- WORLD CODE ------------------------------------------------------- */
@@ -104,12 +112,63 @@ function stopEngine(engine) {
   //
 }
 
-function addPlayerToWorld(player, Matter) {
-  //
+function addPlayerToWorld(player, Matter) {}
+
+function removePlayer(Matter, player, room) {
+  Matter.Composite.clear(player.PlayerComposite)
+  player.stopHealthRegenInterval()
+  delete rooms[room].players[player.id]
+  leaderBoardChange(room)
 }
 
-function removePlayerFromWorld() {
-    //
+function getRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function findSpawnPoint(gameMode, roomName) {
+  let gameWidth = c.gameModes[gameMode].gameWidth
+  let gameHeight = c.gameModes[gameMode].gameHeight
+  let wallThickness = 1100
+  let gap = 200
+  let minX = wallThickness
+  let minY = wallThickness
+  let maxX = gameWidth - wallThickness
+  let maxY = gameHeight - wallThickness
+  let randomX;
+  let randomY;
+  let foundPosition = false
+  let players = rooms[roomName].players
+  players = Object.keys(players).map(e => players[e]).map(e => e.pelvis.position)
+  let returnX;
+  let returnY;
+  while(!foundPosition) {
+    newX = getRandom(minX, maxX)
+    newY = getRandom(minY, maxY)
+    if(players.length === 0) {
+      returnX = newX
+      returnY = newY
+      foundPosition = true
+    }
+    for(let player of players) {
+      let x = player.x
+      let y = player.y
+      let xCondition1 = !(x <= newX && newX <= x + gap)
+      let xCondition2 = !(newX <= x && newX <= x - gap)
+      let yCondition1 = !(y <= newY && newY <= y + gap)
+      let yCondition2 = !(newY <= y && newY <= y - gap)
+      if((xCondition1) && (xCondition2) && (yCondition1) && (yCondition2)){
+         foundPosition = true
+         returnX = newX
+         returnY = newY
+      }
+    }
+  }
+  return {
+    x: returnX,
+    y: returnY
+  }
 }
 
 /* -------------------------------------------------- IO/SOCKET CODE ----------------------------------------------------- */
@@ -148,14 +207,15 @@ io.on('connection', socket => {
     let worldHeight = c.gameModes[gameInfo.gameType].gameHeight
     socket.emit('setUpWorld', worldWidth, worldHeight)
     // Create Player
-    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skinGroupName, gameInfo.skinName)
+    let player = new Player(gameInfo.name, socket.id, gameInfo.character, gameInfo.skinGroupName, gameInfo.skinName, false)
     socket.emit('setUpPlayer', player.name, player.skillPoints, player.skillPointValues, player.killStreak, player.beltColour, player.beltProgress)
     // SEND START BG UPDATE
     sendBGTextUpdate(socket, 'start')
     // Turn On/Off Sound
     socket.soundOn = gameInfo.soundOn
     sendSoundUpdate(socket, 'bg')
-    player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
+    let spawnPoints = findSpawnPoint(gameInfo.gameType, room)
+    player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
     // Add player to room in rooms
     rooms[room].players[socket.id] = player
     // Update leaderboard
@@ -166,16 +226,22 @@ io.on('connection', socket => {
     })
     socket.on('disconnect', () => {
       if(rooms[room].players[player.id]) {
-        Matter.Composite.clear(player.PlayerComposite)
-        player.stopHealthRegenInterval()
-        delete rooms[room].players[player.id]
-        leaderBoardChange(room)
+        removePlayer(Matter, rooms[room].players[player.id], room)
+      }
+      let playersObj = rooms[room].players
+      let players = Object.keys(playersObj).map(e => playersObj[e])
+      if(areAllBots(players)) {
+        for(let player of players) {
+          player.AI.gameOver = true
+          removePlayer(Matter, player, room)
+        }
       }
     })
     socket.on('respawn', () => {
       if(!player.isDead) Matter.Composite.clear(player.PlayerComposite)
       player.resetPlayer()
-      player.createMatterPlayerCircles2(Matter, 5000, 5000, 10)
+      let spawnPoints = findSpawnPoint(gameInfo.gameType, room)
+      player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
       updatePlayerValues(socket, player)
       clearUpdates(socket.id)
       let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
@@ -193,6 +259,8 @@ io.on('connection', socket => {
       updatePlayerValues(socket, player)
     })
     socket.on('toggleSound', sound => socket.soundOn = sound)
+    socket.on('createBot', () => createBot(Matter, room))
+    socket.on('logRooms', () => console.log(rooms))
 
     leaderBoardChange(room)
     // Update Code
@@ -322,8 +390,6 @@ function updatePlayerVertices() {
         }
     }
 }
-
-// returns Array of Player vertices and health e.g. => [{vertices: [], health: 200}]
 
 function getPlayerVertices(room) {
     let list = []
@@ -464,12 +530,13 @@ function updateCentrePoints() {
 
 
 function collisionCheck(event, roomName, id) {
-  let bodyA = event.pairs[0].bodyA
-  let bodyB = event.pairs[0].bodyB
   // Check if colliding bodies are 2 different players
-  let playerA = rooms[roomName].players[bodyA.playerId]
-  let playerB = rooms[roomName].players[bodyB.playerId]
-  if((bodyA.playerId && bodyB.playerId) && bodyA.playerId !== bodyB.playerId) {
+  let collision = isCollision(event)
+  if(collision.occured) {
+    let bodyA = collision.bodyA
+    let bodyB = collision.bodyB
+    let playerA = rooms[roomName].players[bodyA.playerId]
+    let playerB = rooms[roomName].players[bodyB.playerId]
     // Do nothing if its a blown up body piece
     if(playerA.isBlownUp || playerB.isBlownUp) return
     // Check if the hit is one which deals damage. Only if yes continue
@@ -479,7 +546,7 @@ function collisionCheck(event, roomName, id) {
     }
     // bodyA is hitterPlayer
     if(isWinner(bodyA, bodyB)) {
-      handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName)
+      handleHit(bodyA.playerId, bodyB.playerId, bodyA.label, bodyB.label, roomName, bodyA, bodyB)
       bodyPartHit(bodyB, 3000, roomName)
     }
     // bodyB is hitterPlayer
@@ -487,8 +554,18 @@ function collisionCheck(event, roomName, id) {
       handleHit(bodyB.playerId, bodyA.playerId, bodyB.label, bodyA.label, roomName)
       bodyPartHit(bodyA, 3000, roomName)
     }
-
   }
+}
+
+function isCollision(event) {
+  for(let pair of event.pairs) {
+    let bodyA = pair.bodyA
+    let bodyB = pair.bodyB
+    if(bodyA.playerId !== bodyB.playerId && (bodyA.playerId && bodyB.playerId)) {
+      return {occured: true, bodyA, bodyB}
+    }
+  }
+  return {occured: false}
 }
 
 function isHit(bodyPart1, bodyPart2) {
@@ -500,23 +577,24 @@ function isWinner(bodyPart1, bodyPart2) {
   return bodyPart1.dealDamage && !bodyPart2.dealDamage
 }
 
-function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomName) {
+function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomName, bodyA, bodyB) {
   let room = rooms[roomName]
   let bodiesToMove = rooms[roomName].bodiesToRepel
   hitterPlayer = room.players[hitterPlayer]
   hitPlayer = room.players[hitPlayer]
-  // Dead
   let socket = io.sockets.connected[hitPlayer.id]
   let socket2 = io.sockets.connected[hitterPlayer.id]
+  if(bodyA && bodyB)  repel(roomName, bodyA, bodyB)
+  // Dead
   if (isPlayerDead(hitPlayer, bodyPartHit, hitterPlayer)) {
     // SEND KILL BG UPDATE
-    sendBGTextUpdate(socket2, 'kill')
-    sendSoundUpdate(socket2, 'kill')
+    if(socket2) sendBGTextUpdate(socket2, 'kill')
+    if(socket2) sendSoundUpdate(socket2, 'kill')
     // SEND DEATH BG UPDATE
-    sendBGTextUpdate(socket, 'death')
-    sendSoundUpdate(socket, 'death')
+    if(socket)  sendBGTextUpdate(socket, 'death')
+    if(socket)  sendSoundUpdate(socket, 'death')
     // clearUpdates(socket.id)
-    socket.emit('playerDeath', hitPlayer.killStreak)
+    if(socket)  socket.emit('playerDeath', hitPlayer.killStreak)
     // Remove player
     hitPlayer.health = 0
     hitterPlayer.killStreak += 1
@@ -533,8 +611,15 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
     // updatePlayer => skillPoints, skillPointValues, beltColour
     // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
-    updatePlayerValues(socket2, hitterPlayer)
+    if(socket2) updatePlayerValues(socket2, hitterPlayer)
     hitPlayer.blowUp(Matter, bodiesToMove)
+    // If AI stop updates
+    if(hitPlayer.isAI){
+      hitPlayer.AI.dead()
+      leaderBoardChange(roomName)
+      setTimeout(() => respawnBot(Matter, hitPlayer.AI, roomName), 5100)
+    }
+    adjustBotTarget(roomName)
     setTimeout(() => {
       if(hitPlayer.isBlownUp) {
         Matter.Composite.clear(hitPlayer.PlayerComposite)
@@ -549,11 +634,11 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     let text = bodyPartHit === 'head' ? 'head' : 'body'
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
     // SEND HITTER BG UPDATE
-    sendBGTextUpdate(socket2, text, true)
-    sendSoundUpdate(socket2, 'hit')
+    if(socket2) sendBGTextUpdate(socket2, text, true)
+    if(socket2) sendSoundUpdate(socket2, 'hit')
     // SEND HIT BG UPDATE
-    sendBGTextUpdate(socket, text, false)
-    sendSoundUpdate(socket, 'hit')
+    if(socket)  sendBGTextUpdate(socket, text, false)
+    if(socket)  sendSoundUpdate(socket, 'hit')
   }
 }
 
@@ -580,7 +665,7 @@ function clearUpdates(socketId) {
 function repel(roomName, bodyA, bodyB) {
   let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
-  let force = 0.005
+  let force = 0.01
   let forceA = {
     x: bodyALeft ? force * -1 : force,
     y: bodyAUp ? force * -1 : force,
@@ -673,4 +758,66 @@ function sendBGTextUpdate(socket, textType, isHitter) {
 
 function sendSoundUpdate(socket, soundType) {
   if(socket.soundOn) socket.emit('playSound', soundType)
+}
+
+
+
+/* ---------------------------------------------------- AI CODE -------------------------------------------------------- */
+function generateRandomName() {
+  return 'randomName'
+}
+
+function generateRandomId() {
+  let str = "bxcu"
+  let repeat = Math.floor(Math.random() * 25)
+  return str.repeat(repeat)
+}
+
+function createBot(Matter, roomName) {
+  let randomName = generateRandomName()
+  let randomId = generateRandomId()
+  let skinCatsObj = c.gameInfo.skins
+  let randomSkinCatIdx = getRandom(0, Object.keys(skinCatsObj).length - 1)
+  let catName = Object.keys(skinCatsObj)[randomSkinCatIdx]
+
+  let skinsObj = skinCatsObj[catName]
+  let randomSkinIdx = getRandom(0, Object.keys(skinsObj).length - 1)
+  let skinName = Object.keys(skinsObj)[randomSkinIdx]
+
+  let player = new Player(randomName, randomId, 'basic', catName, skinName, true)
+  let spawnPoints = findSpawnPoint('FFA', roomName)
+  player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
+  rooms[roomName].players[randomId] = player
+  let playersObj = rooms[roomName].players
+  let players = Object.keys(playersObj)
+  players = players.map(e => playersObj[e])
+  let bot = new AI(player)
+  bot.selectTarget(players)
+  bot.update(Matter)
+  leaderBoardChange(roomName)
+}
+
+function adjustBotTarget(roomName) {
+  let playersObj = rooms[roomName].players
+  let players = Object.keys(playersObj)
+  players = players.map(e => playersObj[e])
+  for(let player of players) {
+    if(!player.isAI) continue
+    let bot = player.AI
+    bot.selectTarget(players)
+  }
+}
+
+function respawnBot(Matter, bot, roomName) {
+  if(bot.gameOver) return
+  let player = bot.player
+  player.resetPlayer()
+  let spawnPoints = findSpawnPoint('FFA', roomName)
+  player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
+  let playersObj = rooms[roomName].players
+  let players = Object.keys(playersObj)
+  players = players.map(e => playersObj[e])
+  bot.selectTarget(players)
+  bot.update(Matter)
+  leaderBoardChange(roomName)
 }

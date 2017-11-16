@@ -1,10 +1,11 @@
 let c = require('../../config.json')
 let randColour = require('./helper.js').randColour
 
-function Player(name, id, characterType, skinGroupName, skinName) {
+function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   this.name = name ? name : 'PLAYER'
   this.id = id
   this.characterType = characterType
+  this.isAI = isAI
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.maxHealth = this.initialHealth
   this.killStreak = 0
