@@ -2,6 +2,7 @@ import React from 'react'
 import '../styles/LandingPage.scss'
 import SkinModal from './SkinModal.jsx'
 import GameModes from './GameModes.jsx'
+import Party from './Party.jsx'
 import config from '../../../../config.json'
 let gameModes = config.gameModes
 let skins = config.gameInfo.skins
@@ -90,6 +91,7 @@ class LandingPage extends React.Component {
         // if(this.state.showSkinModal) this.toggleSkinModal()
       }}>
         <div className={this.state.showSkinModal ? "container blurred" : "container normal"}>
+          <Party />
           <h2 id="title"> RAGDOLL.IO </h2>
           <input placeholder="Hero Name... " id="nameInput" autoFocus="off" autoComplete="off" maxLength="15" onChange={this.changeName} />
           <p id="enterMessage">(enter to join)</p>
