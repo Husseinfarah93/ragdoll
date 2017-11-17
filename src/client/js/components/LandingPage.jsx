@@ -138,7 +138,7 @@ class LandingPage extends React.Component {
               <i className="fa fa-volume-off" />}
           </div>
         </div> */}
-        <img className="icon leaderboard" src="http://www.freeiconspng.com/uploads/leaderboard-icon-5.png" />
+        <img className="icon leaderboard" src="../../assets/images/icons/leaderboard.png" />
         {/* <img className="icon controller" src="https://maxcdn.icons8.com/Share/icon/p1em/Gaming//controller1600.png" /> */}
         <img className="icon skin" id="skinIcon" src="https://i.imgur.com/dEPAF5R.png" ref="skinIcon" onClick={this.toggleSkinModal}/>
         <div id="socialIcons">
