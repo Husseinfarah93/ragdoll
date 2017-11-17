@@ -23,7 +23,7 @@ let rooms = {}
 function findRoom(roomType) {
     let rooms = io.sockets.adapter.rooms
     for(room in rooms) {
-      if(rooms[room].gameType === roomType) return room
+      if(rooms[room].gameType === roomType && rooms[room].length + 1 <= c.gameModes[roomType].maxPlayers) return room
     }
     return false
 }
@@ -194,6 +194,7 @@ function findSpawnPoint(gameMode, roomName) {
 
 /* -------------------------------------------------- IO/SOCKET CODE ----------------------------------------------------- */
 io.on('connection', socket => {
+  socket.leave(socket.id)
   socket.on('startGame', gameInfo => {
     let room = !gameInfo.partyId ? findRoom(gameInfo.gameType) : findRoomParty(gameInfo.gameType, gameInfo.partyId)
     let Matter;
@@ -204,7 +205,7 @@ io.on('connection', socket => {
     }
     else {
       // Create Random Hash for games
-      let newRoom = gameInfo.gameType
+      let newRoom = gameInfo.gameType + Math.random()
       socket.join(newRoom)
       room = newRoom
       io.sockets.adapter.rooms[newRoom].gameType = gameInfo.gameType
@@ -289,6 +290,7 @@ io.on('connection', socket => {
     setInterval(updateCentrePoints, 16)
     let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
     socket.updateInterval = updateInterval
+    console.log('Rooms: ', Object.keys(io.sockets.adapter.rooms))
   })
   socket.on('joinPartyRequest', partyId => {
     console.log("JOIN PARTY REQUEST: ", partyId)
