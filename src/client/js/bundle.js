@@ -29922,8 +29922,9 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         }
         var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
         var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
-        if (player.id === _io2.default.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y);
+        // if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
+      this.drawPlayerGrid(players);
     }
   }, {
     key: 'drawBody',
@@ -30311,21 +30312,47 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     }
   }, {
     key: 'drawPlayerGrid',
-    value: function drawPlayerGrid(x, y) {
+    value: function drawPlayerGrid(players) {
       var ctx = this.state.gridCanvas.getContext('2d');
       var worldWidth = this.camera.worldWidth;
       var worldHeight = this.camera.worldHeight;
-      var newX = x / worldWidth * 200;
-      var newY = y / worldWidth * 200;
       ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.clearRect(0, 0, 200, 200);
       ctx.fillRect(0, 0, 200, 200);
-      x = x ? newX : 100;
-      y = y ? newY : 100;
-      ctx.beginPath();
-      ctx.arc(x, y, 3, 0, 2 * Math.PI, false);
-      ctx.fillStyle = 'white';
-      ctx.fill();
+      var _iteratorNormalCompletion11 = true;
+      var _didIteratorError11 = false;
+      var _iteratorError11 = undefined;
+
+      try {
+        for (var _iterator11 = players[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+          var player = _step11.value;
+
+          if (player.isBlownUp) continue;
+          var x = player.pelvis.x;
+          var y = player.pelvis.y;
+          var newX = x / worldWidth * 200;
+          var newY = y / worldWidth * 200;
+          x = x ? newX : 100;
+          y = y ? newY : 100;
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, 2 * Math.PI, false);
+          ctx.fillStyle = player.id === _io2.default.id ? 'white' : '#e74c3c';
+          ctx.fill();
+        }
+      } catch (err) {
+        _didIteratorError11 = true;
+        _iteratorError11 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion11 && _iterator11.return) {
+            _iterator11.return();
+          }
+        } finally {
+          if (_didIteratorError11) {
+            throw _iteratorError11;
+          }
+        }
+      }
     }
   }, {
     key: 'drawName',

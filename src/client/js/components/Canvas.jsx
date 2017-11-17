@@ -270,8 +270,9 @@ class Canvas extends React.Component {
         }
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
-        if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
+        // if(player.id === socket.id) this.drawPlayerGrid(player.pelvis.x, player.pelvis.y)
       }
+      this.drawPlayerGrid(players)
     }
 
     drawBody(player, xPos, yPos, ctx) {
@@ -475,21 +476,26 @@ class Canvas extends React.Component {
       context.fillRect(x, y, healthBarWidth * percent, healthBarHeight)
     }
 
-    drawPlayerGrid(x, y) {
+    drawPlayerGrid(players) {
       let ctx = this.state.gridCanvas.getContext('2d')
       let worldWidth = this.camera.worldWidth
       let worldHeight = this.camera.worldHeight
-      let newX = (x / worldWidth) * 200
-      let newY = (y / worldWidth) * 200
       ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
       ctx.clearRect(0, 0, 200, 200)
       ctx.fillRect(0, 0, 200, 200)
-      x = x ? newX : 100
-      y = y ? newY : 100
-      ctx.beginPath();
-      ctx.arc(x, y, 3, 0, 2 * Math.PI, false);
-      ctx.fillStyle = 'white';
-      ctx.fill();
+      for(let player of players) {
+        if(player.isBlownUp) continue
+        let x = player.pelvis.x
+        let y = player.pelvis.y
+        let newX = (x / worldWidth) * 200
+        let newY = (y / worldWidth) * 200
+        x = x ? newX : 100
+        y = y ? newY : 100
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, 2 * Math.PI, false);
+        ctx.fillStyle = player.id === socket.id ? 'white' : '#e74c3c';
+        ctx.fill();
+      }
     }
 
     drawName(context, x, y, name) {
