@@ -29376,16 +29376,14 @@ var Party = function (_React$Component) {
 
     _this.createParty = function () {
       var randomId = _this.generateRandomId();
-      console.log('Random ID: ', randomId);
       _this.props.joinParty(randomId);
     };
 
     _this.generateRandomId = function () {
-      return _this.getRandom(0, 999) + "." + _this.getRandom(0, 999) + "." + _this.getRandom(0, 999) + "." + _this.getRandom(0, 999);
+      return _this.getRandom(0, 99) + "." + _this.getRandom(0, 99) + "." + _this.getRandom(0, 99) + "." + _this.getRandom(0, 99);
     };
 
     _this.getRandom = function (min, max) {
-      console.log("getRandom");
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min + 1)) + min;

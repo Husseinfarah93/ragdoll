@@ -31,10 +31,10 @@ class Party extends React.Component {
 
   generateRandomId = () => {
     return (
-      this.getRandom(0, 999) + "." +
-      this.getRandom(0, 999) + "." +
-      this.getRandom(0, 999) + "." +
-      this.getRandom(0, 999)
+      this.getRandom(0, 99) + "." +
+      this.getRandom(0, 99) + "." +
+      this.getRandom(0, 99) + "." +
+      this.getRandom(0, 99)
     )
   }
 
