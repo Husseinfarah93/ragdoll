@@ -29381,8 +29381,10 @@ var Party = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Party.__proto__ || Object.getPrototypeOf(Party)).call(this));
 
     _this.createParty = function () {
-      var randomId = _this.generateRandomId();
-      _this.props.joinParty(randomId);
+      if (!_this.state.partyId) {
+        var randomId = _this.generateRandomId();
+        _this.props.joinParty(randomId);
+      }
     };
 
     _this.generateRandomId = function () {
@@ -29426,7 +29428,6 @@ var Party = function (_React$Component) {
   _createClass(Party, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('refs: ', this.refs);
       this.setState({ partyId: this.props.partyId });
     }
   }, {

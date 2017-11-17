@@ -15,7 +15,6 @@ class Party extends React.Component {
   }
 
   componentDidMount() {
-    console.log('refs: ', this.refs)
     this.setState({ partyId: this.props.partyId })
   }
 
@@ -30,8 +29,10 @@ class Party extends React.Component {
   }
 
   createParty = () => {
-    let randomId = this.generateRandomId()
-    this.props.joinParty(randomId)
+    if(!this.state.partyId) {
+      let randomId = this.generateRandomId()
+      this.props.joinParty(randomId)
+    }
   }
 
   generateRandomId = () => {
