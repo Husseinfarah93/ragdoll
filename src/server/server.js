@@ -48,6 +48,31 @@ function isValidPartyId(partyId) {
   return false
 }
 
+function doesRoomExist(roomName) {
+  let rooms = io.sockets.adapter.rooms
+  for(room in rooms) {
+    if(room === roomName) return true
+  }
+  return false
+}
+
+function generateRoomName() {
+  let randomName = randomHash(10)
+  while(doesRoomExist(randomName)) {
+    randomName = randomHash(10)
+  }
+  return randomName
+}
+
+function randomHash(length) {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
 // Create room of certain game mode
 function createRoom(roomType) {
     let room = io.createRoom(roomType)
@@ -205,7 +230,7 @@ io.on('connection', socket => {
     }
     else {
       // Create Random Hash for games
-      let newRoom = gameInfo.gameType + Math.random()
+      let newRoom = generateRoomName()
       socket.join(newRoom)
       room = newRoom
       io.sockets.adapter.rooms[newRoom].gameType = gameInfo.gameType
@@ -794,18 +819,21 @@ function sendSoundUpdate(socket, soundType) {
 
 /* ---------------------------------------------------- AI CODE -------------------------------------------------------- */
 function generateRandomName() {
-  return 'randomName'
+  return randomHash(5)
 }
 
-function generateRandomId() {
-  let str = "bxcu"
-  let repeat = Math.floor(Math.random() * 25)
-  return str.repeat(repeat)
+function generateRandomId(roomName) {
+  let botId = randomHash(10)
+  while(doesBotIdExist(botId, roomName)) {
+    botId = randomHash(10)
+  }
+  return botId
 }
 
 function createBot(Matter, roomName) {
   let randomName = generateRandomName()
-  let randomId = generateRandomId()
+  let randomId = generateRandomId(roomName)
+  console.log("Bot Id: ", randomId)
   let skinCatsObj = c.gameInfo.skins
   let randomSkinCatIdx = getRandom(0, Object.keys(skinCatsObj).length - 1)
   let catName = Object.keys(skinCatsObj)[randomSkinCatIdx]
@@ -850,4 +878,12 @@ function respawnBot(Matter, bot, roomName) {
   bot.selectTarget(players)
   bot.update(Matter)
   leaderBoardChange(roomName)
+}
+
+function doesBotIdExist(botId, roomName) {
+  let room = rooms[roomName]
+  for(let player in room.players) {
+    if(botId === room.players[player].id) return true
+  }
+  return false
 }
