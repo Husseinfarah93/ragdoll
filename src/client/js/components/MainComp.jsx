@@ -62,9 +62,18 @@ class MainComp extends React.Component {
     this.setState({ soundOn: !this.state.soundOn  })
   }
 
-  startGame = (name, gameType, character, skinGroupName, skinName) => {
+  startGame = (name, gameType, character, skinGroupName, skinName, partyId) => {
     let soundOn = this.state.soundOn
-    socket.emit('startGame', { name, gameType, character, skinGroupName, skinName, soundOn })
+    console.log('startGame: ', partyId)
+    socket.emit('startGame', {
+      name,
+      gameType,
+      character,
+      skinGroupName,
+      skinName,
+      soundOn,
+      partyId
+    })
     let newGameInfo = {
       name: name,
       gameType: gameType,

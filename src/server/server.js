@@ -23,14 +23,35 @@ let rooms = {}
 function findRoom(roomType) {
     let rooms = io.sockets.adapter.rooms
     for(room in rooms) {
-        if(rooms[room].gameType === roomType) return room
+      if(rooms[room].gameType === roomType) return room
     }
     return false
+}
+
+function findRoomParty(roomType, partyId) {
+  let rooms = io.sockets.adapter.rooms
+  for(room in rooms) {
+    if(
+        rooms[room].gameType === roomType &&
+        rooms[room].parties &&
+        rooms[room].parties.indexOf(partyId) !== -1
+      ) return room
+  }
+  return findRoom(roomType)
+}
+
+function isValidPartyId(partyId) {
+  let rooms = io.sockets.adapter.rooms
+  for(room in rooms) {
+    if(rooms[room].parties && rooms[room].parties.indexOf(partyId) !== -1) return true
+  }
+  return false
 }
 
 // Create room of certain game mode
 function createRoom(roomType) {
     let room = io.createRoom(roomType)
+    console.log('creating room: ', room)
     return room
 }
 
@@ -174,12 +195,12 @@ function findSpawnPoint(gameMode, roomName) {
 /* -------------------------------------------------- IO/SOCKET CODE ----------------------------------------------------- */
 io.on('connection', socket => {
   socket.on('startGame', gameInfo => {
-    let room = findRoom(gameInfo.gameType)
+    let room = !gameInfo.partyId ? findRoom(gameInfo.gameType) : findRoomParty(gameInfo.gameType, gameInfo.partyId)
     let Matter;
     let engine;
     if(room) {
-        socket.join(room)
-        Matter = io.sockets.adapter.rooms[room].Matter
+      socket.join(room)
+      Matter = io.sockets.adapter.rooms[room].Matter
     }
     else {
       // Create Random Hash for games
@@ -187,6 +208,7 @@ io.on('connection', socket => {
       socket.join(newRoom)
       room = newRoom
       io.sockets.adapter.rooms[newRoom].gameType = gameInfo.gameType
+      io.sockets.adapter.rooms[newRoom].parties = gameInfo.partyId ? [gameInfo.partyId] : []
       // Create World
       Matter = createWorld(room)
       // Create Walls
@@ -268,6 +290,12 @@ io.on('connection', socket => {
     let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
     socket.updateInterval = updateInterval
   })
+  socket.on('joinPartyRequest', partyId => {
+    console.log("JOIN PARTY REQUEST: ", partyId)
+    let isValid = isValidPartyId(partyId)
+    socket.emit('joinPartyResponse', {isValid, partyId})
+  }
+  )
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
 

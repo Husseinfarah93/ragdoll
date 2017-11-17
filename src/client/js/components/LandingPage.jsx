@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/LandingPage.scss'
+import socket from '../io.js'
 import SkinModal from './SkinModal.jsx'
 import GameModes from './GameModes.jsx'
 import Party from './Party.jsx'
@@ -24,7 +25,9 @@ class LandingPage extends React.Component {
       skinGroupName: Object.keys(skins)[0],
       skinName: Object.keys(skins[Object.keys(skins)[0]])[0],
       skinIndex: 0,
-      pageIndex: 0
+      pageIndex: 0,
+
+      partyId: undefined
     }
   }
 
@@ -41,6 +44,10 @@ class LandingPage extends React.Component {
   }
 
   componentDidMount() {
+    socket.on('joinPartyResponse', response => {
+      console.log('response: ', response)
+      if(response.isValid) this.joinParty(response.partyId)
+    })
     window.addEventListener('keydown', this.playGame)
     let gameModesArr = Object.keys(gameModes).map(e => {
       return {...gameModes[e], name: e}
@@ -63,6 +70,7 @@ class LandingPage extends React.Component {
         this.state.currentCharacter,
         this.state.skinGroupName,
         this.state.skinName,
+        this.state.partyId
       )
     }
   }
@@ -85,13 +93,17 @@ class LandingPage extends React.Component {
     this.setState({ currentGameModeIndex: newIndex  })
   }
 
+  joinParty = (partyId) => {
+    this.setState({ partyId: partyId  })
+  }
+
   render() {
     return (
       <div id="landingPageContainer" ref="landingPageContainer" onClick={() => {
         // if(this.state.showSkinModal) this.toggleSkinModal()
       }}>
         <div className={this.state.showSkinModal ? "container blurred" : "container normal"}>
-          <Party />
+          <Party partyId={this.state.partyId} joinParty={this.joinParty}/>
           <h2 id="title"> RAGDOLL.IO </h2>
           <input placeholder="Hero Name... " id="nameInput" autoFocus="off" autoComplete="off" maxLength="15" onChange={this.changeName} />
           <p id="enterMessage">(enter to join)</p>
