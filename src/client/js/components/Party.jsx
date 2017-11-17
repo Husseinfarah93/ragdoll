@@ -9,19 +9,24 @@ class Party extends React.Component {
       hasCreatedParty: false,
       partyId: undefined,
       clickedJoinParty: false,
-      inputValue: ""
+      inputValue: "",
+      displayInvalidParty: false
     }
   }
 
   componentDidMount() {
+    console.log('refs: ', this.refs)
     this.setState({ partyId: this.props.partyId })
-    window.addEventListener('keydown', e => {
-      if(e.keyCode === 220) this.joinParty()
-    })
   }
 
   componentWillReceiveProps(newProps) {
-    if(newProps.partyId) this.setState({ partyId: newProps.partyId, hasCreatedParty: true })
+    if(newProps.partyId && newProps.validParty) this.setState({
+      partyId: newProps.partyId,
+      hasCreatedParty: true,
+      clickedJoinParty: false,
+      displayInvalidParty: false
+    })
+    else if(!newProps.validParty) this.setState({ displayInvalidParty: true })
   }
 
   createParty = () => {
@@ -44,9 +49,12 @@ class Party extends React.Component {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-
   clickJoinParty = () => {
     this.setState({ clickedJoinParty: true  })
+  }
+
+  toggleJoinParty = () => {
+    this.setState({ clickedJoinParty: !this.state.clickedJoinParty, displayInvalidParty: false  })
   }
 
   joinParty = (value) => {
@@ -55,6 +63,9 @@ class Party extends React.Component {
     socket.emit('joinPartyRequest', ths.state.inputValue)
   }
 
+  handleInput = (evt) => {
+    this.setState({  inputValue: evt.target.value })
+  }
 
   render() {
     return (
@@ -63,12 +74,19 @@ class Party extends React.Component {
             {this.state.hasCreatedParty ? this.state.partyId + "    " : "Create Party    "}
             <i className="fa fa-users"></i>
           </div>
-          <div id="joinParty" onClick={this.clickJoinParty}>
-            Join Party
-            <input
-              className={this.state.clickedJoinParty ? "partyInput" : "partyInput hidden"}
-              onChange={(evt) => this.setState({  inputValue: evt.target.value })}
-            />
+          <div id="joinParty">
+            <div id="joinPartyText" onClick={this.toggleJoinParty}> Join Party </div>
+            <div className={this.state.clickedJoinParty ? "inputPartyContainer" : "inputPartyContainer hidden"}>
+              <div id="inputPartyContainerInner">
+              <input
+                className="partyInput"
+                onChange={this.handleInput}
+                ref="inputParty"
+              />
+              <i className="fa fa-plus" onClick={this.joinParty}/>
+              </div>
+              <div className={this.state.displayInvalidParty ? "wrongParty" : "wrongParty hidden"}> (invalid party id) </div>
+            </div>
           </div>
         </div>
     )

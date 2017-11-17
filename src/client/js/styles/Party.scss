@@ -19,6 +19,9 @@
 }
 #joinParty {
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center
 }
 .partyInput {
   border: none;
@@ -33,6 +36,27 @@
   color: white;
   caret-color: #336E7B
 }
-.partyInput.hidden {
+.inputPartyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+.inputPartyContainer.hidden {
+  display: none
+}
+#inputPartyContainerInner {
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+.wrongParty {
+  font-family: Quicksand;
+  font-size: 15px;
+  cursor: default;
+  user-select: none;
+  height: 5px
+}
+.wrongParty.hidden {
   display: none
 }

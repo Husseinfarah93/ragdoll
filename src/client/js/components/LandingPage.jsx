@@ -27,7 +27,9 @@ class LandingPage extends React.Component {
       skinIndex: 0,
       pageIndex: 0,
 
-      partyId: undefined
+      partyId: undefined,
+      validParty: true
+
     }
   }
 
@@ -47,6 +49,7 @@ class LandingPage extends React.Component {
     socket.on('joinPartyResponse', response => {
       console.log('response: ', response)
       if(response.isValid) this.joinParty(response.partyId)
+      else this.cantJoinParty()
     })
     window.addEventListener('keydown', this.playGame)
     let gameModesArr = Object.keys(gameModes).map(e => {
@@ -94,7 +97,11 @@ class LandingPage extends React.Component {
   }
 
   joinParty = (partyId) => {
-    this.setState({ partyId: partyId  })
+    this.setState({ partyId: partyId, validParty: true  })
+  }
+
+  cantJoinParty = () => {
+    this.setState({ validParty: false  })
   }
 
   render() {
@@ -103,7 +110,7 @@ class LandingPage extends React.Component {
         // if(this.state.showSkinModal) this.toggleSkinModal()
       }}>
         <div className={this.state.showSkinModal ? "container blurred" : "container normal"}>
-          <Party partyId={this.state.partyId} joinParty={this.joinParty}/>
+          <Party partyId={this.state.partyId} joinParty={this.joinParty} validParty={this.state.validParty}/>
           <h2 id="title"> RAGDOLL.IO </h2>
           <input placeholder="Hero Name... " id="nameInput" autoFocus="off" autoComplete="off" maxLength="15" onChange={this.changeName} />
           <p id="enterMessage">(enter to join)</p>
