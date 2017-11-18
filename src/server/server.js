@@ -45,6 +45,9 @@ function isValidPartyId(partyId) {
   for(room in rooms) {
     if(rooms[room].parties && rooms[room].parties.indexOf(partyId) !== -1) return true
   }
+  for(let socket in io.sockets.connected) {
+    if(io.sockets.connected[socket].partyId === partyId) return true
+  }
   return false
 }
 
@@ -321,8 +324,8 @@ io.on('connection', socket => {
     console.log("JOIN PARTY REQUEST: ", partyId)
     let isValid = isValidPartyId(partyId)
     socket.emit('joinPartyResponse', {isValid, partyId})
-  }
-  )
+  })
+  socket.on('createdParty', partyId => socket.partyId = partyId)
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
 

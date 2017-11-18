@@ -31,6 +31,7 @@ class Party extends React.Component {
   createParty = () => {
     if(!this.state.partyId) {
       let randomId = this.generateRandomId()
+      socket.emit('createdParty', randomId)
       this.props.joinParty(randomId)
     }
   }

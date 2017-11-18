@@ -29383,6 +29383,7 @@ var Party = function (_React$Component) {
     _this.createParty = function () {
       if (!_this.state.partyId) {
         var randomId = _this.generateRandomId();
+        _io2.default.emit('createdParty', randomId);
         _this.props.joinParty(randomId);
       }
     };
