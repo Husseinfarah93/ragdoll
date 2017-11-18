@@ -13,7 +13,7 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
-  this.force = this.initialForce = (25 / 5500)
+  this.force = this.initialForce = (25 / 5500) * 1.2
   this.initialSkillPointValues = {
     maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
     maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
@@ -49,6 +49,13 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	let sensorCircles = []
   let sensorConstraints = []
   let offBy = 1
+
+
+  let torsoStiffness = 0.4
+  let armStiffness = 0.4
+  let foreArmStiffness = 0.4
+  let thighStifness = 0.3
+  let legStiffness = 0.2
 	///////////////////////////////////////////////////////////////////////////////
 	// Torso
 	let torsoCircles = []
@@ -81,6 +88,24 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 			render: {visible: false}
 		})
 		torsoConstraints.push(constraint2)
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: torsoStiffness,
+			render: {visible: false}
+		})
+		torsoConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: torsoStiffness,
+			render: {visible: false}
+		})
+		torsoConstraints.push(constraint4)
 	}
 	let addedConstraint = Constraint.create({
 		bodyA: torsoCircles[0],
@@ -467,6 +492,24 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		rightThighConstraints.push(constraint)
 		rightThighConstraints.push(constraint2)
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: thighStifness,
+			render: {visible: false}
+		})
+		rightThighConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: thighStifness,
+			render: {visible: false}
+		})
+		rightThighConstraints.push(constraint4)
 	}
 	let rightThigh = Composite.create({
 		bodies: rightThighCircles,
@@ -560,6 +603,24 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		rightLegConstraints.push(constraint)
 		rightLegConstraints.push(constraint2)
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: legStiffness,
+			render: {visible: false}
+		})
+		rightLegConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: legStiffness,
+			render: {visible: false}
+		})
+		rightLegConstraints.push(constraint4)
 	}
 	let rightLeg = Composite.create({
 		bodies: rightLegCircles,
@@ -650,6 +711,24 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		leftThighConstraints.push(constraint)
 		leftThighConstraints.push(constraint2)
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: thighStifness,
+			render: {visible: false}
+		})
+		leftThighConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: thighStifness,
+			render: {visible: false}
+		})
+		leftThighConstraints.push(constraint4)
 	}
 	let leftThigh = Composite.create({
 		bodies: leftThighCircles,
@@ -745,6 +824,24 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		leftLegConstraints.push(constraint)
 		leftLegConstraints.push(constraint2)
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: legStiffness,
+			render: {visible: false}
+		})
+		leftLegConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: legStiffness,
+			render: {visible: false}
+		})
+		leftLegConstraints.push(constraint4)
 	}
 	let leftLeg = Composite.create({
 		bodies: leftLegCircles,

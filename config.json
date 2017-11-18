@@ -40,17 +40,17 @@
   "playerTypes": {
     "basic": {
       "initialHealth": 200,
-      "damageDealt": 30
+      "damageDealt": 10
     }
   },
   "gameInfo": {
     "bloodParticles": {
-      "particleNumber": 50,
+      "particleNumber": 25,
       "maxParticleSize": 5,
       "maxSpeed": 5,
       "colourVariation": 50,
       "colour": "red",
-      "lifeLength": 500
+      "lifeLength": 250
     },
     "blowUpForce": 0.005,
     "belts": [

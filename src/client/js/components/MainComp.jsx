@@ -14,7 +14,7 @@ class MainComp extends React.Component {
     this.state = {
       showStartupMenu: true,
       audio: {},
-      soundOn: false
+      soundOn: true
     }
   }
 
