@@ -203,14 +203,12 @@ function findSpawnPoint(gameMode, roomName) {
     for(let player of players) {
       let x = player.x
       let y = player.y
-      let xCondition1 = !(x <= newX && newX <= x + gap)
-      let xCondition2 = !(newX <= x && newX <= x - gap)
-      let yCondition1 = !(y <= newY && newY <= y + gap)
-      let yCondition2 = !(newY <= y && newY <= y - gap)
-      if((xCondition1) && (xCondition2) && (yCondition1) && (yCondition2)){
-         foundPosition = true
-         returnX = newX
-         returnY = newY
+      let xCondition = ( newX + gap < x ) || ( x + gap < newX )
+      let yCondition = ( newY + gap < y ) || ( y + gap < newY )
+      if(xCondition && yCondition) {
+        foundPosition = true
+        returnX = newX
+        returnY = newY
       }
     }
   }
