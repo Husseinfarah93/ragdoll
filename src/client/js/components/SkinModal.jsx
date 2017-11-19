@@ -53,6 +53,14 @@ class SkinModal extends React.Component {
         "#F62459",
         "#e67e22",
         "#9b59b6",
+        "#00B16A",
+        "#F62459",
+        "#e67e22",
+        "#9b59b6",
+        "#00B16A",
+        "#F62459",
+        "#e67e22",
+        "#9b59b6",
       ],
     }
   }

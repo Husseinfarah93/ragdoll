@@ -211,6 +211,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	rightArmConstraints.push(sensorCircleInitialConstraint)
 	rightArmConstraints.push(sensorCircleConstraint2)
 	rightArmConstraints.push(sensorCircleConstraint3)
+
+
 	///////////////////////////////////////////////////////////////////////////////
 
 
