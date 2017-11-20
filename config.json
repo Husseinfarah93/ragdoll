@@ -120,18 +120,18 @@
           "leftForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],
           "rightThigh":[{"width":1,"colour":"#072A7F","start":0,"end":3}],
           "rightLeg":[{"width":1,"colour":"#C7271B","start":0,"end":3}],
-          "leftThigh":[{"width":1,"colour":"#C7271B","start":0,"end":3}],
-          "leftLeg":[{"width":1,"colour":"#ED1C24","start":0,"end":3}]
+          "leftThigh":[{"width":1,"colour":"#072A7F","start":0,"end":3}],
+          "leftLeg":[{"width":1,"colour":"#C7271B","start":0,"end":3}]
         },
         "deadpool": {
-          "torso":[{"width":1,"colour":"black","start":0,"end":4},{"width":0.4,"colour":"red","start":0,"end":4}],
+          "torso":[{"width":1,"colour":"black","start":0,"end":4},{"width":0.4,"colour":"#C7271B","start":0,"end":4}],
           "rightArm":[{"width":1,"colour":"black","start":0,"end":2}],
-          "rightForeArm":[{"width":1,"colour":"red","start":0,"end":2}],
+          "rightForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],
           "leftArm":[{"width":1,"colour":"black","start":0,"end":2}],
-          "leftForeArm":[{"width":1,"colour":"red","start":0,"end":2}],
-          "rightThigh":[{"width":1,"colour":"red","start":0,"end":3}],
+          "leftForeArm":[{"width":1,"colour":"#C7271B","start":0,"end":2}],
+          "rightThigh":[{"width":1,"colour":"#C7271B","start":0,"end":3}],
           "rightLeg":[{"width":1,"colour":"black","start":0,"end":3}],
-          "leftThigh":[{"width":1,"colour":"red","start":0,"end":3}],
+          "leftThigh":[{"width":1,"colour":"#C7271B","start":0,"end":3}],
           "leftLeg":[{"width":1,"colour":"black","start":0,"end":3}]
         },
         "wolverine":{
@@ -234,7 +234,7 @@
           "leftLeg":[{"width":1,"colour":"#765686"}]
         },
         "blackwidow": {
-          "torso":[{"width":1,"colour":"black"},{"width":1,"colour":"#F8C28A","end":1,"reduction":0.5}],
+          "torso":[{"width":1,"colour":"black"},{"width":0.5,"colour":"#F8C28A","end":1}],
           "rightArm":[{"width":1,"colour":"black"}],
           "rightForeArm":[{"width":1,"colour":"black"}],
           "leftArm":[{"width":1,"colour":"black"}],
@@ -356,6 +356,52 @@
           "leftLeg":[{"width":1,"colour":"#363A3D"},{"width":1,"colour":"black","start":1}]
         }
       },
+      "tv": {
+        "rick":{
+          "torso":[{"width":1,"colour":"#f9f2f2","start":0,"end":4},{"width":0.5,"colour":"#94D7D6","start":0,"end":4}],
+          "rightArm":[{"width":1,"colour":"#f9f2f2","start":0,"end":2}],
+          "rightForeArm":[{"width":1,"colour":"#f9f2f2","start":0,"end":2}],
+          "leftArm":[{"width":1,"colour":"#f9f2f2","start":0,"end":2}],
+          "leftForeArm":[{"width":1,"colour":"#f9f2f2","start":0,"end":2}],
+          "rightThigh":[{"width":1,"colour":"#7B633F","start":0,"end":3}],
+          "rightLeg":[{"width":1,"colour":"#7B633F","start":0,"end":3}],
+          "leftThigh":[{"width":1,"colour":"#7B633F","start":0,"end":3}],
+          "leftLeg":[{"width":1,"colour":"#7B633F","start":0,"end":3}]
+        },
+        "morty":{
+          "torso":[{"width":1,"colour":"#F2ED89","start":0,"end":4}],
+          "rightArm":[{"width":1,"colour":"#F2ED89","start":0,"end":2}],
+          "rightForeArm":[{"width":1,"colour":"#F8CAAC","start":0,"end":2}],
+          "leftArm":[{"width":1,"colour":"#F2ED89","start":0,"end":2}],
+          "leftForeArm":[{"width":1,"colour":"#F8CAAC","start":0,"end":2}],
+          "rightThigh":[{"width":1,"colour":"#484F67","start":0,"end":3}],
+          "rightLeg":[{"width":1,"colour":"#484F67","start":0,"end":3}],
+          "leftThigh":[{"width":1,"colour":"#484F67","start":0,"end":3}],
+          "leftLeg":[{"width":1,"colour":"#484F67","start":0,"end":3}]
+        },
+        "heisenburg":{
+          "torso":[{"width":1,"colour":"#FEFE58","start":0,"end":4},{"width":0.1,"colour":"white","start":0,"end":4}],
+          "rightArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2}],
+          "rightForeArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2},{"width":1,"colour":"#489ED8","start":1,"end":2}],
+          "leftArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2}],
+          "leftForeArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2},{"width":1,"colour":"#489ED8","start":1,"end":2}],
+          "rightThigh":[{"width":1,"colour":"#FEFE58","start":0,"end":3}],
+          "rightLeg":[{"width":1,"colour":"#FEFE58","start":0,"end":3},{"width":1,"colour":"#343635","start":2,"end":3}],
+          "leftThigh":[{"width":1,"colour":"#FEFE58","start":0,"end":3}],
+          "leftLeg":[{"width":1,"colour":"#FEFE58","start":0,"end":3},{"width":1,"colour":"#343635","start":2,"end":3}]
+        },
+        "mordecai":{
+          "torso":[{"width":1,"colour":"#88A4FF","start":0,"end":4},{"width":0.5,"colour":"white","start":0,"end":4}],
+          "rightArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
+          "rightForeArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
+          "leftArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
+          "leftForeArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
+          "rightThigh":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}],
+          "rightLeg":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}],
+          "leftThigh":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}],
+          "leftLeg":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}]
+        }
+      },
       "gaming": {
         "tracer":{
           "torso":[{"width":1,"colour":"#8D6751","start":0,"end":4}],
@@ -433,52 +479,6 @@
           "rightLeg":[{"width":1,"colour":"#8AB3DB","start":0,"end":3}],
           "leftThigh":[{"width":1,"colour":"#8AB3DB","start":0,"end":3}],
           "leftLeg":[{"width":1,"colour":"#8AB3DB","start":0,"end":3}]
-        }
-      },
-      "tv": {
-        "rick":{
-          "torso":[{"width":1,"colour":"white","start":0,"end":4},{"width":0.5,"colour":"#94D7D6","start":0,"end":4}],
-          "rightArm":[{"width":1,"colour":"white","start":0,"end":2}],
-          "rightForeArm":[{"width":1,"colour":"white","start":0,"end":2}],
-          "leftArm":[{"width":1,"colour":"white","start":0,"end":2}],
-          "leftForeArm":[{"width":1,"colour":"white","start":0,"end":2}],
-          "rightThigh":[{"width":1,"colour":"#7B633F","start":0,"end":3}],
-          "rightLeg":[{"width":1,"colour":"#7B633F","start":0,"end":3}],
-          "leftThigh":[{"width":1,"colour":"#7B633F","start":0,"end":3}],
-          "leftLeg":[{"width":1,"colour":"#7B633F","start":0,"end":3}]
-        },
-        "morty":{
-          "torso":[{"width":1,"colour":"#F2ED89","start":0,"end":4}],
-          "rightArm":[{"width":1,"colour":"#F2ED89","start":0,"end":2}],
-          "rightForeArm":[{"width":1,"colour":"#F8CAAC","start":0,"end":2}],
-          "leftArm":[{"width":1,"colour":"#F2ED89","start":0,"end":2}],
-          "leftForeArm":[{"width":1,"colour":"#F8CAAC","start":0,"end":2}],
-          "rightThigh":[{"width":1,"colour":"#484F67","start":0,"end":3}],
-          "rightLeg":[{"width":1,"colour":"#484F67","start":0,"end":3}],
-          "leftThigh":[{"width":1,"colour":"#484F67","start":0,"end":3}],
-          "leftLeg":[{"width":1,"colour":"#484F67","start":0,"end":3}]
-        },
-        "heisenburg":{
-          "torso":[{"width":1,"colour":"#FEFE58","start":0,"end":4},{"width":0.1,"colour":"white","start":0,"end":4}],
-          "rightArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2}],
-          "rightForeArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2},{"width":1,"colour":"#489ED8","start":1,"end":2}],
-          "leftArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2}],
-          "leftForeArm":[{"width":1,"colour":"#FEFE58","start":0,"end":2},{"width":1,"colour":"#489ED8","start":1,"end":2}],
-          "rightThigh":[{"width":1,"colour":"#FEFE58","start":0,"end":3}],
-          "rightLeg":[{"width":1,"colour":"#FEFE58","start":0,"end":3},{"width":1,"colour":"#343635","start":2,"end":3}],
-          "leftThigh":[{"width":1,"colour":"#FEFE58","start":0,"end":3}],
-          "leftLeg":[{"width":1,"colour":"#FEFE58","start":0,"end":3},{"width":1,"colour":"#343635","start":2,"end":3}]
-        },
-        "mordecai":{
-          "torso":[{"width":1,"colour":"#88A4FF","start":0,"end":4},{"width":0.5,"colour":"white","start":0,"end":4}],
-          "rightArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
-          "rightForeArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
-          "leftArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
-          "leftForeArm":[{"width":1,"colour":"#88A4FF","start":0,"end":2}],
-          "rightThigh":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}],
-          "rightLeg":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}],
-          "leftThigh":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}],
-          "leftLeg":[{"width":1,"colour":"#5C5C5C","start":0,"end":3}]
         }
       }
     }

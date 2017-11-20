@@ -8,7 +8,7 @@ AI.prototype.selectTarget = function(players) {
   let min = Infinity
   let targetPlayer;
   for(let player of players) {
-    if(player.id === this.player.id) continue
+    if(player.id === this.player.id || player.isDead || player.isBlownUp) continue
     let xDiff = Math.abs(this.player.pelvis.position.x - player.pelvis.position.x)
     let yDiff = Math.abs(this.player.pelvis.position.y - player.pelvis.position.y)
     let diff = xDiff + yDiff
@@ -21,8 +21,8 @@ AI.prototype.selectTarget = function(players) {
 }
 
 AI.prototype.getDirection = function(Matter) {
-  let xDiff = this.player.pelvis.position.x - this.targetPlayer.pelvis.position.x
-  let yDiff = this.player.pelvis.position.y - this.targetPlayer.pelvis.position.y
+  let xDiff = this.player.head.position.x - this.targetPlayer.head.position.x
+  let yDiff = this.player.head.position.y - this.targetPlayer.head.position.y
   let left = xDiff > 0
   let up = yDiff > 0
   let right = !left
