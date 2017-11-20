@@ -1,7 +1,9 @@
 import React from 'react'
 import '../styles/LandingPage.scss'
+import socket from '../io.js'
 import SkinModal from './SkinModal.jsx'
 import GameModes from './GameModes.jsx'
+import Party from './Party.jsx'
 import config from '../../../../config.json'
 let gameModes = config.gameModes
 let skins = config.gameInfo.skins
@@ -23,7 +25,11 @@ class LandingPage extends React.Component {
       skinGroupName: Object.keys(skins)[0],
       skinName: Object.keys(skins[Object.keys(skins)[0]])[0],
       skinIndex: 0,
-      pageIndex: 0
+      pageIndex: 0,
+
+      partyId: undefined,
+      validParty: true
+
     }
   }
 
@@ -40,6 +46,11 @@ class LandingPage extends React.Component {
   }
 
   componentDidMount() {
+    socket.on('joinPartyResponse', response => {
+      console.log('response: ', response)
+      if(response.isValid) this.joinParty(response.partyId)
+      else this.cantJoinParty()
+    })
     window.addEventListener('keydown', this.playGame)
     let gameModesArr = Object.keys(gameModes).map(e => {
       return {...gameModes[e], name: e}
@@ -62,6 +73,7 @@ class LandingPage extends React.Component {
         this.state.currentCharacter,
         this.state.skinGroupName,
         this.state.skinName,
+        this.state.partyId
       )
     }
   }
@@ -84,12 +96,21 @@ class LandingPage extends React.Component {
     this.setState({ currentGameModeIndex: newIndex  })
   }
 
+  joinParty = (partyId) => {
+    this.setState({ partyId: partyId, validParty: true  })
+  }
+
+  cantJoinParty = () => {
+    this.setState({ validParty: false  })
+  }
+
   render() {
     return (
       <div id="landingPageContainer" ref="landingPageContainer" onClick={() => {
         // if(this.state.showSkinModal) this.toggleSkinModal()
       }}>
         <div className={this.state.showSkinModal ? "container blurred" : "container normal"}>
+          <Party partyId={this.state.partyId} joinParty={this.joinParty} validParty={this.state.validParty}/>
           <h2 id="title"> RAGDOLL.IO </h2>
           <input placeholder="Hero Name... " id="nameInput" autoFocus="off" autoComplete="off" maxLength="15" onChange={this.changeName} />
           <p id="enterMessage">(enter to join)</p>
@@ -117,7 +138,7 @@ class LandingPage extends React.Component {
               <i className="fa fa-volume-off" />}
           </div>
         </div> */}
-        <img className="icon leaderboard" src="http://www.freeiconspng.com/uploads/leaderboard-icon-5.png" />
+        <img className="icon leaderboard" src="../../assets/images/icons/leaderboard.png" />
         {/* <img className="icon controller" src="https://maxcdn.icons8.com/Share/icon/p1em/Gaming//controller1600.png" /> */}
         <img className="icon skin" id="skinIcon" src="https://i.imgur.com/dEPAF5R.png" ref="skinIcon" onClick={this.toggleSkinModal}/>
         <div id="socialIcons">

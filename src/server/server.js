@@ -23,14 +23,63 @@ let rooms = {}
 function findRoom(roomType) {
     let rooms = io.sockets.adapter.rooms
     for(room in rooms) {
-        if(rooms[room].gameType === roomType) return room
+      if(rooms[room].gameType === roomType && rooms[room].length + 1 <= c.gameModes[roomType].maxPlayers) return room
     }
     return false
+}
+
+function findRoomParty(roomType, partyId) {
+  let rooms = io.sockets.adapter.rooms
+  for(room in rooms) {
+    if(
+        rooms[room].gameType === roomType &&
+        rooms[room].parties &&
+        rooms[room].parties.indexOf(partyId) !== -1
+      ) return room
+  }
+  return findRoom(roomType)
+}
+
+function isValidPartyId(partyId) {
+  let rooms = io.sockets.adapter.rooms
+  for(room in rooms) {
+    if(rooms[room].parties && rooms[room].parties.indexOf(partyId) !== -1) return true
+  }
+  for(let socket in io.sockets.connected) {
+    if(io.sockets.connected[socket].partyId === partyId) return true
+  }
+  return false
+}
+
+function doesRoomExist(roomName) {
+  let rooms = io.sockets.adapter.rooms
+  for(room in rooms) {
+    if(room === roomName) return true
+  }
+  return false
+}
+
+function generateRoomName() {
+  let randomName = randomHash(10)
+  while(doesRoomExist(randomName)) {
+    randomName = randomHash(10)
+  }
+  return randomName
+}
+
+function randomHash(length) {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
 }
 
 // Create room of certain game mode
 function createRoom(roomType) {
     let room = io.createRoom(roomType)
+    console.log('creating room: ', room)
     return room
 }
 
@@ -154,14 +203,12 @@ function findSpawnPoint(gameMode, roomName) {
     for(let player of players) {
       let x = player.x
       let y = player.y
-      let xCondition1 = !(x <= newX && newX <= x + gap)
-      let xCondition2 = !(newX <= x && newX <= x - gap)
-      let yCondition1 = !(y <= newY && newY <= y + gap)
-      let yCondition2 = !(newY <= y && newY <= y - gap)
-      if((xCondition1) && (xCondition2) && (yCondition1) && (yCondition2)){
-         foundPosition = true
-         returnX = newX
-         returnY = newY
+      let xCondition = ( newX + gap < x ) || ( x + gap < newX )
+      let yCondition = ( newY + gap < y ) || ( y + gap < newY )
+      if(xCondition && yCondition) {
+        foundPosition = true
+        returnX = newX
+        returnY = newY
       }
     }
   }
@@ -173,20 +220,22 @@ function findSpawnPoint(gameMode, roomName) {
 
 /* -------------------------------------------------- IO/SOCKET CODE ----------------------------------------------------- */
 io.on('connection', socket => {
+  socket.leave(socket.id)
   socket.on('startGame', gameInfo => {
-    let room = findRoom(gameInfo.gameType)
+    let room = !gameInfo.partyId ? findRoom(gameInfo.gameType) : findRoomParty(gameInfo.gameType, gameInfo.partyId)
     let Matter;
     let engine;
     if(room) {
-        socket.join(room)
-        Matter = io.sockets.adapter.rooms[room].Matter
+      socket.join(room)
+      Matter = io.sockets.adapter.rooms[room].Matter
     }
     else {
       // Create Random Hash for games
-      let newRoom = gameInfo.gameType
+      let newRoom = generateRoomName()
       socket.join(newRoom)
       room = newRoom
       io.sockets.adapter.rooms[newRoom].gameType = gameInfo.gameType
+      io.sockets.adapter.rooms[newRoom].parties = gameInfo.partyId ? [gameInfo.partyId] : []
       // Create World
       Matter = createWorld(room)
       // Create Walls
@@ -267,7 +316,14 @@ io.on('connection', socket => {
     setInterval(updateCentrePoints, 16)
     let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
     socket.updateInterval = updateInterval
+    console.log('Rooms: ', Object.keys(io.sockets.adapter.rooms))
   })
+  socket.on('joinPartyRequest', partyId => {
+    console.log("JOIN PARTY REQUEST: ", partyId)
+    let isValid = isValidPartyId(partyId)
+    socket.emit('joinPartyResponse', {isValid, partyId})
+  })
+  socket.on('createdParty', partyId => socket.partyId = partyId)
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
 
@@ -665,7 +721,7 @@ function clearUpdates(socketId) {
 function repel(roomName, bodyA, bodyB) {
   let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
-  let force = 0.01
+  let force = 0.02
   let forceA = {
     x: bodyALeft ? force * -1 : force,
     y: bodyAUp ? force * -1 : force,
@@ -764,18 +820,21 @@ function sendSoundUpdate(socket, soundType) {
 
 /* ---------------------------------------------------- AI CODE -------------------------------------------------------- */
 function generateRandomName() {
-  return 'randomName'
+  return randomHash(5)
 }
 
-function generateRandomId() {
-  let str = "bxcu"
-  let repeat = Math.floor(Math.random() * 25)
-  return str.repeat(repeat)
+function generateRandomId(roomName) {
+  let botId = randomHash(10)
+  while(doesBotIdExist(botId, roomName)) {
+    botId = randomHash(10)
+  }
+  return botId
 }
 
 function createBot(Matter, roomName) {
   let randomName = generateRandomName()
-  let randomId = generateRandomId()
+  let randomId = generateRandomId(roomName)
+  console.log("Bot Id: ", randomId)
   let skinCatsObj = c.gameInfo.skins
   let randomSkinCatIdx = getRandom(0, Object.keys(skinCatsObj).length - 1)
   let catName = Object.keys(skinCatsObj)[randomSkinCatIdx]
@@ -820,4 +879,12 @@ function respawnBot(Matter, bot, roomName) {
   bot.selectTarget(players)
   bot.update(Matter)
   leaderBoardChange(roomName)
+}
+
+function doesBotIdExist(botId, roomName) {
+  let room = rooms[roomName]
+  for(let player in room.players) {
+    if(botId === room.players[player].id) return true
+  }
+  return false
 }
