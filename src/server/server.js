@@ -665,6 +665,7 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     hitterPlayer.increaseSkillPoints()
     hitterPlayer.updateProgress()
     if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
+    if(hitterPlayer.isAI) hitterPlayer.AI.updateSkillPoint()
     // updatePlayer => skillPoints, skillPointValues, beltColour
     // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
     if(socket2) updatePlayerValues(socket2, hitterPlayer)

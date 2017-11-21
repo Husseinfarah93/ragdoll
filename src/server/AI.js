@@ -31,12 +31,17 @@ AI.prototype.getDirection = function(Matter) {
   let xDiff = this.player.head.position.x - this.targetPlayer.head.position.x
   let yDiff = this.player.head.position.y - this.targetPlayer.head.position.y
 
-
   let xLeftLegDodge = this.player.head.position.x - this.targetPlayer.leftLeg.position.x
   let yLeftLegDodge = this.player.head.position.y - this.targetPlayer.leftLeg.position.y
+
   let xRightLegDodge = this.player.head.position.x - this.targetPlayer.rightLeg.position.x
   let yRightLegDodge = this.player.head.position.y - this.targetPlayer.rightLeg.position.y
 
+  let xLeftArmDodge = this.player.head.position.x - this.targetPlayer.leftArm.position.x
+  let yLeftArmDodge = this.player.head.position.y - this.targetPlayer.leftArm.position.y
+
+  let xRightArmDodge = this.player.head.position.x - this.targetPlayer.rightArm.position.x
+  let yRightArmDodge = this.player.head.position.y - this.targetPlayer.rightArm.position.y
 
   let left = xDiff > 0
   let up = yDiff > 0
@@ -45,20 +50,40 @@ AI.prototype.getDirection = function(Matter) {
   let spinDistance = 130
   let dodgeDistance = 130
   let shouldSpin = Math.abs(xDiff) < spinDistance && (Math.abs(yDiff) < spinDistance) && yDiff < 0
-  let shouldDodgeLeft = Math.abs(xLeftLegDodge) < dodgeDistance && Math.abs(yLeftLegDodge) < dodgeDistance
-  let shouldDodgeRight = Math.abs(xRightLegDodge) < dodgeDistance && Math.abs(yRightLegDodge) < dodgeDistance
-  let shouldDodge = shouldDodgeLeft || shouldDodgeRight
+
+
+  let shouldDodgeLeftLeg = Math.abs(xLeftLegDodge) < dodgeDistance && Math.abs(yLeftLegDodge) < dodgeDistance
+  let shouldDodgeRightLeg = Math.abs(xRightLegDodge) < dodgeDistance && Math.abs(yRightLegDodge) < dodgeDistance
+  let shouldDodgeLeftArm = Math.abs(xLeftArmDodge) < dodgeDistance && Math.abs(yLeftArmDodge) < dodgeDistance
+  let shouldDodgeRightArm = Math.abs(xRightArmDodge) < dodgeDistance && Math.abs(yRightArmDodge) < dodgeDistance
+
+
+  let shouldDodge = shouldDodgeRightLeg || shouldDodgeLeftLeg || shouldDodgeRightArm || shouldDodgeLeftArm
   if(shouldDodge) {
-    if(shouldDodgeLeft) {
+    if(shouldDodgeLeftLeg) {
       let dodgeLeft = xLeftLegDodge < 0
       let dodgeUp = yLeftLegDodge < 0
       let dodgeRight = !dodgeLeft
       let dodgeDown = !dodgeUp
       this.player.movePlayer(dodgeLeft, dodgeUp, dodgeRight, dodgeDown, Matter, 'head', 2)
     }
-    else {
+    else if(shouldDodgeRightLeg) {
       let dodgeLeft = xRightLegDodge > 0
       let dodgeUp = yRightLegDodge > 0
+      let dodgeRight = !dodgeLeft
+      let dodgeDown = !dodgeUp
+      this.player.movePlayer(dodgeLeft, dodgeUp, dodgeRight, dodgeDown, Matter, 'head', 2)
+    }
+    else if(shouldDodgeLeftArm) {
+      let dodgeLeft = xLeftArmDodge < 0
+      let dodgeUp = yLeftArmDodge < 0
+      let dodgeRight = !dodgeLeft
+      let dodgeDown = !dodgeUp
+      this.player.movePlayer(dodgeLeft, dodgeUp, dodgeRight, dodgeDown, Matter, 'head', 2)
+    }
+    else if(shouldDodgeRightArm) {
+      let dodgeLeft = xRightArmDodge > 0
+      let dodgeUp = yRightArmDodge > 0
       let dodgeRight = !dodgeLeft
       let dodgeDown = !dodgeUp
       this.player.movePlayer(dodgeLeft, dodgeUp, dodgeRight, dodgeDown, Matter, 'head', 2)
@@ -88,13 +113,24 @@ AI.prototype.getDirection = function(Matter) {
   }
 }
 
-AI.prototype.rotate = function() {
-
-}
+AI.prototype.rotate = function() {}
 
 AI.prototype.update = function(Matter) {
   let ths = this
   this.interval = setInterval(() => ths.getDirection(Matter), 16)
+}
+
+AI.prototype.updateSkillPoint = function() {
+  let skillPoints = this.player.skillPointValues
+  let keys = Object.keys(skillPoints)
+  let randomKey = keys[getRandom(0, keys.length - 1)]
+  let isMaxed = skillPoints[randomKey].curVal === skillPoints[randomKey].maxVal
+  while(isMaxed) {
+    randomKey = keys[getRandom(0, keys.length - 1)]
+    isMaxed = skillPoints[randomKey].curVal === skillPoints[randomKey].maxVal
+  }
+  this.player.updatePlayerSkillPoints(randomKey)
+  this.player.decreaseSkillPoints()
 }
 
 AI.prototype.dead = function() {
@@ -102,5 +138,13 @@ AI.prototype.dead = function() {
   clearInterval(ths.interval)
   this.targetPlayer = undefined
 }
+
+function getRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 
 module.exports = AI
