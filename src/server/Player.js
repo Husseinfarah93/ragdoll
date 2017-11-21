@@ -1194,15 +1194,14 @@ Player.prototype.addSkin = function(skinCategory, skinName) {
   }
 }
 
-Player.prototype.movePlayer = function(left, up, right, down, Matter, bodyPart) {
+Player.prototype.movePlayer = function(left, up, right, down, Matter, bodyPart, extraForce) {
   let head = this.head
   let Body = Matter.Body
-  let force = this.force
+  let force = !extraForce ? this.force : this.force * extraForce
   let rightArm = this.rightArm
   let leftArm = this.leftArm
   let rightLeg = this.rightLeg
   let leftLeg = this.leftLeg
-  
   if(bodyPart === 'rightArm') bodyPart = rightArm
   else if(bodyPart === 'leftArm') bodyPart = leftArm
   else if(bodyPart === 'rightLeg') bodyPart = rightLeg

@@ -28,17 +28,45 @@ AI.prototype.selectTarget = function(players) {
 }
 
 AI.prototype.getDirection = function(Matter) {
-  let xDiff = this.player.pelvis.position.x - this.targetPlayer.pelvis.position.x
-  let yDiff = this.player.pelvis.position.y - this.targetPlayer.pelvis.position.y
+  let xDiff = this.player.head.position.x - this.targetPlayer.head.position.x
+  let yDiff = this.player.head.position.y - this.targetPlayer.head.position.y
+
+
+  let xLeftLegDodge = this.player.head.position.x - this.targetPlayer.leftLeg.position.x
+  let yLeftLegDodge = this.player.head.position.y - this.targetPlayer.leftLeg.position.y
+  let xRightLegDodge = this.player.head.position.x - this.targetPlayer.rightLeg.position.x
+  let yRightLegDodge = this.player.head.position.y - this.targetPlayer.rightLeg.position.y
+
+
   let left = xDiff > 0
   let up = yDiff > 0
   let right = !left
   let down = !up
   let spinDistance = 130
+  let dodgeDistance = 130
   let shouldSpin = Math.abs(xDiff) < spinDistance && (Math.abs(yDiff) < spinDistance) && yDiff < 0
-  // let shouldSpin = false
-  if(shouldSpin) {
-    if(yDiff < 0) {
+  let shouldDodgeLeft = Math.abs(xLeftLegDodge) < dodgeDistance && Math.abs(yLeftLegDodge) < dodgeDistance
+  let shouldDodgeRight = Math.abs(xRightLegDodge) < dodgeDistance && Math.abs(yRightLegDodge) < dodgeDistance
+  let shouldDodge = shouldDodgeLeft || shouldDodgeRight
+  if(shouldDodge) {
+    if(shouldDodgeLeft) {
+      let dodgeLeft = xLeftLegDodge < 0
+      let dodgeUp = yLeftLegDodge < 0
+      let dodgeRight = !dodgeLeft
+      let dodgeDown = !dodgeUp
+      this.player.movePlayer(dodgeLeft, dodgeUp, dodgeRight, dodgeDown, Matter, 'head', 2)
+    }
+    else {
+      let dodgeLeft = xRightLegDodge > 0
+      let dodgeUp = yRightLegDodge > 0
+      let dodgeRight = !dodgeLeft
+      let dodgeDown = !dodgeUp
+      this.player.movePlayer(dodgeLeft, dodgeUp, dodgeRight, dodgeDown, Matter, 'head', 2)
+    }
+
+  }
+  else if(shouldSpin) {
+    if(yDiff < 0 && this.player.head.position.y < this.player.rightLeg.position.y) {
       if(xDiff < 0) {
         this.player.movePlayer(left, up, right, down, Matter, 'rightLeg')
       }
