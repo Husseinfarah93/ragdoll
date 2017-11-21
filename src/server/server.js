@@ -596,8 +596,8 @@ function collisionCheck(event, roomName, id) {
     // Do nothing if its a blown up body piece
     if(playerA.isBlownUp || playerB.isBlownUp) return
     // Check if the hit is one which deals damage. Only if yes continue
+    repel(roomName, bodyA, bodyB)
     if(!isHit(bodyA, bodyB)) {
-      repel(roomName, bodyA, bodyB)
       return
     }
     // bodyA is hitterPlayer
@@ -721,7 +721,7 @@ function clearUpdates(socketId) {
 function repel(roomName, bodyA, bodyB) {
   let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
-  let force = 0.02
+  let force = 0.015
   let forceA = {
     x: bodyALeft ? force * -1 : force,
     y: bodyAUp ? force * -1 : force,
