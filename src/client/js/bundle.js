@@ -24658,7 +24658,8 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
       var death = document.createElement('audio');
       var levelUp = document.createElement('audio');
 
-      bg.src = "../../assets/sounds/BG.wav";
+      bg.src = "../../assets/sounds/BG.mp3";
+      bg.volume = 0.1;
       hit1.src = "../../assets/sounds/hit1.wav";
       hit2.src = "../../assets/sounds/hit2.wav";
       hit3.src = "../../assets/sounds/hit3.wav";

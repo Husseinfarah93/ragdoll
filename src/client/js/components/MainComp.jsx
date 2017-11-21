@@ -32,7 +32,8 @@ class MainComp extends React.Component {
     let death = document.createElement('audio')
     let levelUp = document.createElement('audio')
 
-    bg.src = "../../assets/sounds/BG.wav"
+    bg.src = "../../assets/sounds/BG.mp3"
+    bg.volume = 0.1
     hit1.src = "../../assets/sounds/hit1.wav"
     hit2.src = "../../assets/sounds/hit2.wav"
     hit3.src = "../../assets/sounds/hit3.wav"
