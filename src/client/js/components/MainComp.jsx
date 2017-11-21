@@ -42,6 +42,7 @@ class MainComp extends React.Component {
     kill.src = "../../assets/sounds/kill.mp3"
     death.src = "../../assets/sounds/death.wav"
     levelUp.src = "../../assets/sounds/levelUp.wav"
+    levelUp.volume = 0.5
 
     bg.loop = true
 

@@ -352,7 +352,8 @@ function updateLeaderboard(roomName) {
       killStreak: player.killStreak,
       id: player.id,
       name: player.name,
-      colour: player.colour
+      colour: player.colour,
+      beltColour: player.beltColour
     }
   })
   temp = temp.sort((a1, a2) => a2.killStreak - a1.killStreak)
@@ -664,7 +665,11 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     // Update Skill Points
     hitterPlayer.increaseSkillPoints()
     hitterPlayer.updateProgress()
-    if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
+    if(hitterPlayer.shouldIncreaseBelt()) {
+      hitterPlayer.increaseBelt()
+      if(socket2) sendBGTextUpdate(socket2, 'levelUp')
+      if(socket2) sendSoundUpdate(socket2, 'levelUp')
+    }
     if(hitterPlayer.isAI) hitterPlayer.AI.updateSkillPoint()
     // updatePlayer => skillPoints, skillPointValues, beltColour
     // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
@@ -803,7 +808,7 @@ function sendBGTextUpdate(socket, textType, isHitter) {
     colour = red
   }
   else if(textType === "levelUp") {
-    textToSend = "L-L-LEVEL UP!"
+    textToSend = "LEVEL UP!"
     colour = blue
   }
   else if(textType === "start") {

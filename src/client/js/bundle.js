@@ -24668,6 +24668,7 @@ var MainComp = (0, _radium2.default)(_class = function (_React$Component) {
       kill.src = "../../assets/sounds/kill.mp3";
       death.src = "../../assets/sounds/death.wav";
       levelUp.src = "../../assets/sounds/levelUp.wav";
+      levelUp.volume = 0.5;
 
       bg.loop = true;
 
@@ -29922,6 +29923,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
           this.drawHitPart(player, xPos, yPos, context);
           this.drawBelt(player, xPos, yPos, context, 10, "black");
           this.drawBelt(player, xPos, yPos, context, 7, player.belt.colour);
+          this.drawName(context, player.pelvis.x - xPos - 15, player.pelvis.y - yPos + 20, player.name);
         }
         var xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos;
         var yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos;
@@ -30361,7 +30363,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
     key: 'drawName',
     value: function drawName(context, x, y, name) {
       context.fillStyle = 'black';
-      context.font = '18px Ubuntu';
+      context.font = '25px Quicksand';
       context.fillText(name, x - 20, y + 100);
     }
   }, {
@@ -30703,7 +30705,7 @@ var LeaderBoard = (0, _radium2.default)(_class = function (_React$Component) {
               _react2.default.createElement(
                 'td',
                 { className: 'leaderBoardPlayerKillStreak', style: Style.th },
-                'White'
+                player.beltColour.toUpperCase()
               )
             );
           })
