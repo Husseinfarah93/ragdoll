@@ -3,8 +3,8 @@
     "FFA": {
       "gameHeight": 10000,
       "gameWidth": 10000,
-      "maxPlayers": 2,
-      "maxServer": 3,
+      "maxPlayers": 30,
+      "maxServer": 40,
       "available": true
     },
     "1 V 1": {
