@@ -8,7 +8,7 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   this.isAI = isAI
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.maxHealth = this.initialHealth
-  this.killStreak = 4
+  this.killStreak = 0
   this.beltNumber = 0
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
