@@ -79,7 +79,6 @@ function randomHash(length) {
 // Create room of certain game mode
 function createRoom(roomType) {
     let room = io.createRoom(roomType)
-    console.log('creating room: ', room)
     return room
 }
 
@@ -322,7 +321,6 @@ io.on('connection', socket => {
     setInterval(updateCentrePoints, 16)
     let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
     socket.updateInterval = updateInterval
-    console.log('Rooms: ', Object.keys(io.sockets.adapter.rooms))
   })
   socket.on('joinPartyRequest', partyId => {
     console.log("JOIN PARTY REQUEST: ", partyId)
