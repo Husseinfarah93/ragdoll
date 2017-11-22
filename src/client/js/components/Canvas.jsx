@@ -62,6 +62,11 @@ class Canvas extends React.Component {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas, skinObj: skinObj })
       this.addListeners()
       this.setUpSockets()
+      let self = this
+      window.addEventListener('resize', () => {
+          console.log('resize')
+          self.resize()
+      })
     }
 
     setUpSockets() {
@@ -577,6 +582,13 @@ class Canvas extends React.Component {
       }
     }
 
+
+    resize() {
+      this.camera.follow(window.innerWidth / 2, window.innerHeight * 0.98 / 2)
+      // let canvas = this.state.canvas
+      // canvas.width = window.innerWidth
+      // canvas.height = window.innerHeight * 0.98
+    }
 
     /*  MISC CODE   */
 

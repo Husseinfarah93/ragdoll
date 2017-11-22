@@ -29679,6 +29679,11 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas, skinObj: skinObj });
       this.addListeners();
       this.setUpSockets();
+      var self = this;
+      window.addEventListener('resize', function () {
+        console.log('resize');
+        self.resize();
+      });
     }
   }, {
     key: 'setUpSockets',
@@ -30449,6 +30454,14 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       else if (newY < 0) {
           context.drawImage(img, newX, canvas.height + newY, canvas.width, -newY, 0, 0, canvas.width, -newY);
         }
+    }
+  }, {
+    key: 'resize',
+    value: function resize() {
+      this.camera.follow(window.innerWidth / 2, window.innerHeight * 0.98 / 2);
+      // let canvas = this.state.canvas
+      // canvas.width = window.innerWidth
+      // canvas.height = window.innerHeight * 0.98
     }
 
     /*  MISC CODE   */
