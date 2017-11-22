@@ -2,6 +2,7 @@ let c = require('../../config.json')
 let randColour = require('./helper.js').randColour
 
 function Player(name, id, characterType, skinGroupName, skinName, isAI) {
+  // TEST
   this.name = name ? name : 'PLAYER'
   this.id = id
   this.characterType = characterType
