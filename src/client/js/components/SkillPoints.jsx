@@ -1,8 +1,7 @@
 import React from 'react'
-import Radium from 'radium'
 import ProgressBar from './ProgressBar.jsx'
+import '../styles/SkillPoints.scss'
 
-@Radium
 class SkillPoints extends React.Component {
   constructor() {
     super()
@@ -18,15 +17,16 @@ class SkillPoints extends React.Component {
   render() {
     let progressBarList = Object.keys(this.props.skillPointValues).map(e => this.props.skillPointValues[e])
     return (
-      <div style={Style.Container}>
-        <div id="skillPointsCircle" style={Style.skillPointsCircle}>
-          <span style={Style.skillPointNumber}> {this.props.skillPoints} </span>
+      <div id="skillPointsContainer">
+        <div id="skillPointsCircle">
+          <span id="skillPointNumber"> {this.props.skillPoints} </span>
         </div>
         {progressBarList.length > 0 && progressBarList.map(progressBarElem => {
           let curVal = progressBarElem.curVal
           let initialVal = progressBarElem.initialVal
           let maxVal = progressBarElem.maxVal
           let newPercent = Math.round(Math.abs(100 * (curVal - initialVal) / (maxVal - initialVal)))
+          let canClick = newPercent === 100 || 0
           return (
             <ProgressBar
               containerWidth="200px"
@@ -41,6 +41,7 @@ class SkillPoints extends React.Component {
               plusIcon="inline"
               plusColour="#FFFFFF"
               plusIconRight="10px"
+              plusIconSymbol={canClick ? "pointer" : "not-allowed"}
               handleSkillPointsClick={this.props.handleSkillPointsClick}
               fontSize="12px"
             />
@@ -49,33 +50,6 @@ class SkillPoints extends React.Component {
         )}
       </div>
     )
-  }
-}
-
-const Style = {
-  Container: {
-    width: "200px",
-    position: "fixed",
-    bottom: "10px",
-    left: "10px",
-    display: "flex",
-    alignItems: "flex-end",
-    flexDirection: "column",
-    justifyContent: "flex-end"
-  },
-  skillPointsCircle: {
-    width: "20px",
-    height: "20px",
-    backgroundColor: "#F0433A",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: "90px",
-    fontSize: "10px"
-  },
-  skillPointNumber: {
-    fontFamily: "Ubuntu",
-    color: "#FFFFFF"
   }
 }
 

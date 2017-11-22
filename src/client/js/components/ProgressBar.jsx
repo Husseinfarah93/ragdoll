@@ -22,7 +22,7 @@ class ProgressBar extends React.Component {
           <div className="textContainer" style={Style.textContainer}>
             <span className="text" style={{ ...Style.text, color: this.props.textColour, fontSize: this.props.fontSize }}> {this.props.text} </span>
           </div>
-          <div className="plusIcon" style={{ ...Style.plusIcon, display: this.props.plusIcon, right: this.props.plusIconRight, color: this.props.plusColour }} onClick={() => this.props.handleSkillPointsClick(this.props.name, this.props.progressVal)}> + </div>
+          <div className="plusIcon" style={{ ...Style.plusIcon, display: this.props.plusIcon, right: this.props.plusIconRight, color: this.props.plusColour, cursor: this.props.plusIconSymbol }} onClick={() => this.props.handleSkillPointsClick(this.props.name, this.props.progressVal)}> + </div>
       </div>
     )
   }
@@ -54,7 +54,7 @@ const Style = {
   plusIcon: {
     position: "absolute",
     color: "#FFFFFF",
-    cursor: "pointer",
+    // cursor: "pointer",
     userSelect: "none"
   },
 }
