@@ -18,7 +18,7 @@ class SkillPoints extends React.Component {
     let progressBarList = Object.keys(this.props.skillPointValues).map(e => this.props.skillPointValues[e])
     return (
       <div id="skillPointsContainer">
-        <div id="skillPointsCircle">
+        <div className={this.props.skillPoints ? "skillPointsCircle" : "skillPointsCircle disabled"}>
           <span id="skillPointNumber"> {this.props.skillPoints} </span>
         </div>
         {progressBarList.length > 0 && progressBarList.map(progressBarElem => {
@@ -26,7 +26,7 @@ class SkillPoints extends React.Component {
           let initialVal = progressBarElem.initialVal
           let maxVal = progressBarElem.maxVal
           let newPercent = Math.round(Math.abs(100 * (curVal - initialVal) / (maxVal - initialVal)))
-          let canClick = newPercent === 100 || 0
+          let canClick = newPercent !== 100 && this.props.skillPoints !== 0
           return (
             <ProgressBar
               containerWidth="200px"
@@ -41,7 +41,8 @@ class SkillPoints extends React.Component {
               plusIcon="inline"
               plusColour="#FFFFFF"
               plusIconRight="10px"
-              plusIconSymbol={canClick ? "pointer" : "not-allowed"}
+              plusIconCanClick={canClick}
+              isSkillPoint={true}
               handleSkillPointsClick={this.props.handleSkillPointsClick}
               fontSize="12px"
             />
