@@ -1,0 +1,30 @@
+.leaderBoard {
+  overflow: auto;
+  display: inline-block;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-family: Quicksand
+}
+.th {
+  text-align: left;
+  padding: 0px 10px 0px 10px
+}
+.thName {
+  text-align: left;
+  width: 120px;
+  padding: 0px 10px 0px 10px
+}
+.tdFirst {
+  padding: 0px 10px 0px 10px
+}
+.thFirst {
+  text-align: left;
+  padding: 0px 10px 0px 10px
+}
+.leaderBoardPlayer {
+  color: black
+}
+.leaderBoardPlayer.current {
+  color: blue
+}

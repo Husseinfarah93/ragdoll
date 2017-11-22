@@ -28,6 +28,10 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   }
   this.isDead = false
   this.isBlownUp = false
+  if(isAI) {
+    this.skillPointValues.damageDealt.curVal = 2
+    this.killStreak = 3
+  }
   this.colour = randColour()
   this.skinCategory = skinGroupName
   this.skinName = skinName

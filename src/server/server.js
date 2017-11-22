@@ -352,16 +352,20 @@ function updateLeaderboard(roomName) {
   for(player in players) {
     playerList.push(players[player])
   }
-  let temp = playerList.map(player => {
+  let temp = playerList.map((player, idx) => {
     return {
       killStreak: player.killStreak,
       id: player.id,
       name: player.name,
       colour: player.colour,
-      beltColour: player.beltColour
+      beltColour: player.beltColour,
     }
   })
   temp = temp.sort((a1, a2) => a2.killStreak - a1.killStreak)
+  temp = temp.map((player, idx) => {
+    player.position = idx + 1
+    return player
+  })
   room.leaderBoard = temp
 }
 
