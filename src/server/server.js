@@ -298,6 +298,12 @@ io.on('connection', socket => {
       leaderBoardChange(room)
       // SEND START BG UPDATE
       sendBGTextUpdate(socket, 'start')
+      let playerNames = Object.keys(rooms[room].players)
+      if(playerNames.length === 2) {
+        let AIIndex = socket.id === playerNames[0] ? 1 : 0
+        let isAI = rooms[room].players[playerNames[AIIndex]].isAI
+        if(isAI) adjustBotTarget(room)
+      }
     })
     socket.on('blowUp', () => {
       player.blowUp(Matter)
