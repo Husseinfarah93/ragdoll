@@ -809,7 +809,7 @@ function sendBGTextUpdate(socket, textType, isHitter) {
   }
   else if(textType === "levelUp") {
     textToSend = "LEVEL UP!"
-    colour = blue
+    colour = "#f1c40f"
   }
   else if(textType === "start") {
     textToSend = "FIGHT!"
