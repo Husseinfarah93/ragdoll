@@ -34,7 +34,8 @@ function findRoomParty(roomType, partyId) {
     if(
         rooms[room].gameType === roomType &&
         rooms[room].parties &&
-        rooms[room].parties.indexOf(partyId) !== -1
+        rooms[room].parties.indexOf(partyId) !== -1 &&
+        rooms[room].length + 1 <= c.gameModes[roomType].maxServer
       ) return room
   }
   return findRoom(roomType)
