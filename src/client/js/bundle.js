@@ -30829,7 +30829,7 @@ exports = module.exports = __webpack_require__(13)(undefined);
 
 
 // module
-exports.push([module.i, ".leaderBoard {\n  overflow: auto;\n  display: inline-block;\n  position: absolute;\n  top: 20px;\n  right: 20px;\n  font-family: Quicksand; }\n\n.th {\n  text-align: left;\n  padding: 0px 10px 0px 10px; }\n\n.thName {\n  text-align: left;\n  width: 120px;\n  padding: 0px 10px 0px 10px; }\n\n.tdFirst {\n  padding: 0px 10px 0px 10px; }\n\n.thFirst {\n  text-align: left;\n  padding: 0px 10px 0px 10px; }\n\n.leaderBoardPlayer {\n  color: black; }\n\n.leaderBoardPlayer.current {\n  color: blue; }\n", ""]);
+exports.push([module.i, ".leaderBoard {\n  overflow: auto;\n  display: inline-block;\n  position: absolute;\n  top: 20px;\n  right: 20px;\n  font-family: Quicksand; }\n\n.th {\n  text-align: left;\n  padding: 0px 10px 0px 10px; }\n\n.thName {\n  text-align: left;\n  width: 120px;\n  padding: 0px 10px 0px 10px; }\n\n.tdFirst {\n  padding: 0px 10px 0px 10px; }\n\n.thFirst {\n  text-align: left;\n  padding: 0px 10px 0px 10px; }\n\n.leaderBoardPlayer {\n  color: black; }\n\n.leaderBoardPlayer.current {\n  color: #4fcbd3; }\n", ""]);
 
 // exports
 
