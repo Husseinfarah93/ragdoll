@@ -3,13 +3,15 @@ import Radium from 'radium'
 import bodyShotImage from '../../assets/images/icons/BodyShotIcon.png'
 import headShotImage from '../../assets/images/icons/HeadShotIcon.png'
 
+
+
 @Radium
 class KillFeed extends React.Component {
   constructor() {
     super()
     this.state = {
       killfeed: [],
-      currentIdx: 0
+      currentIdx: 0,
     }
     this.removeKill = this.removeKill.bind(this)
   }
@@ -25,12 +27,10 @@ class KillFeed extends React.Component {
   }
 
   updateKillFeed(props) {
-    let newList = this.state.killfeed
+    let newList = this.state.killfeed.slice(0)
     newList.push(props.newKill)
-    Style.playerNameLeft.color = props.newKill.killerPlayerColour
-    Style.playerNameRight.color = props.newKill.killedPlayerColour
     this.setState({ killfeed: newList, currentIdx: props.newKill.idx })
-    setTimeout(this.removeKill, 10000)
+    setTimeout(this.removeKill, 5000)
   }
 
 
@@ -80,14 +80,14 @@ const Style = {
     //
   },
   killIconBody: {
-    background: `url(${bodyShotImage})`,
+    backgroundImage: `url(${bodyShotImage})`,
     width: '20px',
     height: '20px',
     backgroundSize: '20px 20px',
 
   },
   killIconHead: {
-    background: `url(${headShotImage})`,
+    backgroundImage: `url(${headShotImage})`,
     width: '20px',
     height: '20px',
     backgroundSize: '20px 20px',
