@@ -352,7 +352,8 @@ function updateLeaderboard(roomName) {
       killStreak: player.killStreak,
       id: player.id,
       name: player.name,
-      colour: player.colour
+      colour: player.colour,
+      beltColour: player.beltColour
     }
   })
   temp = temp.sort((a1, a2) => a2.killStreak - a1.killStreak)
@@ -596,8 +597,8 @@ function collisionCheck(event, roomName, id) {
     // Do nothing if its a blown up body piece
     if(playerA.isBlownUp || playerB.isBlownUp) return
     // Check if the hit is one which deals damage. Only if yes continue
+    repel(roomName, bodyA, bodyB)
     if(!isHit(bodyA, bodyB)) {
-      repel(roomName, bodyA, bodyB)
       return
     }
     // bodyA is hitterPlayer
@@ -664,7 +665,12 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
     // Update Skill Points
     hitterPlayer.increaseSkillPoints()
     hitterPlayer.updateProgress()
-    if(hitterPlayer.shouldIncreaseBelt()) hitterPlayer.increaseBelt()
+    if(hitterPlayer.shouldIncreaseBelt()) {
+      hitterPlayer.increaseBelt()
+      if(socket2) sendBGTextUpdate(socket2, 'levelUp')
+      if(socket2) sendSoundUpdate(socket2, 'levelUp')
+    }
+    if(hitterPlayer.isAI) hitterPlayer.AI.updateSkillPoint()
     // updatePlayer => skillPoints, skillPointValues, beltColour
     // socket2.emit('updatePlayer', hitterPlayer.skillPoints, hitterPlayer.skillPointValues, hitterPlayer.beltColour, hitterPlayer.beltProgress)
     if(socket2) updatePlayerValues(socket2, hitterPlayer)
@@ -721,7 +727,7 @@ function clearUpdates(socketId) {
 function repel(roomName, bodyA, bodyB) {
   let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
-  let force = 0.02
+  let force = 0.015
   let forceA = {
     x: bodyALeft ? force * -1 : force,
     y: bodyAUp ? force * -1 : force,
@@ -802,8 +808,8 @@ function sendBGTextUpdate(socket, textType, isHitter) {
     colour = red
   }
   else if(textType === "levelUp") {
-    textToSend = "L-L-LEVEL UP!"
-    colour = blue
+    textToSend = "LEVEL UP!"
+    colour = "#f1c40f"
   }
   else if(textType === "start") {
     textToSend = "FIGHT!"

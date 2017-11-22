@@ -267,6 +267,7 @@ class Canvas extends React.Component {
           this.drawHitPart(player, xPos, yPos, context)
           this.drawBelt(player, xPos, yPos, context, 10, "black")
           this.drawBelt(player, xPos, yPos, context, 7, player.belt.colour)
+          this.drawName(context, player.pelvis.x - xPos - 15, player.pelvis.y - yPos + 20, player.name)
         }
         let xName = this.state.id === player.id ? canvas.width / 2 : player.pelvis.x - xPos
         let yName = this.state.id === player.id ? canvas.height / 2 : player.pelvis.y - yPos
@@ -500,7 +501,7 @@ class Canvas extends React.Component {
 
     drawName(context, x, y, name) {
       context.fillStyle = 'black'
-      context.font = '18px Ubuntu'
+      context.font = '25px Quicksand'
       context.fillText(name, x - 20, y + 100)
     }
 

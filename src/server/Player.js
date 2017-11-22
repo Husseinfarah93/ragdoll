@@ -8,7 +8,7 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   this.isAI = isAI
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.maxHealth = this.initialHealth
-  this.killStreak = 0
+  this.killStreak = 4
   this.beltNumber = 0
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
@@ -1174,6 +1174,10 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   }
   this.head = headCircles[0]
   this.pelvis = torsoCircles[torsoCircles.length - 1]
+  this.rightArm = rightArmCircles[rightArmCircles.length - 1]
+  this.leftArm = leftArmCircles[leftArmCircles.length - 1]
+  this.rightLeg = rightLegCircles[rightLegCircles.length - 1]
+  this.leftLeg = leftLegCircles[leftLegCircles.length - 1]
   this.PlayerComposite = player
   World.add(Matter.engine.world, player)
 }
@@ -1190,14 +1194,24 @@ Player.prototype.addSkin = function(skinCategory, skinName) {
   }
 }
 
-Player.prototype.movePlayer = function(left, up, right, down, Matter) {
+Player.prototype.movePlayer = function(left, up, right, down, Matter, bodyPart, extraForce) {
   let head = this.head
   let Body = Matter.Body
-  let force = this.force
-  if(left) Body.applyForce(head, head.position, { x: - force, y: 0 })
-  if(up) Body.applyForce(head, head.position, { x: 0, y: - force })
-  if(right) Body.applyForce(head, head.position, { x: force, y: 0 })
-  if(down) Body.applyForce(head, head.position, { x: 0, y: force })
+  let force = !extraForce ? this.force : this.force * extraForce
+  let rightArm = this.rightArm
+  let leftArm = this.leftArm
+  let rightLeg = this.rightLeg
+  let leftLeg = this.leftLeg
+  if(bodyPart === 'rightArm') bodyPart = rightArm
+  else if(bodyPart === 'leftArm') bodyPart = leftArm
+  else if(bodyPart === 'rightLeg') bodyPart = rightLeg
+  else if(bodyPart === 'leftLeg') bodyPart = leftLeg
+  else bodyPart = head
+
+  if(left) Body.applyForce(bodyPart, bodyPart.position, { x: - force, y: 0 })
+  if(up) Body.applyForce(bodyPart, bodyPart.position, { x: 0, y: - force })
+  if(right) Body.applyForce(bodyPart, bodyPart.position, { x: force, y: 0 })
+  if(down) Body.applyForce(bodyPart, bodyPart.position, { x: 0, y: force })
 }
 
 Player.prototype.genLeftLeg = function(x, y, triangleHeight, angle, width, legLength) {

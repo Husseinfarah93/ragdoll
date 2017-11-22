@@ -27,7 +27,7 @@ class LeaderBoard extends React.Component {
                   <td className="leaderBoardPlayerRank" style={Style.tdFirst}>{'#' + (idx + 1).toString()}</td>
                   <td className="leaderBoardPlayerName" style={Style.th}>{player.name}</td>
                   <td className="leaderBoardPlayerKillStreak" style={Style.th}>{player.killStreak}</td>
-                  <td className="leaderBoardPlayerKillStreak" style={Style.th}>White</td>
+                  <td className="leaderBoardPlayerKillStreak" style={Style.th}>{player.beltColour.toUpperCase()}</td>
                 </tr>
               )
             })
