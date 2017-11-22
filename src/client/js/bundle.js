@@ -30276,6 +30276,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
 
           var percent = player.health / player.initialHealth;
           ctx.lineCap = "butt";
+          ctx.lineWidth = 20;
           ctx.beginPath();
           ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - percent);
           ctx.moveTo(list[0].x - xPos, list[0].y - yPos);
