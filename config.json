@@ -45,8 +45,8 @@
   },
   "playerTypes": {
     "basic": {
-      "initialHealth": 20,
-      "damageDealt": 10
+      "initialHealth": 200,
+      "damageDealt": 30
     }
   },
   "gameInfo": {

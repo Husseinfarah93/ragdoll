@@ -977,10 +977,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   let beltYDiff = 2 * beltRadius * Math.sin(beltTheta)
   let beltOptions = {
     collisionFilter: {
-  		category: 0x0002,
-  		mask: 0x0002
+  		category: 0x002,
+  		mask: 0x002
   	},
-    // frictionAir: 0.05
   }
   let beltOptions2 = {isSensor: true}
   let connectingCircle = Bodies.circle(beltX, beltY, beltRadius, beltOptions2)
@@ -1165,7 +1164,15 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		leftLegCircle.label = 'leftLeg'
 		leftLegCircle.dealDamage = true
 	}
-
+  // Left Belt Bodies
+  for(leftBeltBody of leftBeltBodies) {
+    leftBeltBody.dealDamage = false
+  }
+  // Right Belt Bodies
+  for(rightBeltBody of rightBeltBodies) {
+    rightBeltBody.dealDamage = false
+  }
+  beltRectangle.dealDamage = false
 	// End Circles
 	rightForeArmCircles[rightForeArmCircles.length - 1].isEnd = true
 	leftForeArmCircles[leftForeArmCircles.length - 1].isEnd = true
