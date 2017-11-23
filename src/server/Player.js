@@ -62,8 +62,8 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 
 
   let torsoStiffness = 0.7
-  let armStiffness = 0.4
-  let foreArmStiffness = 0.4
+  let armStiffness = 1
+  let foreArmStiffness = 1
   let thighStifness = 0.5
   let legStiffness = 0.5
 	///////////////////////////////////////////////////////////////////////////////
@@ -170,24 +170,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		rightArmConstraints.push(constraint)
 		rightArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		rightArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		rightArmConstraints.push(constraint4)
 	}
 	let rightArm = Composite.create({
 		bodies: rightArmCircles,
@@ -221,6 +203,30 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	rightArmConstraints.push(sensorCircleInitialConstraint)
 	rightArmConstraints.push(sensorCircleConstraint2)
 	rightArmConstraints.push(sensorCircleConstraint3)
+
+
+  for(let i = 0; i < rightArmCircles.length - 1; i++) {
+    let bodyA = rightArmCircles[i]
+    let bodyB = rightArmCircles[i+1]
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		rightArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		rightArmConstraints.push(constraint4)
+  }
 
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -273,24 +279,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		rightForeArmConstraints.push(constraint)
 		rightForeArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: foreArmStiffness,
-			render: {visible: false}
-		})
-		rightForeArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: foreArmStiffness,
-			render: {visible: false}
-		})
-		rightForeArmConstraints.push(constraint4)
 	}
 	let rightForeArm = Composite.create({
 		bodies: rightForeArmCircles,
@@ -324,6 +312,29 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	rightForeArmConstraints.push(sensorCircleInitialConstraint)
 	rightForeArmConstraints.push(sensorCircleConstraint2)
 	rightForeArmConstraints.push(sensorCircleConstraint3)
+
+  for(let i = 0; i < rightForeArmCircles.length - 1; i++) {
+    let bodyA = rightForeArmCircles[i]
+    let bodyB = rightForeArmCircles[i+1]
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: foreArmStiffness,
+			render: {visible: false}
+		})
+		rightForeArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: foreArmStiffness,
+			render: {visible: false}
+		})
+		rightForeArmConstraints.push(constraint4)
+  }
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -368,24 +379,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		leftArmConstraints.push(constraint)
 		leftArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		leftArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		leftArmConstraints.push(constraint4)
 	}
 	let leftArm = Composite.create({
 		bodies: leftArmCircles,
@@ -421,6 +414,31 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	leftArmConstraints.push(sensorCircleInitialConstraint)
 	leftArmConstraints.push(sensorCircleConstraint2)
 	leftArmConstraints.push(sensorCircleConstraint3)
+
+
+
+  for(let i = 0; i < leftArmCircles.length - 1; i++) {
+    let bodyA = leftArmCircles[i]
+    let bodyB = leftArmCircles[i+1]
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		leftArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		leftArmConstraints.push(constraint4)
+  }
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -522,6 +540,30 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	leftForeArmConstraints.push(sensorCircleInitialConstraint)
 	leftForeArmConstraints.push(sensorCircleConstraint2)
 	leftForeArmConstraints.push(sensorCircleConstraint3)
+
+
+  for(let i = 0; i < leftForeArmCircles.length - 1; i++) {
+    let bodyA = leftForeArmCircles[i]
+    let bodyB = leftForeArmCircles[i+1]
+    let constraint3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: radius, y: 0},
+			pointB:	{x: radius, y: 0},
+			stiffness: foreArmStiffness,
+			render: {visible: false}
+		})
+		leftForeArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: -radius, y: 0},
+			pointB:	{x: -radius, y: 0},
+			stiffness: foreArmStiffness,
+			render: {visible: false}
+		})
+		leftForeArmConstraints.push(constraint4)
+  }
 	///////////////////////////////////////////////////////////////////////////////
 
 
