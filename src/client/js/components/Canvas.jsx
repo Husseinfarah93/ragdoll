@@ -145,6 +145,8 @@ class Canvas extends React.Component {
         else this.props.audio[soundType].play()
       })
 
+
+
       window.addEventListener('keydown', e => {
         if(e.keyCode === 80) socket.emit('createBot')
         if(e.keyCode === 79) socket.emit('logRooms')
@@ -600,6 +602,7 @@ class Canvas extends React.Component {
       cvs.height = canvasHeight
       let boxSize = 50
       ctx.fillStyle = '#404040'
+      // ctx.fillRect(0, 0, canvasWidth, canvasHeight)
       ctx.fill()
       ctx.strokeStyle = '#E6E6E6'
       for(let i = 0; i <= canvasWidth; i += boxSize) {

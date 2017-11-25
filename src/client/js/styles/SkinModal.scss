@@ -42,10 +42,12 @@
 }
 #skinsContainer {
   height: 80%;
-  width: 80%;
+  // width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  left: 10%
 }
 .skinOption {
   height: 70px;

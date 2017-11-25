@@ -29,10 +29,6 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   }
   this.isDead = false
   this.isBlownUp = false
-  if(isAI) {
-    this.skillPointValues.damageDealt.curVal = 2
-    this.killStreak = 3
-  }
   this.colour = randColour()
   this.skinCategory = skinGroupName
   this.skinName = skinName
@@ -1391,7 +1387,12 @@ Player.prototype.resetPlayer = function() {
   this.beltProgress = 0
   this.skillPoints = 0
   this.force = this.initialForce
-  this.skillPointValues = Object.assign({}, this.initialSkillPointValues)
+  this.skillPointValues = {
+    maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
+    maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
+    damageDealt: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 0.1},
+    healthRegen: {initialVal: 30000, curVal: 30000, maxVal: 20000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -1000}
+  }
   this.isDead = false
   this.isBlownUp = false
   this.startHealthRegenInterval()
