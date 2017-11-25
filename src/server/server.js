@@ -636,7 +636,12 @@ function isCollision(event) {
 
 function isHit(bodyPart1, bodyPart2) {
   // If bodyPart1 or bodyPart2 is dealDamage True
-  return (bodyPart1.dealDamage && !bodyPart2.dealDamage) === true || (!bodyPart1.dealDamage && bodyPart2.dealDamage) === true
+  return (
+  ((bodyPart1.dealDamage && !bodyPart2.dealDamage) === true ||
+  (!bodyPart1.dealDamage && bodyPart2.dealDamage) === true) &&
+  ((bodyPart1 !== 'rightBeltBody' && bodyPart2 !== 'rightBeltBody') &&
+  (bodyPart1 !== 'leftBeltBody' && bodyPart2 !== 'leftBeltBody'))
+  )
 }
 
 function isWinner(bodyPart1, bodyPart2) {

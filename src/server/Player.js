@@ -61,7 +61,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   let armStiffness = 0.1
   let foreArmStiffness = 0.1
   let thighStifness = 0.5
-  let legStiffness = 0.5
+  let legStiffness = 0.8
 	///////////////////////////////////////////////////////////////////////////////
 	// Torso
 	let torsoCircles = []
@@ -72,7 +72,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	for(let i = 0; i < 5; i++) {
 		let circle;
 		if(i === 0) circle = Bodies.circle(x, y, radius, options)
-		else circle = Bodies.circle(x, y, radius)
+		else circle = Bodies.circle(x, y, radius, options)
 		torsoCircles.push(circle)
 		y += (radius * 2)
 	}
@@ -1204,10 +1204,12 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	}
   // Left Belt Bodies
   for(leftBeltBody of leftBeltBodies) {
+    leftBeltBody.label = "leftBeltBody"
     leftBeltBody.dealDamage = false
   }
   // Right Belt Bodies
   for(rightBeltBody of rightBeltBodies) {
+    rightBeltBody.label = "rightBeltBody"
     rightBeltBody.dealDamage = false
   }
   beltRectangle.dealDamage = false
