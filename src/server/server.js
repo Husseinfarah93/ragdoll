@@ -636,12 +636,11 @@ function isCollision(event) {
 
 function isHit(bodyPart1, bodyPart2) {
   // If bodyPart1 or bodyPart2 is dealDamage True
-  return (
-  ((bodyPart1.dealDamage && !bodyPart2.dealDamage) === true ||
-  (!bodyPart1.dealDamage && bodyPart2.dealDamage) === true) &&
-  ((bodyPart1 !== 'rightBeltBody' && bodyPart2 !== 'rightBeltBody') &&
-  (bodyPart1 !== 'leftBeltBody' && bodyPart2 !== 'leftBeltBody'))
-  )
+  let condition1 = bodyPart1.dealDamage && !bodyPart2.dealDamage === true
+  let condition2 = !bodyPart1.dealDamage && bodyPart2.dealDamage === true
+  let condition3 = (bodyPart1.label !== 'rightBeltBody') && (bodyPart2.label !== 'rightBeltBody')
+  let condition4 = (bodyPart1.label !== 'leftBeltBody') && (bodyPart2.label !== 'leftBeltBody')
+  return (condition1 || condition2) && (condition3 && condition4)
 }
 
 function isWinner(bodyPart1, bodyPart2) {
@@ -707,6 +706,12 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   }
   // Not Dead
   else {
+    if(bodyPartHit === "rightBeltBody" ||
+       bodyPartHit === "leftBeltBody" ||
+       bodyPartHitter === "rightBeltBody" ||
+       bodyPartHitter === "leftBeltBody") {
+         console.log(bodyPartHit, bodyPartHitter)
+       }
     let text = bodyPartHit === 'head' ? 'head' : 'body'
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
     // SEND HITTER BG UPDATE
