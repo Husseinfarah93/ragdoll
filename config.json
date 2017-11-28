@@ -4,43 +4,49 @@
       "gameHeight": 10000,
       "gameWidth": 10000,
       "maxPlayers": 30,
+      "maxServer": 40,
       "available": true
     },
     "1 V 1": {
       "gameHeight": 700,
       "gameWidth": 1000,
       "maxPlayers": 2,
+      "maxServer": 2,
       "available": false
     },
     "BATTLE ROYALE": {
       "gameHeight": 700,
       "gameWidth": 1000,
       "maxPlayers": 30,
+      "maxServer": 40,
       "available": false
     },
     "TDM": {
       "gameHeight": 700,
       "gameWidth": 1000,
       "maxPlayers": 12,
+      "maxServer": 12,
       "available": false
     },
     "INFECTED": {
       "gameHeight": 700,
       "gameWidth": 1000,
       "maxPlayers": 30,
+      "maxServer": 40,
       "available": false
     },
     "SANDBOX": {
       "gameHeight": 700,
       "gameWidth": 1000,
       "maxPlayers": 1,
+      "maxServer": 1,
       "available": false
     }
   },
   "playerTypes": {
     "basic": {
       "initialHealth": 200,
-      "damageDealt": 10
+      "damageDealt": 25
     }
   },
   "gameInfo": {

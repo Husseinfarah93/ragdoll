@@ -66,7 +66,6 @@ class MainComp extends React.Component {
 
   startGame = (name, gameType, character, skinGroupName, skinName, partyId) => {
     let soundOn = this.state.soundOn
-    console.log('startGame: ', partyId)
     socket.emit('startGame', {
       name,
       gameType,

@@ -1,0 +1,29 @@
+#skillPointsContainer {
+  width: 200px;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.skillPointsCircle  {
+  width: 20px;
+  height: 20px;
+  background-color: #F0433A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 90px;
+  font-size: 10px;
+}
+.skillPointsCircle.disabled {
+  background-color: grey
+}
+
+#skillPointNumber {
+  cursor: default;
+  font-family: "Quicksand";
+  color: #FFFFFF
+}

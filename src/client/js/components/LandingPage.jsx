@@ -65,7 +65,7 @@ class LandingPage extends React.Component {
   playGame = (evt) => {
     if(evt.keyCode === 13) {
       let gameMode = this.state.gameModes[this.state.currentGameModeIndex]
-      if(!gameMode.available) return
+      if(!gameMode.available || this.state.showSkinModal) return
       window.removeEventListener('keydown', this.playGame)
       this.props.startGame(
         this.state.name.toUpperCase(),

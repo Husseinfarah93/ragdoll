@@ -62,6 +62,11 @@ class Canvas extends React.Component {
       this.setState({ canvas: this.refs.canvas, gridCanvas: this.refs.gridCanvas, skinObj: skinObj })
       this.addListeners()
       this.setUpSockets()
+      let self = this
+      window.addEventListener('resize', () => {
+          console.log('resize')
+          self.resize()
+      })
     }
 
     setUpSockets() {
@@ -83,14 +88,15 @@ class Canvas extends React.Component {
       socket.on('draw', (Players, HealthPacks, Walls, Pelvis, id) => {
         this.camera.update(Pelvis)
         this.drawBackground(this.camera)
+        this.drawWalls(Walls, this.camera)
         // this.drawPlayers(Players, this.camera)
         this.newDrawPlayers(Players, this.camera)
         if(this.bloodParticles.length) this.drawBloodParticles()
-        this.drawHealthPacks(HealthPacks)
-        this.drawWalls(Walls, this.camera)
-        this.keydownLoop = setTimeout(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
       })
-
+      // this.keydownLoop = setInterval(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
+      this.keydownLoop = setInterval(() => {
+        socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down)
+      }, 15)
       socket.on('updateLeaderBoard', leaderBoard => {
         this.setState({ leaderBoard: leaderBoard })
       })
@@ -139,6 +145,16 @@ class Canvas extends React.Component {
         if(soundType === 'hit') this.props.audio[soundType][r].play()
         else this.props.audio[soundType].play()
       })
+
+      // let t = Date.now()
+      // socket.on('pongTest', () => {
+      //   let n = Date.now()
+      //   console.log("PING: ", n - t)
+      //   t = n
+      //   socket.emit('pingTest')
+      // })
+      // socket.emit('pingTest')
+
 
       window.addEventListener('keydown', e => {
         if(e.keyCode === 80) socket.emit('createBot')
@@ -452,6 +468,7 @@ class Canvas extends React.Component {
       for(let list of player.armBandList) {
         let percent = player.health / player.initialHealth
         ctx.lineCap = "butt"
+        ctx.lineWidth = 20
         ctx.beginPath()
         ctx.strokeStyle = `rgba(255, 0, 0, ${1 - percent}`
         ctx.moveTo(list[0].x - xPos, list[0].y - yPos)
@@ -514,23 +531,17 @@ class Canvas extends React.Component {
       let context = this.state.canvas.getContext('2d')
       let xPos = camera.xPos
       let yPos = camera.yPos
-      context.fillStyle = 'black';
-      context.beginPath();
-      context.globalAlpha = 0.2
+      context.fillStyle = "rgba(149, 165, 166,1)";
       for(let i = 0; i < bodies.length; i++) {
+        context.beginPath();
         let vertices = bodies[i]
         context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
         for(let j = 1; j < vertices.length; j++) {
           context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
         }
         context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-
-        context.lineWidth = 1;
-        context.strokeStyle = '#999';
-        context.stroke();
         context.fill()
       }
-      context.globalAlpha = 1
     }
 
     drawBackground(camera) {
@@ -577,6 +588,16 @@ class Canvas extends React.Component {
     }
 
 
+    resize() {
+      let width = window.innerWidth
+      let height = window.innerHeight
+      let canvas = this.state.canvas
+      canvas.width = width
+      canvas.height = height * 0.98
+      this.generateBackground(width, height)
+      this.camera.follow(width / 2, height * 0.98 / 2)
+    }
+
     /*  MISC CODE   */
 
 
@@ -586,9 +607,12 @@ class Canvas extends React.Component {
       cvs.width = canvasWidth
       cvs.height = canvasHeight
       let boxSize = 50
-      ctx.fillStyle = '#404040'
-      ctx.fill()
+      // ctx.fillStyle = '#404040'
+      // ctx.fillStyle = "#262930"
+      // ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+      // ctx.fill()
       ctx.strokeStyle = '#E6E6E6'
+      // ctx.strokeStyle = "#0A0C10"
       for(let i = 0; i <= canvasWidth; i += boxSize) {
         ctx.moveTo(i, 0)
         ctx.lineTo(i, canvasHeight)

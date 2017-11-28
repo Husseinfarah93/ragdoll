@@ -34,7 +34,8 @@ function findRoomParty(roomType, partyId) {
     if(
         rooms[room].gameType === roomType &&
         rooms[room].parties &&
-        rooms[room].parties.indexOf(partyId) !== -1
+        rooms[room].parties.indexOf(partyId) !== -1 &&
+        rooms[room].length + 1 <= c.gameModes[roomType].maxServer
       ) return room
   }
   return findRoom(roomType)
@@ -79,7 +80,6 @@ function randomHash(length) {
 // Create room of certain game mode
 function createRoom(roomType) {
     let room = io.createRoom(roomType)
-    console.log('creating room: ', room)
     return room
 }
 
@@ -118,9 +118,20 @@ function createWorld(roomName) {
     let engine = Engine.create()
     Matter.engine = engine
     engine.world.gravity.y = 0
+
+    let fps = 60
+    let delta = 1000 / fps
     setInterval(function() {
-      Engine.update(engine, 1000 / 60);
-    }, 1000 / 60);
+      let before = Date.now()
+      Engine.update(engine, delta);
+      let after = Date.now()
+      // console.log("UPDATE: ", after - before)
+    }, delta);
+
+
+
+
+
     room.Matter = Matter
     return Matter
 }
@@ -248,8 +259,14 @@ io.on('connection', socket => {
       rooms[room].bodiesToRepel = []
       rooms[room].leaderBoard = []
       // Collision Code
+      let beforeTime;
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
       Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
+      Matter.Events.on(Matter.engine, 'beforeUpdate', () => beforeTime = Date.now())
+      Matter.Events.on(Matter.engine, 'afterUpdate', () => {
+        let t = Date.now() - beforeTime
+        if(t) console.log(t)
+      })
     }
     // Set up camera front end
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
@@ -298,6 +315,12 @@ io.on('connection', socket => {
       leaderBoardChange(room)
       // SEND START BG UPDATE
       sendBGTextUpdate(socket, 'start')
+      let playerNames = Object.keys(rooms[room].players)
+      if(playerNames.length === 2) {
+        let AIIndex = socket.id === playerNames[0] ? 1 : 0
+        let isAI = rooms[room].players[playerNames[AIIndex]].isAI
+        if(isAI) adjustBotTarget(room)
+      }
     })
     socket.on('blowUp', () => {
       player.blowUp(Matter)
@@ -316,7 +339,6 @@ io.on('connection', socket => {
     setInterval(updateCentrePoints, 16)
     let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
     socket.updateInterval = updateInterval
-    console.log('Rooms: ', Object.keys(io.sockets.adapter.rooms))
   })
   socket.on('joinPartyRequest', partyId => {
     console.log("JOIN PARTY REQUEST: ", partyId)
@@ -324,6 +346,7 @@ io.on('connection', socket => {
     socket.emit('joinPartyResponse', {isValid, partyId})
   })
   socket.on('createdParty', partyId => socket.partyId = partyId)
+  socket.on('pingTest', () => socket.emit('pongTest'))
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
 
@@ -347,16 +370,20 @@ function updateLeaderboard(roomName) {
   for(player in players) {
     playerList.push(players[player])
   }
-  let temp = playerList.map(player => {
+  let temp = playerList.map((player, idx) => {
     return {
       killStreak: player.killStreak,
       id: player.id,
       name: player.name,
       colour: player.colour,
-      beltColour: player.beltColour
+      beltColour: player.beltColour,
     }
   })
   temp = temp.sort((a1, a2) => a2.killStreak - a1.killStreak)
+  temp = temp.map((player, idx) => {
+    player.position = idx + 1
+    return player
+  })
   room.leaderBoard = temp
 }
 
@@ -627,7 +654,11 @@ function isCollision(event) {
 
 function isHit(bodyPart1, bodyPart2) {
   // If bodyPart1 or bodyPart2 is dealDamage True
-  return (bodyPart1.dealDamage && !bodyPart2.dealDamage) === true || (!bodyPart1.dealDamage && bodyPart2.dealDamage) === true
+  let condition1 = bodyPart1.dealDamage && !bodyPart2.dealDamage === true
+  let condition2 = !bodyPart1.dealDamage && bodyPart2.dealDamage === true
+  let condition3 = (bodyPart1.label !== 'rightBeltBody') && (bodyPart2.label !== 'rightBeltBody')
+  let condition4 = (bodyPart1.label !== 'leftBeltBody') && (bodyPart2.label !== 'leftBeltBody')
+  return (condition1 || condition2) && (condition3 && condition4)
 }
 
 function isWinner(bodyPart1, bodyPart2) {
@@ -840,7 +871,6 @@ function generateRandomId(roomName) {
 function createBot(Matter, roomName) {
   let randomName = generateRandomName()
   let randomId = generateRandomId(roomName)
-  console.log("Bot Id: ", randomId)
   let skinCatsObj = c.gameInfo.skins
   let randomSkinCatIdx = getRandom(0, Object.keys(skinCatsObj).length - 1)
   let catName = Object.keys(skinCatsObj)[randomSkinCatIdx]

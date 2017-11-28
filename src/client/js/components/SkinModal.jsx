@@ -147,6 +147,9 @@ class SkinModal extends React.Component {
   }
 
   render() {
+    let skinNum = this.state.currentSkinGroup.skins ? this.state.currentSkinGroup.skins.length : 0
+    let widthPercent = (80/4) * skinNum
+    let widthString = widthPercent + "%"
     return (
       <div id="skinModal">
         <div id="skinCrossIcon" onClick={this.props.closeSkinModal}>
@@ -163,7 +166,7 @@ class SkinModal extends React.Component {
                 <i className="fa fa-arrow-right" />
               </div>
             </div>
-            <div id="skinsContainer">
+            <div id="skinsContainer" style={{width: widthString}}>
               {/* {
                 this.state.arrToMap.map((element, idx) => {
                   let actualIndex = (this.state.currentPage * this.state.showAmount) + idx

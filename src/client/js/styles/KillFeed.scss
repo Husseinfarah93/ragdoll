@@ -1,0 +1,33 @@
+.killFeedContainer {
+  position: fixed;
+  top: 50px;
+  left: 10px
+}
+.killFeedList {
+  list-style: none;
+  padding: 0px;
+  margin: 0px
+}
+.killIconBody {
+  background-image: url("../../assets/images/icons/BodyShotIcon.png");
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px
+}
+.killIconHead {
+  background-image: url("../../assets/images/icons/HeadShotIcon.png");
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px
+}
+.killContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px
+}
+.playerName {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: Quicksand;
+  color: black
+}

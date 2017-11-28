@@ -1,0 +1,24 @@
+.progressContainer {
+
+}
+.progress {
+
+}
+.progressTextContainer {
+
+}
+.progressText {
+  cursor: default;
+  color: white
+}
+.progressText.disabled {
+  color: grey
+}
+.plusIcon {
+  color: white;
+  cursor: pointer
+}
+.plusIcon.disabled {
+  color: grey;
+  cursor: default;
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
+import "../styles/ProgressBar.scss"
 
 @Radium
 class ProgressBar extends React.Component {
@@ -19,10 +20,11 @@ class ProgressBar extends React.Component {
     return (
         <div className="progressContainer" style={{...Style.progressContainer, width: this.props.containerWidth, height: this.props.containerHeight, borderRadius: this.props.borderRadius}}>
           <div className="progress" style={{ ...Style.progress, width: this.props.progress, backgroundColor: this.props.progressColour, borderRadius: this.props.borderRadius }}></div>
-          <div className="textContainer" style={Style.textContainer}>
-            <span className="text" style={{ ...Style.text, color: this.props.textColour, fontSize: this.props.fontSize }}> {this.props.text} </span>
+          <div className="progressTextContainer" style={Style.textContainer}>
+            <span className={!this.props.isSkillPoint || this.props.plusIconCanClick ? "progressText" : "progressText disabled"} style={{ ...Style.text, fontSize: this.props.fontSize }}> {this.props.text} </span>
+
           </div>
-          <div className="plusIcon" style={{ ...Style.plusIcon, display: this.props.plusIcon, right: this.props.plusIconRight, color: this.props.plusColour }} onClick={() => this.props.handleSkillPointsClick(this.props.name, this.props.progressVal)}> + </div>
+          <div className={this.props.plusIconCanClick ? "plusIcon" : "plusIcon disabled"} style={{ ...Style.plusIcon, display: this.props.plusIcon, right: this.props.plusIconRight }} onClick={() => this.props.handleSkillPointsClick(this.props.name, this.props.progressVal)}> + </div>
       </div>
     )
   }
@@ -48,13 +50,11 @@ const Style = {
     justifyContent: "center"
   },
   text: {
-    fontFamily: "Ubuntu",
+    fontFamily: "Quicksand",
     userSelect: "none"
   },
   plusIcon: {
     position: "absolute",
-    color: "#FFFFFF",
-    cursor: "pointer",
     userSelect: "none"
   },
 }

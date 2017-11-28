@@ -2,13 +2,14 @@ let c = require('../../config.json')
 let randColour = require('./helper.js').randColour
 
 function Player(name, id, characterType, skinGroupName, skinName, isAI) {
+  // TEST
   this.name = name ? name : 'PLAYER'
   this.id = id
   this.characterType = characterType
   this.isAI = isAI
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.maxHealth = this.initialHealth
-  this.killStreak = 4
+  this.killStreak = 0
   this.beltNumber = 0
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
@@ -18,9 +19,14 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
     maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
     maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
     damageDealt: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 0.1},
-    healthRegen: {initialVal: 30000, curVal: 30000, maxVal: 20000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -100}
+    healthRegen: {initialVal: 30000, curVal: 30000, maxVal: 20000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -1000}
   }
-  this.skillPointValues = Object.assign({}, this.initialSkillPointValues)
+  this.skillPointValues = {
+    maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
+    maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
+    damageDealt: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 0.1},
+    healthRegen: {initialVal: 30000, curVal: 30000, maxVal: 20000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -1000}
+  }
   this.isDead = false
   this.isBlownUp = false
   this.colour = randColour()
@@ -52,10 +58,10 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 
 
   let torsoStiffness = 0.7
-  let armStiffness = 0.4
-  let foreArmStiffness = 0.4
+  let armStiffness = 0.1
+  let foreArmStiffness = 0.1
   let thighStifness = 0.5
-  let legStiffness = 0.5
+  let legStiffness = 0.8
 	///////////////////////////////////////////////////////////////////////////////
 	// Torso
 	let torsoCircles = []
@@ -66,7 +72,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	for(let i = 0; i < 5; i++) {
 		let circle;
 		if(i === 0) circle = Bodies.circle(x, y, radius, options)
-		else circle = Bodies.circle(x, y, radius)
+		else circle = Bodies.circle(x, y, radius, options)
 		torsoCircles.push(circle)
 		y += (radius * 2)
 	}
@@ -160,24 +166,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		rightArmConstraints.push(constraint)
 		rightArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		rightArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		rightArmConstraints.push(constraint4)
 	}
 	let rightArm = Composite.create({
 		bodies: rightArmCircles,
@@ -211,6 +199,30 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	rightArmConstraints.push(sensorCircleInitialConstraint)
 	rightArmConstraints.push(sensorCircleConstraint2)
 	rightArmConstraints.push(sensorCircleConstraint3)
+
+
+  for(let i = 0; i < rightArmCircles.length - 1; i++) {
+    let bodyA = rightArmCircles[i]
+    let bodyB = rightArmCircles[i+1]
+    let constraint3 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: -radius},
+			pointB:	{x: 0, y: -radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		rightArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: radius},
+			pointB:	{x: 0, y: radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		rightArmConstraints.push(constraint4)
+  }
 
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -263,24 +275,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		rightForeArmConstraints.push(constraint)
 		rightForeArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: foreArmStiffness,
-			render: {visible: false}
-		})
-		rightForeArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: foreArmStiffness,
-			render: {visible: false}
-		})
-		rightForeArmConstraints.push(constraint4)
 	}
 	let rightForeArm = Composite.create({
 		bodies: rightForeArmCircles,
@@ -314,6 +308,29 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	rightForeArmConstraints.push(sensorCircleInitialConstraint)
 	rightForeArmConstraints.push(sensorCircleConstraint2)
 	rightForeArmConstraints.push(sensorCircleConstraint3)
+
+  for(let i = 0; i < rightForeArmCircles.length - 1; i++) {
+    let bodyA = rightForeArmCircles[i]
+    let bodyB = rightForeArmCircles[i+1]
+    let constraint3 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: -radius},
+			pointB:	{x: 0, y: -radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		rightForeArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: radius},
+			pointB:	{x: 0, y: radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		rightForeArmConstraints.push(constraint4)
+  }
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -358,24 +375,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		})
 		leftArmConstraints.push(constraint)
 		leftArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		leftArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: armStiffness,
-			render: {visible: false}
-		})
-		leftArmConstraints.push(constraint4)
 	}
 	let leftArm = Composite.create({
 		bodies: leftArmCircles,
@@ -411,6 +410,31 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	leftArmConstraints.push(sensorCircleInitialConstraint)
 	leftArmConstraints.push(sensorCircleConstraint2)
 	leftArmConstraints.push(sensorCircleConstraint3)
+
+
+
+  for(let i = 0; i < leftArmCircles.length - 1; i++) {
+    let bodyA = leftArmCircles[i]
+    let bodyB = leftArmCircles[i+1]
+    let constraint3 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: -radius},
+			pointB:	{x: 0, y: -radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		leftArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: radius},
+			pointB:	{x: 0, y: radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		leftArmConstraints.push(constraint4)
+  }
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -512,6 +536,30 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	leftForeArmConstraints.push(sensorCircleInitialConstraint)
 	leftForeArmConstraints.push(sensorCircleConstraint2)
 	leftForeArmConstraints.push(sensorCircleConstraint3)
+
+
+  for(let i = 0; i < leftForeArmCircles.length - 1; i++) {
+    let bodyA = leftForeArmCircles[i]
+    let bodyB = leftForeArmCircles[i+1]
+    let constraint3 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: -radius},
+			pointB:	{x: 0, y: -radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		leftForeArmConstraints.push(constraint3)
+		let constraint4 = Constraint.create({
+      bodyA: bodyA,
+			bodyB: bodyB,
+			pointA:	{x: 0, y: radius},
+			pointB:	{x: 0, y: radius},
+			stiffness: armStiffness,
+			render: {visible: false}
+		})
+		leftForeArmConstraints.push(constraint4)
+  }
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -967,10 +1015,9 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   let beltYDiff = 2 * beltRadius * Math.sin(beltTheta)
   let beltOptions = {
     collisionFilter: {
-  		category: 0x0002,
-  		mask: 0x0002
+  		category: 0x002,
+  		mask: 0x002
   	},
-    // frictionAir: 0.05
   }
   let beltOptions2 = {isSensor: true}
   let connectingCircle = Bodies.circle(beltX, beltY, beltRadius, beltOptions2)
@@ -1102,7 +1149,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
     ]
 	})
 
-
   // World.add(world, player)
 	// Labels and dealDamage
 	// head
@@ -1155,7 +1201,17 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		leftLegCircle.label = 'leftLeg'
 		leftLegCircle.dealDamage = true
 	}
-
+  // Left Belt Bodies
+  for(leftBeltBody of leftBeltBodies) {
+    leftBeltBody.label = "leftBeltBody"
+    leftBeltBody.dealDamage = false
+  }
+  // Right Belt Bodies
+  for(rightBeltBody of rightBeltBodies) {
+    rightBeltBody.label = "rightBeltBody"
+    rightBeltBody.dealDamage = false
+  }
+  beltRectangle.dealDamage = false
 	// End Circles
 	rightForeArmCircles[rightForeArmCircles.length - 1].isEnd = true
 	leftForeArmCircles[leftForeArmCircles.length - 1].isEnd = true
@@ -1179,6 +1235,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   this.rightLeg = rightLegCircles[rightLegCircles.length - 1]
   this.leftLeg = leftLegCircles[leftLegCircles.length - 1]
   this.PlayerComposite = player
+
   World.add(Matter.engine.world, player)
 }
 
@@ -1332,7 +1389,12 @@ Player.prototype.resetPlayer = function() {
   this.beltProgress = 0
   this.skillPoints = 0
   this.force = this.initialForce
-  this.skillPointValues = Object.assign({}, this.initialSkillPointValues)
+  this.skillPointValues = {
+    maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
+    maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
+    damageDealt: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#4A89AA', text: 'Damage Dealt', name: 'damageDealt', updateAmount: 0.1},
+    healthRegen: {initialVal: 30000, curVal: 30000, maxVal: 20000, colour: '#18C29C', text: 'Health Regen', name: 'healthRegen', updateAmount: -1000}
+  }
   this.isDead = false
   this.isBlownUp = false
   this.startHealthRegenInterval()
