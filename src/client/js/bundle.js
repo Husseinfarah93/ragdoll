@@ -29710,16 +29710,15 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       _io2.default.on('draw', function (Players, HealthPacks, Walls, Pelvis, id) {
         _this2.camera.update(Pelvis);
         _this2.drawBackground(_this2.camera);
+        _this2.drawWalls(Walls, _this2.camera);
         // this.drawPlayers(Players, this.camera)
         _this2.newDrawPlayers(Players, _this2.camera);
         if (_this2.bloodParticles.length) _this2.drawBloodParticles();
-        _this2.drawHealthPacks(HealthPacks);
-        _this2.drawWalls(Walls, _this2.camera);
-        _this2.keydownLoop = setTimeout(function () {
-          return _io2.default.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down);
-        }, 15);
       });
-
+      // this.keydownLoop = setInterval(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
+      this.keydownLoop = setInterval(function () {
+        _io2.default.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down);
+      }, 15);
       _io2.default.on('updateLeaderBoard', function (leaderBoard) {
         _this2.setState({ leaderBoard: leaderBoard });
       });
@@ -29766,6 +29765,16 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
         var r = Math.ceil(Math.random() * hitLength) - 1;
         if (soundType === 'hit') _this2.props.audio[soundType][r].play();else _this2.props.audio[soundType].play();
       });
+
+      // let t = Date.now()
+      // socket.on('pongTest', () => {
+      //   let n = Date.now()
+      //   console.log("PING: ", n - t)
+      //   t = n
+      //   socket.emit('pingTest')
+      // })
+      // socket.emit('pingTest')
+
 
       window.addEventListener('keydown', function (e) {
         if (e.keyCode === 80) _io2.default.emit('createBot');
@@ -30398,23 +30407,17 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       var context = this.state.canvas.getContext('2d');
       var xPos = camera.xPos;
       var yPos = camera.yPos;
-      context.fillStyle = 'black';
-      context.beginPath();
-      context.globalAlpha = 0.2;
+      context.fillStyle = "rgba(149, 165, 166,1)";
       for (var i = 0; i < bodies.length; i++) {
+        context.beginPath();
         var vertices = bodies[i];
         context.moveTo(vertices[0].x - xPos, vertices[0].y - yPos);
         for (var j = 1; j < vertices.length; j++) {
           context.lineTo(vertices[j].x - xPos, vertices[j].y - yPos);
         }
         context.lineTo(vertices[0].x - xPos, vertices[0].y - yPos);
-
-        context.lineWidth = 1;
-        context.strokeStyle = '#999';
-        context.stroke();
         context.fill();
       }
-      context.globalAlpha = 1;
     }
   }, {
     key: 'drawBackground',
@@ -30460,10 +30463,13 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
   }, {
     key: 'resize',
     value: function resize() {
-      this.camera.follow(window.innerWidth / 2, window.innerHeight * 0.98 / 2);
-      // let canvas = this.state.canvas
-      // canvas.width = window.innerWidth
-      // canvas.height = window.innerHeight * 0.98
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      var canvas = this.state.canvas;
+      canvas.width = width;
+      canvas.height = height * 0.98;
+      this.generateBackground(width, height);
+      this.camera.follow(width / 2, height * 0.98 / 2);
     }
 
     /*  MISC CODE   */
@@ -30476,10 +30482,12 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       cvs.width = canvasWidth;
       cvs.height = canvasHeight;
       var boxSize = 50;
-      ctx.fillStyle = '#404040';
+      // ctx.fillStyle = '#404040'
+      // ctx.fillStyle = "#262930"
       // ctx.fillRect(0, 0, canvasWidth, canvasHeight)
-      ctx.fill();
+      // ctx.fill()
       ctx.strokeStyle = '#E6E6E6';
+      // ctx.strokeStyle = "#0A0C10"
       for (var i = 0; i <= canvasWidth; i += boxSize) {
         ctx.moveTo(i, 0);
         ctx.lineTo(i, canvasHeight);
@@ -30997,7 +31005,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, "#modal {\n  top: 50%;\n  left: 50%;\n  margin-top: -150px;\n  margin-left: -125px;\n  width: 250px;\n  height: 300px;\n  border-radius: 20px;\n  background-color: #3498db;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-family: Quicksand;\n  position: fixed;\n  box-shadow: 8px 8px 3px #336E7B; }\n\n#beltInfo {\n  position: absolute;\n  width: 40%;\n  height: 20%;\n  background-color: #f1c40f;\n  top: 0px;\n  border-radius: 0px 0px 20px 20px;\n  text-align: center;\n  color: black; }\n\n#star {\n  font-size: 30px;\n  color: white; }\n\n#lifeInfo {\n  width: 100%;\n  height: 80%;\n  border-radius: 20px 20px 0px 0px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n#shareInfo {\n  width: 100%;\n  height: 20%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  color: white;\n  font-size: 30px;\n  cursor: pointer; }\n\n#killStreakValue, #killStreakText, #star {\n  padding: 0px;\n  margin: 0px;\n  color: white; }\n\n#killStreakValue {\n  font-size: 70px;\n  text-shadow: 5px 5px #336E7B;\n  margin-top: 30px; }\n\n#facebook {\n  width: 50%;\n  height: 100%;\n  background-color: #3B5998;\n  border-radius: 0px 20px 0px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#twitter {\n  width: 50%;\n  height: 100%;\n  background-color: #00aced;\n  border-radius: 20px 0px 20px 0px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#facebook:hover, #twitter:hover {\n  color: grey; }\n", ""]);
+exports.push([module.i, "#modal {\n  top: 50%;\n  left: 50%;\n  margin-top: -150px;\n  margin-left: -125px;\n  width: 250px;\n  height: 300px;\n  border-radius: 20px;\n  background-color: #3498db;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-family: Quicksand;\n  position: fixed;\n  box-shadow: 8px 8px 3px #336E7B; }\n\n#beltInfo {\n  position: absolute;\n  width: 50%;\n  height: 20%;\n  background-color: #f1c40f;\n  top: 0px;\n  border-radius: 0px 0px 20px 20px;\n  text-align: center;\n  color: black; }\n\n#star {\n  font-size: 30px;\n  color: white; }\n\n#lifeInfo {\n  width: 100%;\n  height: 80%;\n  border-radius: 20px 20px 0px 0px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n#shareInfo {\n  width: 100%;\n  height: 20%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  color: white;\n  font-size: 30px;\n  cursor: pointer; }\n\n#killStreakValue, #killStreakText, #star {\n  padding: 0px;\n  margin: 0px;\n  color: white; }\n\n#killStreakValue {\n  font-size: 70px;\n  text-shadow: 5px 5px #336E7B;\n  margin-top: 30px; }\n\n#facebook {\n  width: 50%;\n  height: 100%;\n  background-color: #3B5998;\n  border-radius: 0px 20px 0px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#twitter {\n  width: 50%;\n  height: 100%;\n  background-color: #00aced;\n  border-radius: 20px 0px 20px 0px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#facebook:hover, #twitter:hover {\n  color: grey; }\n", ""]);
 
 // exports
 

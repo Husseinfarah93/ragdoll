@@ -118,9 +118,20 @@ function createWorld(roomName) {
     let engine = Engine.create()
     Matter.engine = engine
     engine.world.gravity.y = 0
+
+    let fps = 60
+    let delta = 1000 / fps
     setInterval(function() {
-      Engine.update(engine, 1000 / 60);
-    }, 1000 / 60);
+      let before = Date.now()
+      Engine.update(engine, delta);
+      let after = Date.now()
+      // console.log("UPDATE: ", after - before)
+    }, delta);
+
+
+
+
+
     room.Matter = Matter
     return Matter
 }
@@ -248,8 +259,14 @@ io.on('connection', socket => {
       rooms[room].bodiesToRepel = []
       rooms[room].leaderBoard = []
       // Collision Code
+      let beforeTime;
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
       Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
+      Matter.Events.on(Matter.engine, 'beforeUpdate', () => beforeTime = Date.now())
+      Matter.Events.on(Matter.engine, 'afterUpdate', () => {
+        let t = Date.now() - beforeTime
+        if(t) console.log(t)
+      })
     }
     // Set up camera front end
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
@@ -329,6 +346,7 @@ io.on('connection', socket => {
     socket.emit('joinPartyResponse', {isValid, partyId})
   })
   socket.on('createdParty', partyId => socket.partyId = partyId)
+  socket.on('pingTest', () => socket.emit('pongTest'))
 })
 /* ---------------------------------------------------- UPDATE CODE -------------------------------------------------------- */
 
@@ -706,12 +724,6 @@ function handleHit(hitterPlayer, hitPlayer, bodyPartHitter, bodyPartHit, roomNam
   }
   // Not Dead
   else {
-    if(bodyPartHit === "rightBeltBody" ||
-       bodyPartHit === "leftBeltBody" ||
-       bodyPartHitter === "rightBeltBody" ||
-       bodyPartHitter === "leftBeltBody") {
-         console.log(bodyPartHit, bodyPartHitter)
-       }
     let text = bodyPartHit === 'head' ? 'head' : 'body'
     hitPlayer.health -= damageAmount(hitterPlayer, bodyPartHit)
     // SEND HITTER BG UPDATE
@@ -859,7 +871,6 @@ function generateRandomId(roomName) {
 function createBot(Matter, roomName) {
   let randomName = generateRandomName()
   let randomId = generateRandomId(roomName)
-  console.log("Bot Id: ", randomId)
   let skinCatsObj = c.gameInfo.skins
   let randomSkinCatIdx = getRandom(0, Object.keys(skinCatsObj).length - 1)
   let catName = Object.keys(skinCatsObj)[randomSkinCatIdx]

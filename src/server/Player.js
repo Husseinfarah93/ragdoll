@@ -1149,7 +1149,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
     ]
 	})
 
-
   // World.add(world, player)
 	// Labels and dealDamage
 	// head
@@ -1236,6 +1235,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   this.rightLeg = rightLegCircles[rightLegCircles.length - 1]
   this.leftLeg = leftLegCircles[leftLegCircles.length - 1]
   this.PlayerComposite = player
+
   World.add(Matter.engine.world, player)
 }
 
