@@ -262,11 +262,11 @@ io.on('connection', socket => {
       let beforeTime;
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
       Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
-      Matter.Events.on(Matter.engine, 'beforeUpdate', () => beforeTime = Date.now())
-      Matter.Events.on(Matter.engine, 'afterUpdate', () => {
-        let t = Date.now() - beforeTime
-        if(t) console.log(t)
-      })
+      // Matter.Events.on(Matter.engine, 'beforeUpdate', () => beforeTime = Date.now())
+      // Matter.Events.on(Matter.engine, 'afterUpdate', () => {
+      //   let t = Date.now() - beforeTime
+      //   if(t) console.log(t)
+      // })
     }
     // Set up camera front end
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth

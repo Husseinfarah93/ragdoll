@@ -14,8 +14,10 @@ class RespawnModal extends React.Component {
       <div id="modal">
         <div id="lifeInfo">
           <div id='beltInfo'>
-            {`${this.props.beltColour} BELT`}
-            <div id="star" style={{color: this.props.beltColour}}>★</div>
+            <div>
+              {`${this.props.beltColour} BELT`}
+            </div>
+            {/* <div id="star" style={{color: this.props.beltColour}}>★</div> */}
           </div>
           <h1 id='killStreakValue'>{this.props.killStreak}</h1>
           <p id="killStreakText">Killstreak</p>

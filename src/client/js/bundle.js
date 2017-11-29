@@ -30921,11 +30921,10 @@ var RespawnModal = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { id: 'beltInfo' },
-            this.props.beltColour + ' BELT',
             _react2.default.createElement(
               'div',
-              { id: 'star', style: { color: this.props.beltColour } },
-              '\u2605'
+              null,
+              this.props.beltColour + ' BELT'
             )
           ),
           _react2.default.createElement(
@@ -31005,7 +31004,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, "#modal {\n  top: 50%;\n  left: 50%;\n  margin-top: -150px;\n  margin-left: -125px;\n  width: 250px;\n  height: 300px;\n  border-radius: 20px;\n  background-color: #3498db;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-family: Quicksand;\n  position: fixed;\n  box-shadow: 8px 8px 3px #336E7B; }\n\n#beltInfo {\n  position: absolute;\n  width: 50%;\n  height: 20%;\n  background-color: #f1c40f;\n  top: 0px;\n  border-radius: 0px 0px 20px 20px;\n  text-align: center;\n  color: black; }\n\n#star {\n  font-size: 30px;\n  color: white; }\n\n#lifeInfo {\n  width: 100%;\n  height: 80%;\n  border-radius: 20px 20px 0px 0px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n#shareInfo {\n  width: 100%;\n  height: 20%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  color: white;\n  font-size: 30px;\n  cursor: pointer; }\n\n#killStreakValue, #killStreakText, #star {\n  padding: 0px;\n  margin: 0px;\n  color: white; }\n\n#killStreakValue {\n  font-size: 70px;\n  text-shadow: 5px 5px #336E7B;\n  margin-top: 30px; }\n\n#facebook {\n  width: 50%;\n  height: 100%;\n  background-color: #3B5998;\n  border-radius: 0px 20px 0px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#twitter {\n  width: 50%;\n  height: 100%;\n  background-color: #00aced;\n  border-radius: 20px 0px 20px 0px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#facebook:hover, #twitter:hover {\n  color: grey; }\n", ""]);
+exports.push([module.i, "#modal {\n  top: 50%;\n  left: 50%;\n  margin-top: -150px;\n  margin-left: -125px;\n  width: 250px;\n  height: 300px;\n  border-radius: 20px;\n  background-color: #4fcbd3;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-family: Quicksand;\n  position: fixed;\n  box-shadow: 8px 8px 3px #336E7B; }\n\n#beltInfo {\n  position: absolute;\n  width: 50%;\n  height: 20%;\n  background-color: white;\n  top: 0px;\n  border-radius: 0px 0px 20px 20px;\n  text-align: center;\n  color: black;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#star {\n  font-size: 30px;\n  color: white; }\n\n#lifeInfo {\n  width: 100%;\n  height: 80%;\n  border-radius: 20px 20px 0px 0px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n#shareInfo {\n  width: 100%;\n  height: 20%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  color: white;\n  font-size: 30px;\n  cursor: pointer; }\n\n#killStreakValue, #killStreakText, #star {\n  padding: 0px;\n  margin: 0px;\n  color: white; }\n\n#killStreakValue {\n  font-size: 70px;\n  text-shadow: 5px 5px #336E7B;\n  margin-top: 30px; }\n\n#facebook {\n  width: 50%;\n  height: 100%;\n  border-radius: 0px 20px 0px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#twitter {\n  width: 50%;\n  height: 100%;\n  border-radius: 20px 0px 20px 0px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#facebook:hover, #twitter:hover {\n  color: grey; }\n", ""]);
 
 // exports
 

@@ -72,7 +72,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	for(let i = 0; i < 5; i++) {
 		let circle;
 		if(i === 0) circle = Bodies.circle(x, y, radius, options)
-		else circle = Bodies.circle(x, y, radius, options)
+		else circle = Bodies.circle(x, y, radius)
 		torsoCircles.push(circle)
 		y += (radius * 2)
 	}
@@ -1148,6 +1148,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
       rectangleBeltComposite
     ]
 	})
+
 
   // World.add(world, player)
 	// Labels and dealDamage
