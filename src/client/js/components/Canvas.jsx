@@ -96,7 +96,7 @@ class Canvas extends React.Component {
       // this.keydownLoop = setInterval(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
       this.keydownLoop = setInterval(() => {
         socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down)
-      }, 15)
+      }, 33)
       socket.on('updateLeaderBoard', leaderBoard => {
         this.setState({ leaderBoard: leaderBoard })
       })

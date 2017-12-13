@@ -23,7 +23,7 @@ class LeaderBoard extends React.Component {
   }
 
   render() {
-    let slicedLeaderBoard = this.props.leaderBoard.slice(0, 10)
+    let slicedLeaderBoard = this.props.leaderBoard.slice(0, 5)
     if(slicedLeaderBoard.length && !this.isInLeaderBoard(slicedLeaderBoard, socket.id)) {
       let player = this.getPlayerInLeaderBoard(this.props.leaderBoard, socket.id)
       slicedLeaderBoard.push(player)

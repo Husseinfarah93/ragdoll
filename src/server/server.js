@@ -118,14 +118,11 @@ function createWorld(roomName) {
     let engine = Engine.create()
     Matter.engine = engine
     engine.world.gravity.y = 0
-
-    let fps = 60
+    engine.enableSleeping = true
+    let fps = 30
     let delta = 1000 / fps
     setInterval(function() {
-      let before = Date.now()
       Engine.update(engine, delta);
-      let after = Date.now()
-      // console.log("UPDATE: ", after - before)
     }, delta);
 
 
@@ -191,7 +188,7 @@ function findSpawnPoint(gameMode, roomName) {
   let gameWidth = c.gameModes[gameMode].gameWidth
   let gameHeight = c.gameModes[gameMode].gameHeight
   let wallThickness = 1100
-  let gap = 200
+  let gap = 100
   let minX = wallThickness
   let minY = wallThickness
   let maxX = gameWidth - wallThickness
@@ -204,23 +201,26 @@ function findSpawnPoint(gameMode, roomName) {
   let returnX;
   let returnY;
   while(!foundPosition) {
-    newX = getRandom(minX, maxX)
-    newY = getRandom(minY, maxY)
+    newX = returnX = getRandom(minX, maxX)
+    newY = returnY = getRandom(minY, maxY)
+    foundPosition = true
     if(players.length === 0) {
       returnX = newX
       returnY = newY
       foundPosition = true
+      // return
     }
     for(let player of players) {
       let x = player.x
       let y = player.y
       let xCondition = ( newX + gap < x ) || ( x + gap < newX )
       let yCondition = ( newY + gap < y ) || ( y + gap < newY )
-      if(xCondition && yCondition) {
-        foundPosition = true
-        returnX = newX
-        returnY = newY
-      }
+      // if(xCondition && yCondition) {
+      //   foundPosition = true
+      //   returnX = newX
+      //   returnY = newY
+      // }
+      if(!xCondition || !yCondition) foundPosition = false
     }
   }
   return {
@@ -262,11 +262,6 @@ io.on('connection', socket => {
       let beforeTime;
       Matter.Events.on(Matter.engine, 'collisionStart', (e) => collisionCheck(e, room, socket.id))
       Matter.Events.on(Matter.engine, 'beforeUpdate', () => executeRepel(Matter, room))
-      // Matter.Events.on(Matter.engine, 'beforeUpdate', () => beforeTime = Date.now())
-      // Matter.Events.on(Matter.engine, 'afterUpdate', () => {
-      //   let t = Date.now() - beforeTime
-      //   if(t) console.log(t)
-      // })
     }
     // Set up camera front end
     let worldWidth = c.gameModes[gameInfo.gameType].gameWidth
@@ -310,7 +305,7 @@ io.on('connection', socket => {
       player.createMatterPlayerCircles2(Matter, spawnPoints.x, spawnPoints.y, 10)
       updatePlayerValues(socket, player)
       clearUpdates(socket.id)
-      let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
+      let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 33)
       socket.updateInterval = updateInterval
       leaderBoardChange(room)
       // SEND START BG UPDATE
@@ -334,10 +329,14 @@ io.on('connection', socket => {
     socket.on('createBot', () => createBot(Matter, room))
     socket.on('logRooms', () => console.log(rooms))
 
+    // for(let i = 0; i < 30; i++) createBot(Matter, room)
+    // createBot(Matter, room)
     leaderBoardChange(room)
     // Update Code
-    setInterval(updateCentrePoints, 16)
-    let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), 15)
+    let fps = 30
+    let intervalTime = 1000 / fps
+    setInterval(updateCentrePoints, intervalTime)
+    let updateInterval = setInterval(() => updateFrontEndInfo(room, socket, player), intervalTime)
     socket.updateInterval = updateInterval
   })
   socket.on('joinPartyRequest', partyId => {
@@ -756,6 +755,7 @@ function clearUpdates(socketId) {
 }
 
 function repel(roomName, bodyA, bodyB) {
+  return
   let bodyALeft = bodyA.position.x < bodyB.position.x
   let bodyAUp = bodyA.position.y < bodyB.position.y
   let force = 0.015

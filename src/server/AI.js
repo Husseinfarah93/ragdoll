@@ -28,6 +28,7 @@ AI.prototype.selectTarget = function(players) {
 }
 
 AI.prototype.getDirection = function(Matter) {
+  return
   if(!this.targetPlayer || this.targetPlayer.isDead || this.targetPlayer.isBlownUp) return
   let xDiff = this.player.head.position.x - this.targetPlayer.head.position.x
   let yDiff = this.player.head.position.y - this.targetPlayer.head.position.y
@@ -145,7 +146,6 @@ function getRandom(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 
 
 module.exports = AI

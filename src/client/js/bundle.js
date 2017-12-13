@@ -29718,7 +29718,7 @@ var Canvas = (0, _radium2.default)(_class = function (_React$Component) {
       // this.keydownLoop = setInterval(() => socket.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down), 15)
       this.keydownLoop = setInterval(function () {
         _io2.default.emit('keydown', self.keyDown.left, self.keyDown.up, self.keyDown.right, self.keyDown.down);
-      }, 15);
+      }, 33);
       _io2.default.on('updateLeaderBoard', function (leaderBoard) {
         _this2.setState({ leaderBoard: leaderBoard });
       });
@@ -30753,7 +30753,7 @@ var LeaderBoard = (0, _radium2.default)(_class = function (_React$Component) {
   _createClass(LeaderBoard, [{
     key: 'render',
     value: function render() {
-      var slicedLeaderBoard = this.props.leaderBoard.slice(0, 10);
+      var slicedLeaderBoard = this.props.leaderBoard.slice(0, 5);
       if (slicedLeaderBoard.length && !this.isInLeaderBoard(slicedLeaderBoard, _io2.default.id)) {
         var player = this.getPlayerInLeaderBoard(this.props.leaderBoard, _io2.default.id);
         slicedLeaderBoard.push(player);
@@ -31004,7 +31004,7 @@ exports = module.exports = __webpack_require__(11)(undefined);
 
 
 // module
-exports.push([module.i, "#modal {\n  top: 50%;\n  left: 50%;\n  margin-top: -150px;\n  margin-left: -125px;\n  width: 250px;\n  height: 300px;\n  border-radius: 20px;\n  background-color: #4fcbd3;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-family: Quicksand;\n  position: fixed;\n  box-shadow: 8px 8px 3px #336E7B; }\n\n#beltInfo {\n  position: absolute;\n  width: 50%;\n  height: 20%;\n  background-color: white;\n  top: 0px;\n  border-radius: 0px 0px 20px 20px;\n  text-align: center;\n  color: black;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#star {\n  font-size: 30px;\n  color: white; }\n\n#lifeInfo {\n  width: 100%;\n  height: 80%;\n  border-radius: 20px 20px 0px 0px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n#shareInfo {\n  width: 100%;\n  height: 20%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  color: white;\n  font-size: 30px;\n  cursor: pointer; }\n\n#killStreakValue, #killStreakText, #star {\n  padding: 0px;\n  margin: 0px;\n  color: white; }\n\n#killStreakValue {\n  font-size: 70px;\n  text-shadow: 5px 5px #336E7B;\n  margin-top: 30px; }\n\n#facebook {\n  width: 50%;\n  height: 100%;\n  border-radius: 0px 20px 0px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#twitter {\n  width: 50%;\n  height: 100%;\n  border-radius: 20px 0px 20px 0px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#facebook:hover, #twitter:hover {\n  color: grey; }\n", ""]);
+exports.push([module.i, "#modal {\n  top: 50%;\n  left: 50%;\n  margin-top: -150px;\n  margin-left: -125px;\n  width: 250px;\n  height: 300px;\n  border-radius: 20px;\n  background-color: #4fcbd3;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-family: Quicksand;\n  position: fixed;\n  box-shadow: 8px 8px 3px #336E7B; }\n\n#beltInfo {\n  position: absolute;\n  width: 50%;\n  height: 20%;\n  background-color: white;\n  top: 0px;\n  border-radius: 0px 0px 20px 20px;\n  text-align: center;\n  color: #336E7B;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#star {\n  font-size: 30px;\n  color: white; }\n\n#lifeInfo {\n  width: 100%;\n  height: 80%;\n  border-radius: 20px 20px 0px 0px;\n  color: #336E7B;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column; }\n\n#shareInfo {\n  width: 100%;\n  height: 20%;\n  border-radius: 0px 0px 20px 20px;\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  color: white;\n  font-size: 30px;\n  cursor: pointer; }\n\n#killStreakValue, #killStreakText, #star {\n  padding: 0px;\n  margin: 0px;\n  color: white; }\n\n#killStreakValue {\n  font-size: 70px;\n  text-shadow: 5px 5px #336E7B;\n  margin-top: 30px; }\n\n#facebook {\n  width: 50%;\n  height: 100%;\n  border-radius: 0px 20px 0px 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#twitter {\n  width: 50%;\n  height: 100%;\n  border-radius: 20px 0px 20px 0px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#facebook:hover, #twitter:hover {\n  color: grey; }\n", ""]);
 
 // exports
 

@@ -9,12 +9,12 @@ function Player(name, id, characterType, skinGroupName, skinName, isAI) {
   this.isAI = isAI
   this.initialHealth = c.playerTypes[characterType].initialHealth
   this.health = this.maxHealth = this.initialHealth
-  this.killStreak = 0
+  this.killStreak = isAI ? 5 : 0
   this.beltNumber = 0
   this.beltColour = c.gameInfo.belts[0].colour
   this.beltProgress = 0
   this.skillPoints = 0
-  this.force = this.initialForce = (25 / 5500) * 1.35
+  this.force = this.initialForce = (25 / 5500) * 0.8
   this.initialSkillPointValues = {
     maxHealth: {initialVal: 200, curVal: 200, maxVal: 400, colour: '#FFBC40', text: 'Max Health', name: 'maxHealth', updateAmount: 20},
     maxSpeed: {initialVal: 1, curVal: 1, maxVal: 2, colour: '#F16F61', text: 'Max Speed', name: 'maxSpeed', updateAmount: 0.1},
@@ -44,7 +44,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
     Constraint = Matter.Constraint,
     Composite = Matter.Composite,
     world = Matter.engine.world
-  let options = {collisionFilter: { group: Body.nextGroup(true) }}
+  let options = { collisionFilter: { group: Body.nextGroup(true) }}
   let playerId = this.id
 	let rotateAngle;
 	let sensorCircle;
@@ -57,10 +57,10 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   let offBy = 1
 
 
-  let torsoStiffness = 0.7
-  let armStiffness = 0.1
+  let torsoStiffness = 1
+  let armStiffness = 0.5
   let foreArmStiffness = 0.1
-  let thighStifness = 0.5
+  let thighStifness = 0.8
   let legStiffness = 0.8
 	///////////////////////////////////////////////////////////////////////////////
 	// Torso

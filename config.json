@@ -487,6 +487,10 @@
           "leftLeg":[{"width":1,"colour":"#8AB3DB","start":0,"end":3}]
         }
       }
+    },
+    "fps": {
+      "physics": 30,
+      "render": 30
     }
   }
 }
