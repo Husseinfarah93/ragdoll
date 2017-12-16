@@ -116,6 +116,13 @@ function createWorld(roomName) {
       Composite = Matter.Composite
 
     let engine = Engine.create()
+    engine.enableSleeping = true
+    engine.constraintIterations = 1.1
+    engine.positionIterations = 1
+    engine.velocityIterations = 1
+
+
+
     Matter.engine = engine
     engine.world.gravity.y = 0
     engine.enableSleeping = true
@@ -329,7 +336,7 @@ io.on('connection', socket => {
     socket.on('createBot', () => createBot(Matter, room))
     socket.on('logRooms', () => console.log(rooms))
 
-    // for(let i = 0; i < 30; i++) createBot(Matter, room)
+    for(let i = 0; i < 30; i++) createBot(Matter, room)
     // createBot(Matter, room)
     leaderBoardChange(room)
     // Update Code
