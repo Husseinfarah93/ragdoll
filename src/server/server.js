@@ -336,7 +336,7 @@ io.on('connection', socket => {
     socket.on('createBot', () => createBot(Matter, room))
     socket.on('logRooms', () => console.log(rooms))
 
-    for(let i = 0; i < 30; i++) createBot(Matter, room)
+    // for(let i = 0; i < 16; i++) createBot(Matter, room)
     // createBot(Matter, room)
     leaderBoardChange(room)
     // Update Code
