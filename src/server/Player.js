@@ -78,40 +78,35 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	}
 	// Generate torsoConstraints
 	for(let i = 0; i < 4; i++) {
-		let bodyA = torsoCircles[i]
+    let bodyA = torsoCircles[i]
 		let bodyB = torsoCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: 0, y: radius * offBy},
-			pointB: {x: 0, y: -radius * offBy},
+			pointA: {x: 0, y: radius},
+			pointB: {x: 0, y: -radius},
 			render: {visible: false}
 		})
-		torsoConstraints.push(constraint)
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
-		})
-		torsoConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
+			pointA: {x: -radius, y: 0},
+			pointB: {x: -radius, y: 0},
 			stiffness: torsoStiffness,
 			render: {visible: false}
 		})
-		torsoConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
+		let c3 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
+			pointA: {x: radius, y: 0},
+			pointB: {x: radius, y: 0},
 			stiffness: torsoStiffness,
 			render: {visible: false}
 		})
-		torsoConstraints.push(constraint4)
+		torsoConstraints.push(c1)
+		torsoConstraints.push(c2)
+		torsoConstraints.push(c3)
 	}
 	let addedConstraint = Constraint.create({
 		bodyA: torsoCircles[0],
@@ -119,6 +114,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		render: {visible: false}
 	})
 	torsoConstraints.push(addedConstraint)
+
 	let torso = Composite.create({
 		bodies: torsoCircles,
 		constraints: torsoConstraints
@@ -141,31 +137,63 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		x += (radius * 2)
 	}
 	// Generate rightArmConstraints
-	let torsoRightArmConstraint = Constraint.create({
+  let torsoRightArmConstraint = Constraint.create({
 		bodyA: torsoCircles[1],
 		bodyB: rightArmCircles[0],
-		pointA: {x: radius * offBy, y: 0},
-		pointB: {x: -radius * offBy, y: 0},
-		render: {visible: false}
+		pointA: {x: radius, y: 0},
+		pointB: {x: -radius, y: 0},
+		render: {visible: true},
+		// stiffness: armStiffness,
+	})
+	let torsoRightArmConstraint2 = Constraint.create({
+		bodyA: torsoCircles[1],
+		bodyB: rightArmCircles[0],
+		pointA: {x: 0, y: radius},
+		pointB: {x: 0, y: radius},
+		render: {visible: true},
+		// stiffness: armStiffness,
+	})
+	let torsoRightArmConstraint3 = Constraint.create({
+		bodyA: torsoCircles[1],
+		bodyB: rightArmCircles[0],
+		pointA: {x: 0, y: -radius},
+		pointB: {x: 0, y: -radius},
+		render: {visible: true},
+		// stiffness: armStiffness,
 	})
 	rightArmConstraints.push(torsoRightArmConstraint);
+	rightArmConstraints.push(torsoRightArmConstraint2);
+	rightArmConstraints.push(torsoRightArmConstraint3);
 	for(let i = 0; i < 1; i++) {
 		let bodyA = rightArmCircles[i]
 		let bodyB = rightArmCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: radius * offBy, y: 0},
-			pointB: {x: -radius * offBy, y: 0},
-			render: {visible: false}
+			pointA: {x: radius, y: 0},
+			pointB: {x: -radius, y: 0},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: 0, y: radius},
+			pointB: {x: 0, y: radius},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		rightArmConstraints.push(constraint)
-		rightArmConstraints.push(constraint2)
+		let c3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: 0, y: -radius},
+			pointB: {x: 0, y: -radius},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
+		})
+		rightArmConstraints.push(c1)
+		rightArmConstraints.push(c2)
+		rightArmConstraints.push(c3)
 	}
 	let rightArm = Composite.create({
 		bodies: rightArmCircles,
@@ -250,31 +278,61 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		rightForeArmCircles.push(circle)
 	}
 	// Generate rightForeArmConstraints
-	let initialConstraint = Constraint.create({
+  let initialConstraint = Constraint.create({
 		bodyA: rightArmCircles[rightArmCircles.length - 1],
 		bodyB: rightForeArmCircles[0],
-		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-		render: {visible: false}
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: true}
+	})
+	let initialConstraint2 = Constraint.create({
+		bodyA: rightArmCircles[rightArmCircles.length - 1],
+		bodyB: rightForeArmCircles[0],
+		pointA: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		pointB: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		render: {visible: true}
+	})
+	let initialConstraint3 = Constraint.create({
+		bodyA: rightArmCircles[rightArmCircles.length - 1],
+		bodyB: rightForeArmCircles[0],
+		pointA: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		pointB: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		render: {visible: true}
 	})
 	rightForeArmConstraints.push(initialConstraint)
+	rightForeArmConstraints.push(initialConstraint2)
+	rightForeArmConstraints.push(initialConstraint3)
 	for(let i = 0; i < 1; i++) {
 		let bodyA = rightForeArmCircles[i]
 		let bodyB = rightForeArmCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-			render: {visible: false}
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			pointB: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		rightForeArmConstraints.push(constraint)
-		rightForeArmConstraints.push(constraint2)
+		let c3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			pointB: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
+		})
+		rightForeArmConstraints.push(c1)
+		rightForeArmConstraints.push(c2)
+		rightForeArmConstraints.push(c3)
+
 	}
 	let rightForeArm = Composite.create({
 		bodies: rightForeArmCircles,
@@ -350,31 +408,61 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		x -= (radius * 2)
 	}
 	// Generate leftArmConstraints
-	let torsoLeftArmConstraint = Constraint.create({
+  let torsoLeftArmConstraint = Constraint.create({
 		bodyA: torsoCircles[1],
 		bodyB: leftArmCircles[0],
-		pointA: {x: -radius * offBy, y: 0},
-		pointB: {x: radius * offBy, y: 0},
-		render: {visible: false}
+		pointA: {x: - radius, y: 0},
+		pointB: {x: radius, y: 0},
+		render: {visible: true}
+	})
+	let torsoLeftArmConstraint2 = Constraint.create({
+		bodyA: torsoCircles[1],
+		bodyB: leftArmCircles[0],
+		pointA: {x: 0, y: - radius},
+		pointB: {x: 0, y: - radius},
+		render: {visible: true}
+	})
+	let torsoLeftArmConstraint3 = Constraint.create({
+		bodyA: torsoCircles[1],
+		bodyB: leftArmCircles[0],
+		pointA: {x: 0, y: radius},
+		pointB: {x: 0, y: radius},
+		render: {visible: true},
 	})
 	leftArmConstraints.push(torsoLeftArmConstraint)
+	leftArmConstraints.push(torsoLeftArmConstraint2)
+	// leftArmConstraints.push(torsoLeftArmConstraint3)
 	for(let i = 0; i < 1; i++) {
 		let bodyA = leftArmCircles[i]
 		let bodyB = leftArmCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: -radius * offBy, y: 0},
-			pointB: {x: radius * offBy, y: 0},
-			render: {visible: false}
+			pointA: {x: - radius, y: 0},
+			pointB: {x: radius, y: 0},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: 0, y: - radius},
+			pointB: {x: 0, y: - radius},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		leftArmConstraints.push(constraint)
-		leftArmConstraints.push(constraint2)
+		let c3 = Constraint.create({
+			bodyA: bodyA,
+			bodyB: bodyB,
+			pointA: {x: 0, y: radius},
+			pointB: {x: 0, y: radius},
+			render: {visible: true}
+			// stiffness: armStiffness,
+		})
+		leftArmConstraints.push(c1)
+		leftArmConstraints.push(c2)
+		leftArmConstraints.push(c3)
+
 	}
 	let leftArm = Composite.create({
 		bodies: leftArmCircles,
@@ -459,49 +547,60 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		leftForeArmCircles.push(circle)
 	}
 	// Generate leftForeArmConstraints
-	initialConstraint = Constraint.create({
+  initialConstraint = Constraint.create({
 		bodyA: leftArmCircles[leftArmCircles.length - 1],
 		bodyB: leftForeArmCircles[0],
-		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-		render: {visible: false}
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: true}
+	})
+	initialConstraint2 = Constraint.create({
+		bodyA: leftArmCircles[leftArmCircles.length - 1],
+		bodyB: leftForeArmCircles[0],
+		pointA: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		pointB: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		render: {visible: true}
+	})
+	initialConstraint3 = Constraint.create({
+		bodyA: leftArmCircles[leftArmCircles.length - 1],
+		bodyB: leftForeArmCircles[0],
+		pointA: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		pointB: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		render: {visible: true}
 	})
 	leftForeArmConstraints.push(initialConstraint)
+	leftForeArmConstraints.push(initialConstraint2)
+	leftForeArmConstraints.push(initialConstraint3)
 	for(let i = 0; i < 1; i++) {
 		let bodyA = leftForeArmCircles[i]
 		let bodyB = leftForeArmCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-			render: {visible: false}
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			pointB: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		leftForeArmConstraints.push(constraint)
-		leftForeArmConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
+		let c3 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: foreArmStiffness,
-			render: {visible: false}
+			pointA: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			pointB: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
 		})
-		leftForeArmConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: foreArmStiffness,
-			render: {visible: false}
-		})
-		leftForeArmConstraints.push(constraint4)
+		leftForeArmConstraints.push(c1)
+		leftForeArmConstraints.push(c2)
+		leftForeArmConstraints.push(c3)
 	}
 	let leftForeArm = Composite.create({
 		bodies: leftForeArmCircles,
@@ -565,7 +664,6 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 
 
 	///////////////////////////////////////////////////////////////////////////////
-	let initialConstraint2;
 	// Right Thigh
 	let rightThighCircles = []
 	let rightThighConstraints = []
@@ -582,56 +680,63 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		Body.rotate(circle, rotateAngle - Math.PI / 2)
 		rightThighCircles.push(circle)
 	}
-	initialConstraint = Constraint.create({
+  // Generate rightThighConstraints
+  initialConstraint = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 1],
 		bodyB: rightThighCircles[0],
-		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-		render: {visible: false}
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: true}
 	})
 	initialConstraint2 = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 1],
 		bodyB: rightThighCircles[0],
-		render: {visible: false}
+		pointA: {x: radius * Math.cos(theta), y:  - radius * Math.sin(theta)},
+		pointB: {x: radius * Math.cos(theta), y:  - radius * Math.sin(theta)},
+		render: {visible: true}
+	})
+	initialConstraint3 = Constraint.create({
+		bodyA: torsoCircles[torsoCircles.length - 1],
+		bodyB: rightThighCircles[0],
+		pointA: {x: - radius * Math.cos(theta), y:  radius * Math.sin(theta)},
+		pointB: {x: - radius * Math.cos(theta), y:  radius * Math.sin(theta)},
+		render: {visible: true}
 	})
 	rightThighConstraints.push(initialConstraint)
 	rightThighConstraints.push(initialConstraint2)
+	rightThighConstraints.push(initialConstraint3)
 	// Generate rightThighConstraints
 	for(let i = 0; i < 2; i++) {
 		let bodyA = rightThighCircles[i]
 		let bodyB = rightThighCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-			render: {visible: false}
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			pointB: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		rightThighConstraints.push(constraint)
-		rightThighConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
+		let c3 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: thighStifness,
-			render: {visible: false}
+			pointA: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			pointB: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
 		})
-		rightThighConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: thighStifness,
-			render: {visible: false}
-		})
-		rightThighConstraints.push(constraint4)
+		rightThighConstraints.push(c1)
+		rightThighConstraints.push(c2)
+		rightThighConstraints.push(c3)
+
 	}
 	let rightThigh = Composite.create({
 		bodies: rightThighCircles,
@@ -694,55 +799,61 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		rightLegCircles.push(circle)
 	}
 	// Generate rightLegConstraints
-	initialConstraint = Constraint.create({
+  initialConstraint = Constraint.create({
 		bodyA: rightThighCircles[rightThighCircles.length - 1],
 		bodyB: rightLegCircles[0],
-		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-		render: {visible: false}
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: true}
 	})
 	initialConstraint2 = Constraint.create({
 		bodyA: rightThighCircles[rightThighCircles.length - 1],
 		bodyB: rightLegCircles[0],
-		render: {visible: false}
+		pointA: {x: radius * Math.cos(theta), y:  - radius * Math.sin(theta)},
+		pointB: {x: radius * Math.cos(theta), y:  - radius * Math.sin(theta)},
+		render: {visible: true}
+	})
+	initialConstraint3 = Constraint.create({
+		bodyA: rightThighCircles[rightThighCircles.length - 1],
+		bodyB: rightLegCircles[0],
+		pointA: {x: - radius * Math.cos(theta), y:  radius * Math.sin(theta)},
+		pointB: {x: - radius * Math.cos(theta), y:  radius * Math.sin(theta)},
+		render: {visible: true}
 	})
 	rightLegConstraints.push(initialConstraint)
 	rightLegConstraints.push(initialConstraint2)
+	rightLegConstraints.push(initialConstraint3)
+
 	for(let i = 0; i < 2; i++) {
 		let bodyA = rightLegCircles[i]
 		let bodyB = rightLegCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-			render: {visible: false}
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			pointB: {x: radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		rightLegConstraints.push(constraint)
-		rightLegConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
+		let c3 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: legStiffness,
-			render: {visible: false}
+			pointA: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			pointB: {x: - radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
 		})
-		rightLegConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: legStiffness,
-			render: {visible: false}
-		})
-		rightLegConstraints.push(constraint4)
+		rightLegConstraints.push(c1)
+		rightLegConstraints.push(c2)
+		rightLegConstraints.push(c3)
 	}
 	let rightLeg = Composite.create({
 		bodies: rightLegCircles,
@@ -801,56 +912,62 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		Body.rotate(circle, rotateAngle + Math.PI  / 2)
 		leftThighCircles.push(circle)
 	}
-	initialConstraint = Constraint.create({
+  initialConstraint = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 1],
 		bodyB: leftThighCircles[0],
-		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-		render: {visible: false}
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: true}
 	})
 	initialConstraint2 = Constraint.create({
 		bodyA: torsoCircles[torsoCircles.length - 1],
 		bodyB: leftThighCircles[0],
-		render: {visible: false}
+		pointA: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		pointB: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		render: {visible: true}
+	})
+	initialConstraint3 = Constraint.create({
+		bodyA: torsoCircles[torsoCircles.length - 1],
+		bodyB: leftThighCircles[0],
+		pointA: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		pointB: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		render: {visible: true}
 	})
 	leftThighConstraints.push(initialConstraint)
 	leftThighConstraints.push(initialConstraint2)
+	leftThighConstraints.push(initialConstraint3)
+
 	// Generate leftThighConstraints
 	for(let i = 0; i < 2; i++) {
 		let bodyA = leftThighCircles[i]
 		let bodyB = leftThighCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-			render: {visible: false}
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			pointB: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		leftThighConstraints.push(constraint)
-		leftThighConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
+		let c3 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: thighStifness,
-			render: {visible: false}
+			pointA: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			pointB: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
 		})
-		leftThighConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: thighStifness,
-			render: {visible: false}
-		})
-		leftThighConstraints.push(constraint4)
+		leftThighConstraints.push(c1)
+		leftThighConstraints.push(c2)
+		leftThighConstraints.push(c3)
 	}
 	let leftThigh = Composite.create({
 		bodies: leftThighCircles,
@@ -906,7 +1023,7 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 	xDiff = - 2 * radius * Math.sin(theta)
 	oldRotateAngle = rotateAngle + Math.PI / 2
 	rotateAngle = Math.atan(yDiff / xDiff)
-	// Generate rightLegCircles
+	// Generate leftLegCircles
 	for(let i = 0; i < 3; i++) {
 		x += xDiff
 		y += yDiff
@@ -914,57 +1031,63 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
 		Body.rotate(circle, rotateAngle + Math.PI / 2)
 		leftLegCircles.push(circle)
 	}
-	// Generate rightLegConstraints
-	initialConstraint = Constraint.create({
+
+  initialConstraint = Constraint.create({
 		bodyA: leftThighCircles[leftThighCircles.length - 1],
 		bodyB: leftLegCircles[0],
-		pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-		pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-		render: {visible: false}
+		pointA: {x: xDiff / 2, y: yDiff / 2},
+		pointB: {x: -xDiff / 2, y: -yDiff / 2},
+		render: {visible: true}
 	})
 	initialConstraint2 = Constraint.create({
 		bodyA: leftThighCircles[leftThighCircles.length - 1],
 		bodyB: leftLegCircles[0],
-		render: {visible: false}
+		pointA: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		pointB: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+		render: {visible: true}
+	})
+	initialConstraint3 = Constraint.create({
+		bodyA: leftThighCircles[leftThighCircles.length - 1],
+		bodyB: leftLegCircles[0],
+		pointA: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		pointB: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+		render: {visible: true}
 	})
 	leftLegConstraints.push(initialConstraint)
 	leftLegConstraints.push(initialConstraint2)
+	leftLegConstraints.push(initialConstraint3)
 	for(let i = 0; i < 2; i++) {
 		let bodyA = leftLegCircles[i]
 		let bodyB = leftLegCircles[i + 1]
-		let constraint = Constraint.create({
+
+		let c1 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA: {x: xDiff * offBy / 2, y: yDiff * offBy / 2},
-			pointB: {x: -xDiff * offBy / 2, y: -yDiff * offBy / 2},
-			render: {visible: false}
+			pointA: {x: xDiff / 2, y: yDiff / 2},
+			pointB: {x: -xDiff / 2, y: -yDiff / 2},
+			render: {visible: true}
 		})
-		let constraint2 = Constraint.create({
+		let c2 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			render: {visible: false}
+			pointA: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			pointB: {x: - radius * Math.cos(theta), y: - radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: armStiffness,
 		})
-		leftLegConstraints.push(constraint)
-		leftLegConstraints.push(constraint2)
-    let constraint3 = Constraint.create({
+		let c3 = Constraint.create({
 			bodyA: bodyA,
 			bodyB: bodyB,
-			pointA:	{x: radius, y: 0},
-			pointB:	{x: radius, y: 0},
-			stiffness: legStiffness,
-			render: {visible: false}
+			pointA: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			pointB: {x: radius * Math.cos(theta), y: radius * Math.sin(theta)},
+			render: {visible: true}
+			// stiffness: torsoStiffness,
 		})
-		leftLegConstraints.push(constraint3)
-		let constraint4 = Constraint.create({
-			bodyA: bodyA,
-			bodyB: bodyB,
-			pointA:	{x: -radius, y: 0},
-			pointB:	{x: -radius, y: 0},
-			stiffness: legStiffness,
-			render: {visible: false}
-		})
-		leftLegConstraints.push(constraint4)
+		leftLegConstraints.push(c1)
+		leftLegConstraints.push(c2)
+		leftLegConstraints.push(c3)
 	}
+
 	let leftLeg = Composite.create({
 		bodies: leftLegCircles,
 		constraints: leftLegConstraints
