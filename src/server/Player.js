@@ -57,11 +57,11 @@ Player.prototype.createMatterPlayerCircles2 = function(Matter, initialX, initial
   let offBy = 1
 
 
-  let torsoStiffness = 1
-  let armStiffness = 0.5
-  let foreArmStiffness = 0.1
-  let thighStifness = 0.8
-  let legStiffness = 0.8
+  let torsoStiffness = 0.7
+  let armStiffness = 0.4
+  let foreArmStiffness = 0.4
+  let thighStifness = 0.4
+  let legStiffness = 0.5
 	///////////////////////////////////////////////////////////////////////////////
 	// Torso
 	let torsoCircles = []
