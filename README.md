@@ -1,6 +1,6 @@
 # Ragdoll.io
 Ragdoll.io is a real time web based MMO physics based fighting game. 
-Ragdoll.io is currently in alpha testing and should be officially released on 1/1/2018
+Ragdoll.io is currently in alpha testing and should be officially released on soon.
 
 
 
